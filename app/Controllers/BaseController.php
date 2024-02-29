@@ -35,7 +35,7 @@ abstract class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = [];
+    protected $helpers = ['auth'];
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -54,5 +54,25 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
+        $session = \Config\Services::session();
+        $this->agent = $this->request->getUserAgent();
+        $this->locale = service('request')->getLocale();
+        $this->uri = $this->request->uri;
+
+        // Calling Model
+
+        // Login Check
+        $auth = service('authentication');
+
+        // Get Accurate Date
+        date_default_timezone_set('Asia/Jakarta');
+
+        // Parsing View Data
+        $this->data = [
+            'ismobile'      => $this->agent->isMobile(),
+            'lang'          => 'id',
+            'uri'           => $this->uri,
+            'authorize'     => service('authorization'),
+        ];
     }
 }

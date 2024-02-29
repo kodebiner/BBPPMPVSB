@@ -4,8 +4,14 @@ namespace App\Controllers;
 
 class Home extends BaseController
 {
-    public function index(): string
+    protected $data;
+
+    public function index()//: string
     {
-        return view('welcome_message');
+
+        // parsing data to view
+        $data           = $this->data;
+        return view('layout', $data);
+        // return view('welcome_message');
     }
 }
