@@ -11,7 +11,7 @@ class Home extends BaseController
 
         // parsing data to view
         $data           = $this->data;
-        return view('layout', $data);
+        return view('home', $data);
         // return view('welcome_message');
     }
 }
