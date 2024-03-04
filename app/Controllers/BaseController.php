@@ -56,7 +56,6 @@ abstract class BaseController extends Controller
         // E.g.: $this->session = \Config\Services::session();
         $session = \Config\Services::session();
         $this->agent = $this->request->getUserAgent();
-        $this->locale = service('request')->getLocale();
         $this->uri = $this->request->uri;
 
         // Calling Model
@@ -70,7 +69,6 @@ abstract class BaseController extends Controller
         // Parsing View Data
         $this->data = [
             'ismobile'      => $this->agent->isMobile(),
-            'lang'          => 'id',
             'uri'           => $this->uri,
             'authorize'     => service('authorization'),
         ];
