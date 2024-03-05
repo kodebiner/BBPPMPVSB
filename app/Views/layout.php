@@ -5,8 +5,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="<?= base_url(); ?>">
-    <!-- <title><?//= $title ?></title> -->
-    <!-- <meta name="description" content="<?//= $description ?>"> -->
+    <title><?= $title ?></title>
+    <meta name="description" content="<?= $description ?>">
+    <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
     <meta name="author" content="PT. Kodebiner Teknologi Indonesia">
     <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/joomla-alert.min.css">
@@ -27,8 +44,8 @@
 <body>
     <!-- Header Section -->
     <header uk-header>
-        <!-- Dekstop View -->
         <?php if ($ismobile == false) { ?>
+            <!-- Dekstop View -->
             <!-- Header Section -->
             <div class="uk-padding uk-padding-remove-bottom">
                 <div class="uk-container uk-container-xlarge">
@@ -134,9 +151,9 @@
                 var fulldate        = day + ", " + date + " " + month + " " + year;
                 document.getElementById("curentdate").innerHTML = fulldate;
             </script>
-        <!-- Dekstop View End -->
-        <!-- Mobile View -->
+            <!-- Dekstop View End -->
         <?php } else { ?>
+            <!-- Mobile View -->
             <!-- Header Section -->
             <div uk-sticky="" show-on-up="" animation="uk-animation-slide-top" cls-active="uk-navbar-sticky" sel-target=".uk-navbar-container" class="uk-sticky">
                 <div class="uk-navbar-container">
@@ -223,16 +240,18 @@
                 </div>
             </div>
             <!-- Offcanvas Navbar Section End -->
+            <!-- Mobile View End -->
         <?php } ?>
-        <!-- Mobile View End -->
     </header>
     <!-- Header Section End -->
 
     <!-- Main Section -->
+    <style class="uk-margin-remove-adjacent">#page\#0 > div { border-top: 150px solid transparent; background-origin: border-box; } </style>
     <?= $this->renderSection('main') ?>
     <!-- Main Section End -->
 
     <!-- Footer Section -->
+    <section class="uk-section uk-section-default"></section>
     <!-- Footer Section End -->
 </body>
 

@@ -129,9 +129,4 @@ nb-configuration.xml
 
 /.php-cs-fixer.php
 
-public/img/design/*
-public/img/revisi/*
-public/img/spk/*
-public/img/bast/*
-public/img/sertrim/*
 .env
