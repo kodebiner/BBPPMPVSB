@@ -7,13 +7,32 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 //  Home
-$routes->get('/', 'Home::index');
+$routes->group('/', static function ($routes) {
+    $routes->get('', 'Home::index');
+});
 
 // News
-$routes->get('berita', 'News::index');
+$routes->group('berita', static function ($routes) {
+    $routes->get('', 'News::index');
+});
 
 // Schedule
-$routes->get('jadwal-kegiatan', 'Schedule::index');
+$routes->group('jadwal-kegiatan', static function ($routes) {
+    $routes->get('', 'Schedule::index');
+});
 
 // Diklat
-$routes->get('diklat', 'Diklat::index');
+$routes->group('diklat', static function ($routes) {
+    $routes->get('artikel', 'Diklat::indexarticle');
+    $routes->get('pendaftaran', 'Diklat::indexregistration');
+});
+
+// Seminar
+$routes->group('seminar', static function ($routes) {
+    $routes->get('', 'Seminar::index');
+});
+
+// Webinar
+$routes->group('webinar', static function ($routes) {
+    $routes->get('', 'Webinar::index');
+});

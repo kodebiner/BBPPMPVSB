@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use App\Models\ContentModel;
 
-class News extends BaseController
+class Seminar extends BaseController
 {
     protected $data;
 
@@ -18,15 +18,15 @@ class News extends BaseController
         // Search Engine
         // Populating Data
         if (isset($input['search']) && !empty($input['search'])) {
-            $newses     = $ContentModel->where('catid', '12')->orderBy('publish_up', 'DESC')->like('title', $input['search'])->find();
+            $newses     = $ContentModel->where('catid', '20')->orderBy('publish_up', 'DESC')->like('title', $input['search'])->find();
         } else {
-            $newses     = $ContentModel->where('catid', '12')->orderBy('publish_up', 'DESC')->paginate(10, 'news');
+            $newses     = $ContentModel->where('catid', '20')->orderBy('publish_up', 'DESC')->paginate(10, 'news');
         }
 
         // Parsing Data To View
         $data                   = $this->data;
-        $data['title']          = "Berita";
-        $data['description']    = "Berita terkait BBPPMPVSB";
+        $data['title']          = "Seminar";
+        $data['description']    = "Seminar terkait BBPPMPVSB";
         $data['newses']         = $newses;
         $data['pager']          = $ContentModel->pager;
 

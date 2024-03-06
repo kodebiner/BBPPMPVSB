@@ -74,29 +74,47 @@
                         <div uk-navbar>
                             <div class="uk-navbar-center">
                                 <ul class="uk-navbar-nav">
-                                    <li><a href="#">Beranda</a></li>
-                                    <li><a href="#">Berita</a></li>
-                                    <li>
-                                        <a href="#">Diklat</a>
+                                    <li class="<?= ($uri->getSegment(1) === '') ? 'uk-active' : '' ?>">
+                                        <a href="">Beranda</a>
+                                    </li>
+                                    <li class="<?= ($uri->getSegment(1) === 'berita') ? 'uk-active':''?> ">
+                                        <a href="berita">Berita</a>
+                                    </li>
+                                    <li class="uk-parent <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
+                                        <a href="">Diklat</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
-                                                <li class="uk-active"><a href="#">Artikel Diklat</a></li>
-                                                <li><a href="#">Pendaftaran Diklat</a></li>
+                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'artikel')?'uk-active':'' ?>">
+                                                    <a href="diklat/artikel">Artikel Diklat</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
+                                                    <a href="diklat/pendaftaran">Pendaftaran Diklat</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </li>
-                                    <li><a href="#">Seminar</a></li>
-                                    <li><a href="#">Webinar</a></li>
+                                    <li class="<?= ($uri->getSegment(1) === 'seminar') ? 'uk-active':'' ?>">
+                                        <a href="seminar">Seminar</a>
+                                    </li class="<?= ($uri->getSegment(1 )=== 'webinar') ? 'uk-active':'' ?>">
                                     <li>
-                                        <a href="#">Galeri</a>
+                                        <a href="webinar">Webinar</a>
+                                    </li>
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?><?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
+                                        <a href="">Galeri</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
-                                                <li class="uk-active"><a href="#">Galeri Foto</a></li>
-                                                <li><a href="#">Galeri Video</a></li>
+                                                <li class="<?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?>">
+                                                    <a href="galeri/foto">Galeri Foto</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
+                                                    <a href="galeri/video">Galeri Video</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </li>
-                                    <li><a href="#">Profil</a></li>
+                                    <li class="<?= ($uri->getSegment(1) === 'profil') ? 'uk-active' : '' ?>">
+                                        <a href="profil">Profil</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -195,42 +213,42 @@
                             <div>
                                 <div class="uk-panel">
                                     <ul class="uk-nav-default" uk-nav>
-                                        <li class="uk-nav-divider uk-active">
-                                            <a href="#">Beranda</a>
+                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === '') ? 'uk-active' : '' ?>">
+                                            <a href="">Beranda</a>
                                         </li>
-                                        <li class="uk-nav-divider uk-active">
-                                            <a href="#">Berita</a>
+                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'berita') ? 'uk-active' : '' ?>">
+                                            <a href="berita">Berita</a>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider uk-active">
-                                            <a href="#">Diklat <span uk-nav-parent-icon></span></a>
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
+                                            <a href="">Diklat <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
-                                                <li class="uk-active">
-                                                    <a href="#">Artikel Diklat</a>
+                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'artikel')?'uk-active':'' ?>">
+                                                    <a href="diklat/artikel">Artikel Diklat</a>
                                                 </li>
-                                                <li class="uk-active">
-                                                    <a href="#">Pendaftaran Diklat</a>
+                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'pendaftaran')?'uk-active':'' ?>">
+                                                    <a href="diklat/pendaftaran">Pendaftaran Diklat</a>
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="uk-nav-divider uk-active">
-                                            <a href="#">Seminar</a>
+                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'seminar') ? 'uk-active' : '' ?>">
+                                            <a href="seminar">Seminar</a>
                                         </li>
-                                        <li class="uk-nav-divider uk-active">
-                                            <a href="#">Webinar</a>
+                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'webinar') ? 'uk-active' : '' ?>">
+                                            <a href="webinar">Webinar</a>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider uk-active">
-                                            <a href="#">Galeri <span uk-nav-parent-icon></span></a>
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2 )=== 'foto')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
+                                            <a href="">Galeri <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
                                                 <li class="uk-active">
-                                                    <a href="#">Galeri Foto</a>
+                                                    <a href="galeri/foto">Galeri Foto</a>
                                                 </li>
                                                 <li class="uk-active">
-                                                    <a href="#">Galeri Video</a>
+                                                    <a href="galeri/video">Galeri Video</a>
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="uk-nav-divider uk-active">
-                                            <a href="#">Profil</a>
+                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'profil') ? 'uk-active' : '' ?>">
+                                            <a href="profil">Profil</a>
                                         </li>
                                     </ul>
                                 </div>
