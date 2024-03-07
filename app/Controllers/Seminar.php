@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\CategoriesModel;
 use App\Models\ContentModel;
+use App\Models\UserModel;
 
 class Seminar extends BaseController
 {
@@ -10,10 +12,10 @@ class Seminar extends BaseController
     public function index()//: string
     {
         // Calling Services
-        $pager      = \Config\Services::pager();
+        $pager                  = \Config\Services::pager();
 
         // Calling Models
-        $ContentModel   = new ContentModel();
+        $ContentModel           = new ContentModel();
 
         // Search Engine
         // Populating Data
@@ -28,9 +30,38 @@ class Seminar extends BaseController
         $data['title']          = "Seminar";
         $data['description']    = "Seminar terkait BBPPMPVSB";
         $data['newses']         = $newses;
+        $data['caturi']         = 'seminar';
+        $data['cattitle']       = 'Seminar';
+        $data['count']          = count($newses);
         $data['pager']          = $ContentModel->pager;
 
         // Return Data To View
         return view('news', $data);
+    }
+
+    public function article($alias)
+    {
+        // Calling Models
+        $CategoriesModel        = new CategoriesModel();
+        $ContentModel           = new ContentModel();
+        $UserModel              = new UserModel();
+
+        // Populating Data
+        $article                = $ContentModel->where('alias', $alias)->first();
+        $category               = $CategoriesModel->where('id', $article['catid'])->first();
+        $user                   = $UserModel->where('id', $article['created_by'])->first();
+
+        // Parsing Data To View
+        $data                   = $this->data;
+        $data['title']          = $article['title'];
+        $data['description']    = $article['alias'];
+        $data['article']        = $article;
+        $data['category']       = $category;
+        $data['caturi']         = 'seminar';
+        $data['cattitle']       = 'Seminar';
+        $data['user']           = $user;
+
+        // Return Data To View
+        return view('article', $data);
     }
 }

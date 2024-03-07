@@ -137,7 +137,7 @@
                     <div class="uk-width-2-5">
                         <?php $leadDiklatImage = json_decode($diklats[0]['images']); ?>
                         <div class="uk-container uk-container-expand uk-background-cover uk-inline" data-src="<?= $leadDiklatImage->image_intro ?>" uk-img>
-                            <a href="">
+                            <a href="/diklat/<?= $diklats[0]['alias'] ?>">
                                 <div class="uk-position-bottom">
                                     <div class="uk-panel uk-overlay uk-overlay-primary uk-text-center">
                                         <h4 class="uk-text-bold" style="color: #fff;"><?= $diklats[0]['title'] ?></h4>
@@ -205,4 +205,18 @@
     </div>
 </section>
 <!-- Diklat Section End -->
+
+<!-- External Link Section -->
+<section class="uk-section uk-section-default">
+    <div class="uk-container uk-container-expand">
+        <div class="uk-child-width-1-1 uk-child-width-1-2@m uk-child-width-1-3@l uk-grid-match uk-flex-middle" uk-grid>
+            <div>
+                <a href="http://kemdikbud.lapor.go.id/" target="_blank">
+                    <img src="img/ExternalLink/1.jpeg" class="uk-width-1-1">
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- External Link Section End -->
 <?= $this->endSection() ?>

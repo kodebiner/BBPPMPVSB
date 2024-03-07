@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\CategoriesModel;
 use App\Models\ContentModel;
+use App\Models\UserModel;
 
 class News extends BaseController
 {
@@ -28,9 +30,38 @@ class News extends BaseController
         $data['title']          = "Berita";
         $data['description']    = "Berita terkait BBPPMPVSB";
         $data['newses']         = $newses;
+        $data['count']          = count($newses);
         $data['pager']          = $ContentModel->pager;
+        $data['caturi']         = 'berita';
+        $data['cattitle']       = 'Berita';
 
         // Return Data To View
         return view('news', $data);
+    }
+
+    public function article($alias)
+    {
+        // Calling Models
+        $CategoriesModel        = new CategoriesModel();
+        $ContentModel           = new ContentModel();
+        $UserModel              = new UserModel();
+
+        // Populating Data
+        $article                = $ContentModel->where('alias', $alias)->first();
+        $category               = $CategoriesModel->where('id', $article['catid'])->first();
+        $user                   = $UserModel->where('id', $article['created_by'])->first();
+
+        // Parsing Data To View
+        $data                   = $this->data;
+        $data['title']          = $article['title'];
+        $data['description']    = $article['alias'];
+        $data['article']        = $article;
+        $data['category']       = $category;
+        $data['caturi']         = 'berita';
+        $data['cattitle']       = 'Berita';
+        $data['user']           = $user;
+
+        // Return Data To View
+        return view('article', $data);
     }
 }
