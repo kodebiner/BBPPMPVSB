@@ -20,6 +20,7 @@ $routes->group('berita', static function ($routes) {
 // Schedule
 $routes->group('jadwal-kegiatan', static function ($routes) {
     $routes->get('', 'Schedule::index');
+    $routes->get('(:any)', 'Schedule::article/$1');
 });
 
 // Diklat
@@ -40,4 +41,10 @@ $routes->group('seminar', static function ($routes) {
 $routes->group('webinar', static function ($routes) {
     $routes->get('', 'Webinar::index');
     $routes->get('(:any)', 'Webinar::article/$1');
+});
+
+// Gallery
+$routes->group('galeri', static function ($routes) {
+    $routes->get('foto', 'Gallery::indexphoto');
+    $routes->get('video', 'Gallery::indexvideo');
 });

@@ -86,7 +86,7 @@
                     <h3>Jadwal Kegiatan</h3>
                 </div>
                 <div class="uk-text-right">
-                    <a class="uk-h6" href="/schedule" uk-icon="chevron-right">Selengkapnya</a>
+                    <a class="uk-h6" href="/jadwal-kegiatan" uk-icon="chevron-right">Selengkapnya</a>
                 </div>
             </div>
         <?php } else { ?>
@@ -114,7 +114,7 @@
         </div>
         <?php if ($ismobile == true) { ?>
             <div class="uk-text-right">
-                <a class="uk-h6" href="/schedule" uk-icon="chevron-right">Selengkapnya</a>
+                <a class="uk-h6" href="/jadwal-kegiatan" uk-icon="chevron-right">Selengkapnya</a>
             </div>
         <?php } ?>
     </div>
