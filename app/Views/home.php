@@ -35,12 +35,12 @@
                 </div>
                 <div class="uk-width-3-4@l">
                     <?php $leadNewsImage = json_decode($newses[0]['images']); ?>
-                    <div class="uk-container uk-container-expand uk-background-cover uk-inline" data-src="<?= $leadNewsImage->image_intro ?>" uk-img>
+                    <a class="uk-container uk-container-expand uk-background-cover uk-inline" data-src="<?= $leadNewsImage->image_intro ?>" uk-img href="/berita/<?= $newses[0]['alias'] ?>">
                         <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-light">
-                            <h3 class="uk-margin-remove uk-text-bold uk-margin-remove" style="color: #fff;"><?= $newses[0]['title'] ?></h3>
-                            <?= $newses[0]['introtext'] ?>
+                            <h3 class="uk-margin-remove uk-text-bold uk-margin-remove"><?= $newses[0]['title'] ?></h3>
+                            <div><?= $newses[0]['introtext'] ?></div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -83,14 +83,14 @@
         <?php if ($ismobile == false) { ?>
             <div class="uk-child-width-1-2@m uk-child-width-1-1 uk-flex uk-flex-middle" uk-grid>
                 <div>
-                    <h3>Jadwal Kegiatan</h3>
+                    <h3 class="uk-text-primary">Jadwal Kegiatan</h3>
                 </div>
-                <div class="uk-text-right">
+                <div class="uk-text-right uk-text-primary">
                     <a class="uk-h6" href="/jadwal-kegiatan" uk-icon="chevron-right">Selengkapnya</a>
                 </div>
             </div>
         <?php } else { ?>
-            <h3>Jadwal Kegiatan</h3>
+            <h3 class="uk-text-primary">Jadwal Kegiatan</h3>
         <?php } ?>
         <div class="uk-position-relative uk-visible-toggle uk-light uk-slider uk-slider-container" tabindex="-1" uk-slider="autoplay: true;">
             <ul class="uk-slider-items uk-child-width-1-1 uk-child-width-1-4@m" uk-grid uk-lightbox="animation: scale">
@@ -113,7 +113,7 @@
             <a class="uk-position-center-right uk-position-small uk-hidden-hover" href uk-slidenav-next uk-slider-item="next"></a>
         </div>
         <?php if ($ismobile == true) { ?>
-            <div class="uk-text-right">
+            <div class="uk-text-right uk-text-primary">
                 <a class="uk-h6" href="/jadwal-kegiatan" uk-icon="chevron-right">Selengkapnya</a>
             </div>
         <?php } ?>
@@ -128,7 +128,9 @@
     <div data-src="img/bg.svg" uk-img class="uk-background-norepeat uk-background-cover uk-background-top-center uk-section uk-section-small">
         <div class="uk-container uk-container-expand uk-margin">
             <div class="uk-text-center uk-margin">
-                <a class="uk-h3" href="/diklat" style="text-transform: uppercase; text-decoration-line: underline;">Diklat</a>
+                <h3 class="uk-text-primary">
+                    <a href="/diklat/artikel" style="text-transform: uppercase; text-decoration-line: underline;">Diklat</a>
+                </h3>
             </div>
             
             <?php if ($ismobile == false) { ?>
@@ -136,15 +138,13 @@
                 <div class="uk-grid-match" uk-grid>
                     <div class="uk-width-2-5">
                         <?php $leadDiklatImage = json_decode($diklats[0]['images']); ?>
-                        <div class="uk-container uk-container-expand uk-background-cover uk-inline" data-src="<?= $leadDiklatImage->image_intro ?>" uk-img>
-                            <a href="/diklat/<?= $diklats[0]['alias'] ?>">
-                                <div class="uk-position-bottom">
-                                    <div class="uk-panel uk-overlay uk-overlay-primary uk-text-center">
-                                        <h4 class="uk-text-bold" style="color: #fff;"><?= $diklats[0]['title'] ?></h4>
-                                    </div>
+                        <a class="uk-container uk-container-expand uk-background-cover uk-inline" data-src="<?= $leadDiklatImage->image_intro ?>" uk-img href="/diklat/artikel/<?= $diklats[0]['alias'] ?>">
+                            <div class="uk-position-bottom">
+                                <div class="uk-panel uk-overlay uk-overlay-primary uk-text-center">
+                                    <h4 class="uk-text-bold" style="color: #fff;"><?= $diklats[0]['title'] ?></h4>
                                 </div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                     </div>
                     <div class="uk-width-3-5">
                         <div class="uk-margin">
@@ -157,11 +157,11 @@
                                     <div>
                                         <div class="uk-panel">
                                             <div class="uk-height-medium">
-                                                <a href="/diklat/<?= $diklat['alias'] ?>">
+                                                <a href="/diklat/artikel/<?= $diklat['alias'] ?>">
                                                     <div class="uk-height-small@m uk-flex uk-flex-middle">
                                                         <img src="<?= $images->image_intro ?>" alt="<?= $diklat['title'] ?>">
                                                     </div>
-                                                    <div class="uk-h5 uk-text-justify uk-margin-top uk-margin-remove-bottom uk-light uk-text-bold"><?= $diklat['title'] ?></div>
+                                                    <div class="uk-h5 uk-text-justify uk-margin-top uk-margin-remove-bottom uk-text-bold" style="color: #fff;"><?= $diklat['title'] ?></div>
                                                 </a>
                                             </div>
                                             <h6 class="uk-margin-remove uk-text-justify uk-text-meta" style="color: #000;"><?= $diklat['introtext'] ?></h6>

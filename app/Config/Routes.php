@@ -48,3 +48,8 @@ $routes->group('galeri', static function ($routes) {
     $routes->get('foto', 'Gallery::indexphoto');
     $routes->get('video', 'Gallery::indexvideo');
 });
+
+// Profile
+$routes->group('profil', static function ($routes) {
+    $routes->get('', 'Profile::index');
+});

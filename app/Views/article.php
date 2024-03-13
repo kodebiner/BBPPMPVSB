@@ -48,7 +48,7 @@
         </div>
 
         <div class="uk-container uk-container-xsmall">
-            <div class="uk-panel uk-dropcap uk-margin"><?= $article['fulltext'] ?></div>
+            <div class="uk-panel uk-margin"><?= $article['fulltext'] ?></div>
         </div>
     </div>
 </section>

@@ -32,9 +32,9 @@
                     <div class="uk-panel uk-margin">
                         <div class="uk-margin uk-child-width-1-2" uk-grid>
                             <div>
-                                <a class="uk-link-reset" href="/<?= $caturi ?>/<?= $newses[0]['alias'] ?>">
-                                    <h4 class="uk-margin-small"><?= $newses[0]['title'] ?></h4>
-                                </a>
+                                <h4 class="uk-margin-small">
+                                    <a class="uk-link-heading" href="/<?= $caturi ?>/<?= $newses[0]['alias'] ?>"><?= $newses[0]['title'] ?></a>
+                                </h4>
                             </div>
                             <div>
                                 <div class="uk-text-meta uk-text-justify"><?= $newses[0]['introtext'] ?></div>
@@ -48,7 +48,7 @@
                         <?php $leadNewsImage = json_decode($newses[1]['images']); ?>
                         <div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="<?= $leadNewsImage->image_intro ?>" uk-img></div>
                     </a>
-                    <a class="uk-link-reset" href="/<?= $caturi ?>/<?= $newses[1]['alias'] ?>">
+                    <a class="uk-link-heading" href="/<?= $caturi ?>/<?= $newses[1]['alias'] ?>">
                         <div><?= $newses[1]['title'] ?></div>
                     </a>
                     <div class="uk-text-meta uk-text-justify"><?= $newses[1]['introtext'] ?></div>

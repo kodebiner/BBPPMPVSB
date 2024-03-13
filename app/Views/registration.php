@@ -29,7 +29,7 @@
                     <a class="uk-link-reset" href="<?= $caturi ?>/<?= $news['alias'] ?>" target="_blank">
                         <div class="uk-card uk-card-default">
                             <div class="uk-card-media-top">
-                                    <img src="<?= $images->image_intro ?>" alt="<?= $news['title'] ?>">
+                                <img src="<?= $images->image_intro ?>" alt="<?= $news['title'] ?>">
                             </div>
                             <div class="uk-card-body">
                                 <h5><?= $news['title'] ?></h5>
