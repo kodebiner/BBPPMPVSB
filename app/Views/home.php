@@ -2,45 +2,76 @@
 
 <?= $this->section('main') ?>
 
+<!-- External Link Section -->
+<section class="uk-section uk-section-default">
+    <div class="uk-container uk-container-expand">
+        <div class="uk-child-width-1-1 uk-child-width-1-2@m uk-child-width-1-3@l uk-grid-match uk-flex-middle" uk-grid>
+            <div></div>
+            <div>
+                <a href="http://kemdikbud.lapor.go.id/" target="_blank">
+                    <img src="img/ExternalLink/1.jpeg" class="uk-width-1-1">
+                </a>
+            </div>
+            <div></div>
+        </div>
+    </div>
+</section>
+<!-- External Link Section End -->
+
 <!-- Berita Section -->
 <section>
     <?php if ($ismobile == false) { ?>
         <!-- Dekstop View -->
         <div class="uk-container uk-container-expand">
             <div class="uk-grid-match" uk-grid>
-                <div class="uk-width-1-4@l">
+                <div class="uk-width-1-4">
                     <div class="uk-child-width-1-1" uk-grid>
                         <?php
-                        foreach ($newses as $key => $news) {
-                            if ($key > 0) {
-                                $images = json_decode($news['images']);
+                        foreach ($workshops as $key => $workshop) {
+                            $images = json_decode($workshop['images']);
                         ?>
                         <div>
-                            <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/berita/<?= $news['alias'] ?>">
-                                <img src="<?= $images->image_intro ?>" width="610" height="420" alt="<?= $news['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
+                            <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/berita/<?= $workshop['alias'] ?>">
+                                <img src="<?= $images->image_intro ?>" width="610" height="420" alt="<?= $workshop['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
                                 <div class="uk-position-bottom-left uk-tile-default">
                                     <div class="uk-overlay uk-padding-small uk-width-medium uk-margin-remove-first-child">
                                         <div class="uk-text-meta uk-margin-top">
-                                            <span class="uk-text-primary"><?= $news['title'] ?></span>
+                                            <span class="uk-text-primary"><?= $workshop['title'] ?></span>
                                         </div>
                                     </div>
                                 </div>
                             </a>
                         </div>
                         <?php
-                            }
                         }
                         ?>
                     </div>
                 </div>
-                <div class="uk-width-3-4@l">
-                    <?php $leadNewsImage = json_decode($newses[0]['images']); ?>
-                    <a class="uk-container uk-container-expand uk-background-cover uk-inline" data-src="<?= $leadNewsImage->image_intro ?>" uk-img href="/berita/<?= $newses[0]['alias'] ?>">
-                        <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-light">
-                            <h3 class="uk-margin-remove uk-text-bold uk-margin-remove"><?= $newses[0]['title'] ?></h3>
-                            <div><?= $newses[0]['introtext'] ?></div>
-                        </div>
-                    </a>
+                <div class="uk-width-3-4">
+                    <div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider="autoplay; true:">
+                        <ul class="uk-slider-items uk-child-width-1-1 uk-grid">
+                            <?php
+                            foreach ($newses as $key => $news) {
+                                $images = json_decode($news['images']);
+                            ?>
+                            <li>
+                                <a href="/berita/<?= $news['alias'] ?>">
+                                    <div class="uk-inline">
+                                        <div>
+                                            <img src="<?= $images->image_intro ?>" width="1800" height="1200" alt="">
+                                        </div>
+                                        <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-light">
+                                            <h3 class="uk-margin-remove uk-text-bold uk-margin-remove"><?= $news['title'] ?></h3>
+                                            <div class="uk-text-bold"><?= $news['introtext'] ?></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <?php
+                            }
+                            ?>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -50,16 +81,16 @@
         <div class="uk-container uk-container-expand">
             <div class="uk-grid-match uk-child-width-1-1" uk-grid>
                 <?php
-                foreach ($newses as $key => $news) {
-                    $images = json_decode($news['images']);
+                foreach ($workshops as $key => $workshop) {
+                    $images = json_decode($workshop['images']);
                 ?>
                     <div>
-                        <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/berita/<?= $news['alias'] ?>">
-                            <img src="<?= $images->image_intro ?>" width="610" height="420" alt="<?= $news['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
+                        <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/berita/<?= $workshop['alias'] ?>">
+                            <img src="<?= $images->image_intro ?>" width="610" height="420" alt="<?= $workshop['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
                             <div class="uk-position-bottom-left uk-tile-default">
                                 <div class="uk-overlay uk-padding-small uk-width-medium uk-margin-remove-first-child">
                                     <div class="uk-text-meta uk-margin-top">
-                                        <span class="uk-text-primary"><?= $news['title'] ?></span>
+                                        <span class="uk-text-primary"><?= $workshop['title'] ?></span>
                                     </div>
                                 </div>
                             </div>
@@ -205,18 +236,4 @@
     </div>
 </section>
 <!-- Diklat Section End -->
-
-<!-- External Link Section -->
-<section class="uk-section uk-section-default">
-    <div class="uk-container uk-container-expand">
-        <div class="uk-child-width-1-1 uk-child-width-1-2@m uk-child-width-1-3@l uk-grid-match uk-flex-middle" uk-grid>
-            <div>
-                <a href="http://kemdikbud.lapor.go.id/" target="_blank">
-                    <img src="img/ExternalLink/1.jpeg" class="uk-width-1-1">
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- External Link Section End -->
 <?= $this->endSection() ?>
