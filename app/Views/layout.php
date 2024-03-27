@@ -47,40 +47,68 @@
         <?php if ($ismobile == false) { ?>
             <!-- Dekstop View -->
             <!-- Header Section -->
-            <div class="uk-padding uk-padding-remove-bottom">
-                <div class="uk-container uk-container-xlarge">
-                    <div class="uk-position-relative uk-flex uk-flex-center uk-flex-middle">
-                        <div class="uk-position-center-left uk-position-z-index-high">
-                            <div id="curentdate"></div>
-                            <div id="curenttime"></div>
-                        </div>
-                        <a href="" class="uk-logo">
-                            <img width="200" src="img/logo.png">
-                        </a>
-                        <div class="uk-position-center-right uk-position-z-index-high">
-                            <form class="uk-search uk-search-default">
-                                <span class="uk-search-icon-flip" uk-search-icon></span>
-                                <input class="uk-search-input" type="search" placeholder="Search" aria-label="Search">
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            <div class="uk-width-1-1">
+                <img src="img/header/HeaderWebsite.jpeg">
             </div>
             <!-- Header Section End -->
             <!-- Navbar Section -->
-            <div uk-sticky="" media="@l" cls-active="uk-navbar-sticky" sel-target=".uk-navbar-container" class="uk-sticky">
+            <div uk-sticky="" media="@l" cls-active="uk-navbar-sticky" sel-target=".uk-navbar-container" class="uk-sticky uk-margin">
                 <nav class="uk-navbar-container">
-                    <div class="uk-container">
-                        <div uk-navbar>
+                    <div class="uk-container uk-container-expand uk-section uk-section-xsmall">
+                        <div class="uk-flex-middle" uk-navbar>
+                            <div class="uk-navbar-left">
+                                <div class="uk-child-width-1-1" uk-grid>
+                                    <div><div id="curentdate"></div></div>
+                                    <div class="uk-margin-remove"><div id="curenttime"></div></div>
+                                </div>
+                            </div>
                             <div class="uk-navbar-center">
                                 <ul class="uk-navbar-nav">
                                     <li class="<?= ($uri->getSegment(1) === '') ? 'uk-active' : '' ?>">
                                         <a href="">Beranda</a>
                                     </li>
+                                    <li class="<?= ($uri->getSegment(1) === 'profil') ? 'uk-active' : '' ?>">
+                                        <a href="profil">Profil</a>
+                                    </li>
                                     <li class="<?= ($uri->getSegment(1) === 'berita') ? 'uk-active':''?> ">
                                         <a href="berita">Berita</a>
                                     </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='masyarakat')?'uk-active':'' ?>">
+                                        <a href="">Layanan</a>
+                                        <div class="uk-navbar-dropdown">
+                                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                <li>
+                                                    <a href="https://www.lapor.go.id/">Permohonan Informasi</a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://wbs.kemdikbud.go.id/">Standar Pelayanan</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirpengaduan')?'uk-active':'' ?>">
+                                                    <a href="pengaduan/formulirpengaduan">Maklumat Layanan</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirpengaduan')?'uk-active':'' ?>">
+                                                    <a href="pengaduan/formulirpengaduan">Hasil Survey</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='masyarakat')?'uk-active':'' ?>">
+                                        <a href="">Pengaduan</a>
+                                        <div class="uk-navbar-dropdown">
+                                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                <li>
+                                                    <a href="https://www.lapor.go.id/" target="_blank">SP4N-Lapor</a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://wbs.kemdikbud.go.id/" target="_blank">Whistle Blowing System</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirpengaduan')?'uk-active':'' ?>">
+                                                    <a href="pengaduan/formulirpengaduan">Pengaduan Masyarakat</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <!-- <li class="uk-parent <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
                                         <a href="">Diklat</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
@@ -92,12 +120,41 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                    </li>
-                                    <li class="<?= ($uri->getSegment(1) === 'seminar') ? 'uk-active':'' ?>">
+                                    </li> -->
+                                    <!-- <li class="<?= ($uri->getSegment(1) === 'seminar') ? 'uk-active':'' ?>">
                                         <a href="seminar">Seminar</a>
                                     </li class="<?= ($uri->getSegment(1 )=== 'webinar') ? 'uk-active':'' ?>">
                                     <li>
                                         <a href="webinar">Webinar</a>
+                                    </li> -->
+                                    <li>
+                                        <a href="webinar">RBI</a>
+                                    </li>
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?><?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
+                                        <a href="">Publikasi</a>
+                                        <div class="uk-navbar-dropdown">
+                                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                <li class="<?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?>">
+                                                    <a href="galeri/foto">Jurnal Sendikraf</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
+                                                    <a href="galeri/video">Majalah Artista</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?><?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
+                                        <a href="">Informasi Kegiatan</a>
+                                        <div class="uk-navbar-dropdown">
+                                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                <li class="<?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?>">
+                                                    <a href="galeri/foto">Diklat / Pelatihan</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
+                                                    <a href="galeri/video">Seminar / Webinar</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </li>
                                     <li class="uk-parent <?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?><?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
                                         <a href="">Galeri</a>
@@ -112,10 +169,13 @@
                                             </ul>
                                         </div>
                                     </li>
-                                    <li class="<?= ($uri->getSegment(1) === 'profil') ? 'uk-active' : '' ?>">
-                                        <a href="profil">Profil</a>
-                                    </li>
                                 </ul>
+                            </div>
+                            <div class="uk-navbar-right">
+                                <form class="uk-search uk-search-default">
+                                    <span class="uk-search-icon-flip" uk-search-icon></span>
+                                    <input class="uk-search-input" type="search" placeholder="Search" aria-label="Search">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -179,7 +239,7 @@
                         <nav class="uk-navbar" uk-navbar="{align: left, container: .tm-header-mobile > [uk-sticky], boundary: .tm-header-mobile .uk-navbar-container}">
                             <div class="uk-navbar-left">
                                 <a href="" aria-label="Back to home" class="uk-logo uk-navbar-item">
-                                    <img alt="BBPPMPVSB" width="170" height="30" uk-svg="" src="img/logo.png">
+                                    <img alt="BBPPMPVSB" width="170" height="30" uk-svg="" src="img/logofix.png">
                                 </a>
                             </div>
                             <div class="uk-navbar-right">
@@ -216,10 +276,44 @@
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === '') ? 'uk-active' : '' ?>">
                                             <a href="">Beranda</a>
                                         </li>
+                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'profil') ? 'uk-active' : '' ?>">
+                                            <a href="profil">Profil</a>
+                                        </li>
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'berita') ? 'uk-active' : '' ?>">
                                             <a href="berita">Berita</a>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2 )=== 'formulirpengaduan')?'uk-active':'' ?>">
+                                            <a href="">Layanan <span uk-nav-parent-icon></span></a>
+                                            <ul class="uk-nav-sub">
+                                                <li>
+                                                    <a href="https://www.lapor.go.id/">Permohonan Informasi</a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://wbs.kemdikbud.go.id/">Standar Pelayanan</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2 )=== 'formulirpengaduan')?'uk-active':'' ?>">
+                                                    <a href="pengaduan/formulirpengaduan">Maklumat Layanan</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2 )=== 'formulirpengaduan')?'uk-active':'' ?>">
+                                                    <a href="pengaduan/formulirpengaduan">Hasil Survey</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2 )=== 'formulirpengaduan')?'uk-active':'' ?>">
+                                            <a href="">Pengaduan <span uk-nav-parent-icon></span></a>
+                                            <ul class="uk-nav-sub">
+                                                <li>
+                                                    <a href="https://www.lapor.go.id/" target="_blank">SP4N-Lapor</a>
+                                                </li>
+                                                <li>
+                                                    <a href="https://wbs.kemdikbud.go.id/" target="_blank">Whistle Blowing System</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2 )=== 'formulirpengaduan')?'uk-active':'' ?>">
+                                                    <a href="pengaduan/formulirpengaduan">Pengaduan Masyarakat</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <!-- <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
                                             <a href="">Diklat <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
                                                 <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'artikel')?'uk-active':'' ?>">
@@ -229,26 +323,48 @@
                                                     <a href="diklat/pendaftaran">Pendaftaran Diklat</a>
                                                 </li>
                                             </ul>
-                                        </li>
-                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'seminar') ? 'uk-active' : '' ?>">
+                                        </li> -->
+                                        <!-- <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'seminar') ? 'uk-active' : '' ?>">
                                             <a href="seminar">Seminar</a>
                                         </li>
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'webinar') ? 'uk-active' : '' ?>">
                                             <a href="webinar">Webinar</a>
+                                        </li> -->
+                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'webinar') ? 'uk-active' : '' ?>">
+                                            <a href="webinar">RBI</a>
+                                        </li>
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2 )=== 'foto')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
+                                            <a href="">Publikasi <span uk-nav-parent-icon></span></a>
+                                            <ul class="uk-nav-sub">
+                                                <li class="<?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2 )=== 'foto')?'uk-active':'' ?>">
+                                                    <a href="galeri/foto">Jurnal Sendikraft</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
+                                                    <a href="galeri/video">Majalah Artista</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2 )=== 'foto')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
+                                            <a href="">Informasi Kegiatan <span uk-nav-parent-icon></span></a>
+                                            <ul class="uk-nav-sub">
+                                                <li class="<?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2 )=== 'foto')?'uk-active':'' ?>">
+                                                    <a href="galeri/foto">Diklat / Pelatihan</a>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
+                                                    <a href="galeri/video">Seminar / Webinar</a>
+                                                </li>
+                                            </ul>
                                         </li>
                                         <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2 )=== 'foto')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
                                             <a href="">Galeri <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
-                                                <li class="uk-active">
+                                                <li class="<?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2 )=== 'foto')?'uk-active':'' ?>">
                                                     <a href="galeri/foto">Galeri Foto</a>
                                                 </li>
-                                                <li class="uk-active">
+                                                <li class="<?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
                                                     <a href="galeri/video">Galeri Video</a>
                                                 </li>
                                             </ul>
-                                        </li>
-                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'profil') ? 'uk-active' : '' ?>">
-                                            <a href="profil">Profil</a>
                                         </li>
                                     </ul>
                                 </div>

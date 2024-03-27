@@ -88,58 +88,38 @@
                 </div>
             </div>
         <?php } else { ?>
-            <div class="uk-text-right uk-h3">
-                <a class="uk-link-reset" id="tugaspokok" uk-toggle="target: #toggletugaspokok">Tugas Pokok<span id="closetugaspokok" uk-icon="chevron-down" hidden></span><span id="opentugaspokok" uk-icon="chevron-right"></span></a>
-                <hr class="uk-divider-small uk-margin">
+            <div class="uk-margin-medium-top">
+                <ul class="uk-flex-center" uk-tab="connect: .switcher-tugaspokokfungsi">
+                    <li class="uk-active">
+                        <a class="uk-h4" href="#">Tugas Pokok</a>
+                    </li>
+                    <li class="uk-active">
+                        <a class="uk-h4" href="#">Fungsi</a>
+                    </li>
+                </ul>
             </div>
 
-            <div class="uk-text-justify" id="toggletugaspokok" hidden>
-                <p>Peraturan Menteri Pendidikan dan Kebudayaan No. 26 Tahun 2020 tentang Organisasi dan Tata Kerja BBPPMPV Seni dan Budaya menyatakan bahwa BBPPMPV Seni dan Budaya mempunyai tugas melaksanakan pengembangan penjaminan mutu pendidikan vokasi di bidang seni dan budaya.</p>
-            </div>
-            
-            <div class="uk-text-left uk-h3">
-                <a class="uk-link-reset" id="fungsi" uk-toggle="target: #togglefungsi">Fungsi<span id="closefungsi" uk-icon="chevron-down" hidden></span><span id="openfungsi" uk-icon="chevron-right"></span></a>
-                <hr class="uk-divider-small uk-margin">
-            </div>
-
-            <div class="uk-text-justify" id="togglefungsi" hidden>
-                <ol>
-                    <li>Penyusunan program pengembangan penjaminan mutu pendidikan vokasi;</li>
-                    <li>Pelaksanaan penjaminan mutu peserta didik, sarana prasarana, dan tata kelola pendidikan vokasi;</li>
-                    <li>Pelaksanaan penyelarasan pendidikan vokasi sesuai dengan kebutuhan dunia usaha dan dunia industri;</li>
-                    <li>Pelaksanaan fasilitasi dan peningkatan kompetensi pendidik dan tenaga kependidikan pada Pendidikan vokasi;</li>
-                    <li>Pengelolaan data dan informasi;</li>
-                    <li>Pelaksanaan kerja sama di bidang pengembangan penjaminan mutu pendidikan vokasi;</li>
-                    <li>Pelaksanaan evaluasi pengembangan penjaminan mutu pendidikan vokasi; dan</li>
-                    <li>Pelaksanaan urusan administrasi.</li>
-                </ol>
-            </div>
-
-            <script type="text/javascript">
-                // Toggle Tugas Pokok
-                document.getElementById('tugaspokok').addEventListener('click', function() {
-                    if (document.getElementById('closetugaspokok').hasAttribute('hidden')) {
-                        document.getElementById('closetugaspokok').removeAttribute('hidden');
-                        document.getElementById('opentugaspokok').setAttribute('hidden', '');
-                    } else {
-                        document.getElementById('opentugaspokok').removeAttribute('hidden');
-                        document.getElementById('closetugaspokok').setAttribute('hidden', '');
-
-                    }
-                });
-                
-                // Toggle Fungsi
-                document.getElementById('fungsi').addEventListener('click', function() {
-                    if (document.getElementById('closefungsi').hasAttribute('hidden')) {
-                        document.getElementById('closefungsi').removeAttribute('hidden');
-                        document.getElementById('openfungsi').setAttribute('hidden', '');
-                    } else {
-                        document.getElementById('openfungsi').removeAttribute('hidden');
-                        document.getElementById('closefungsi').setAttribute('hidden', '');
-
-                    }
-                });
-            </script>
+            <ul class="uk-switcher switcher-tugaspokokfungsi uk-margin">
+                <li>
+                    <div class="uk-text-justify uk-padding">
+                        <p>Peraturan Menteri Pendidikan dan Kebudayaan No. 26 Tahun 2020 tentang Organisasi dan Tata Kerja BBPPMPV Seni dan Budaya menyatakan bahwa BBPPMPV Seni dan Budaya mempunyai tugas melaksanakan pengembangan penjaminan mutu pendidikan vokasi di bidang seni dan budaya.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-text-justify uk-padding">
+                        <ol>
+                            <li>Penyusunan program pengembangan penjaminan mutu pendidikan vokasi;</li>
+                            <li>Pelaksanaan penjaminan mutu peserta didik, sarana prasarana, dan tata kelola pendidikan vokasi;</li>
+                            <li>Pelaksanaan penyelarasan pendidikan vokasi sesuai dengan kebutuhan dunia usaha dan dunia industri;</li>
+                            <li>Pelaksanaan fasilitasi dan peningkatan kompetensi pendidik dan tenaga kependidikan pada Pendidikan vokasi;</li>
+                            <li>Pengelolaan data dan informasi;</li>
+                            <li>Pelaksanaan kerja sama di bidang pengembangan penjaminan mutu pendidikan vokasi;</li>
+                            <li>Pelaksanaan evaluasi pengembangan penjaminan mutu pendidikan vokasi; dan</li>
+                            <li>Pelaksanaan urusan administrasi.</li>
+                        </ol>
+                    </div>
+                </li>
+            </ul>
         <?php } ?>
     </div>
 </section>
@@ -274,82 +254,62 @@
                 </div>
             </div>
         <?php } else { ?>
-            <div class="uk-text-left uk-h3">
-                <a class="uk-link-reset" id="visi" uk-toggle="target: #togglevisi">VISI<span id="closevisi" uk-icon="chevron-down" hidden></span><span id="openvisi" uk-icon="chevron-right"></span></a>
-                <hr class="uk-divider-small uk-margin">
-            </div>
-
-            <div class="uk-text-justify" id="togglevisi" hidden>
-                <p>Balai Besar Pengembangan dan Penjaminan Mutu Pendidikan Vokasi (BBPPMPV) Seni dan Budaya sebagai salah satu Unit Pelaksana Teknis (UPT) dari Direktorat Jenderal Pendidikan Vokasi Kementerian Pendidikan dan Kebudayaan, berdasarkan Permendikbud No. 26 Tahun 2020 mempunyai tugas melaksanakan pengembangan penjaminan mutu pendidikan vokasi sesuai dengan bidangnya.</p>
-                <p class="uk-text-center"><strong>Visi Direktorat Jenderal Pendidikan Vokasi, yaitu:</strong></p>
-                <p><em>"Membangun rakyat Indonesia yang menjadi pembelajar seumur hidup yang unggul, terus berkembang, sejahtera, dan berakhlak mulia dengan menumbuhkan nilai-nilai budaya Indonesia dan Pancasila"</em></p>
-                <p class="uk-text-center">akan didukung oleh BBPMPV Seni dan Budaya, sehingga Visi BBPPMPV Seni dan Budaya :</p>
-                <p><em>"Mewujudkan Pendidikan Vokasi Bidang Seni dan Budaya yang berkualitas dan berdaya saing global sesuai dengan standar kebutuhan dunia usaha dan dunia Industri kekinian"</em></p>
-                <p class="uk-text-center">Berikut uraian Visi BBPPMPV Seni dan Budaya:</p>
-                <ul style="list-style-type: disc;">
-                    <li>
-                        <p>Mutu pengelolaan berstandar nasional dengan mengacu standar Reformasi Birokrasi dalam rangka mendukung pencapaian tujuan dan target untuk memperkuat 6 area perubahan dan atau ZI/WBK dan WBBM;</p>
+            <div class="uk-margin-medium-top">
+                <ul class="uk-flex-center" uk-tab="connect: .switcher-visimisi">
+                    <li class="uk-active">
+                        <a class="uk-h4" href="#">VISI</a>
                     </li>
-                    <li>
-                        <p>Materi diklat relevan dengan kebutuhan peningkatan kompetensi PTK berbasis dunia usaha dan dunia industri sesuai kebutuhan pengembangan daerah dalam mendukung kesepakatan global;</p>
-                    </li>
-                    <li>
-                        <p>Tersedianya akses layanan yang merata bagi seluruh unsur pendidikan seni dan budaya di Indonesia;</p>
-                    </li>
-                    <li>
-                        <p>Layanan dalam proses diklat dilakukan cepat, tepat, dan memberikan kepuasan pelanggan.</p>
+                    <li class="uk-active">
+                        <a class="uk-h4" href="#">MISI</a>
                     </li>
                 </ul>
             </div>
 
-            <div class="uk-text-right uk-h3">
-                <a class="uk-link-reset" id="misi" uk-toggle="target: #togglemisi">MISI<span id="closemisi" uk-icon="chevron-down" hidden></span><span id="openmisi" uk-icon="chevron-right"></span></a>
-                <hr class="uk-divider-small uk-margin">
-            </div>
-
-            <div class="uk-text-justify" id="togglemisi" hidden>
-                <p class="uk-text-center">Untuk mencapai Visi tersebut, maka Misi BBPPMPV Seni dan Budaya adalah:</p>
-                <ol>
-                    <li>
-                        <p>Mewujudkan program peningkatan kompetensi pendidik dan tenaga kependidikan vokasi bidang seni dan budaya yang berkualitas dan berdaya saing global sesuai standar dunia usaha dan dunia industri;</p>
-                    </li>
-                    <li>
-                        <p>Mewujudkan program kemitraan dan penyelarasan pengembangan mutu pendidikan vokasi bidang seni dan budaya dengan dunia usaha dan dunia industri;</p>
-                    </li>
-                    <li>
-                        <p>Mewujudkan keterjangkauan dan perluasan akses layanan program peningkatan kompetensi pendidik dan tenaga kependidikan vokasi bidang seni dan budaya;</p>
-                    </li>
-                    <li>
-                        <p>Mewujudkan sistem tata kelola lembaga yang akuntabel dan transparan.</p>
-                    </li>
-                </ol>
-            </div>
-
-            <script type="text/javascript">
-                // Toggle Visi
-                document.getElementById('visi').addEventListener('click', function() {
-                    if (document.getElementById('closevisi').hasAttribute('hidden')) {
-                        document.getElementById('closevisi').removeAttribute('hidden');
-                        document.getElementById('openvisi').setAttribute('hidden', '');
-                    } else {
-                        document.getElementById('openvisi').removeAttribute('hidden');
-                        document.getElementById('closevisi').setAttribute('hidden', '');
-
-                    }
-                });
-                
-                // Toggle Misi
-                document.getElementById('misi').addEventListener('click', function() {
-                    if (document.getElementById('closemisi').hasAttribute('hidden')) {
-                        document.getElementById('closemisi').removeAttribute('hidden');
-                        document.getElementById('openmisi').setAttribute('hidden', '');
-                    } else {
-                        document.getElementById('openmisi').removeAttribute('hidden');
-                        document.getElementById('closemisi').setAttribute('hidden', '');
-
-                    }
-                });
-            </script>
+            <ul class="uk-switcher switcher-visimisi uk-margin">
+                <li>
+                    <div class="uk-text-justify uk-padding">
+                        <p>Balai Besar Pengembangan dan Penjaminan Mutu Pendidikan Vokasi (BBPPMPV) Seni dan Budaya sebagai salah satu Unit Pelaksana Teknis (UPT) dari Direktorat Jenderal Pendidikan Vokasi Kementerian Pendidikan dan Kebudayaan, berdasarkan Permendikbud No. 26 Tahun 2020 mempunyai tugas melaksanakan pengembangan penjaminan mutu pendidikan vokasi sesuai dengan bidangnya.</p>
+                        <p><strong>Visi Direktorat Jenderal Pendidikan Vokasi, yaitu:</strong></p>
+                        <p><em>"Membangun rakyat Indonesia yang menjadi pembelajar seumur hidup yang unggul, terus berkembang, sejahtera, dan berakhlak mulia dengan menumbuhkan nilai-nilai budaya Indonesia dan Pancasila"</em></p>
+                        <p>akan didukung oleh BBPMPV Seni dan Budaya, sehingga Visi BBPPMPV Seni dan Budaya :</p>
+                        <p><em>"Mewujudkan Pendidikan Vokasi Bidang Seni dan Budaya yang berkualitas dan berdaya saing global sesuai dengan standar kebutuhan dunia usaha dan dunia Industri kekinian"</em></p>
+                        <p>Berikut uraian Visi BBPPMPV Seni dan Budaya:</p>
+                        <ul style="list-style-type: disc;">
+                            <li>
+                                <p>Mutu pengelolaan berstandar nasional dengan mengacu standar Reformasi Birokrasi dalam rangka mendukung pencapaian tujuan dan target untuk memperkuat 6 area perubahan dan atau ZI/WBK dan WBBM;</p>
+                            </li>
+                            <li>
+                                <p>Materi diklat relevan dengan kebutuhan peningkatan kompetensi PTK berbasis dunia usaha dan dunia industri sesuai kebutuhan pengembangan daerah dalam mendukung kesepakatan global;</p>
+                            </li>
+                            <li>
+                                <p>Tersedianya akses layanan yang merata bagi seluruh unsur pendidikan seni dan budaya di Indonesia;</p>
+                            </li>
+                            <li>
+                                <p>Layanan dalam proses diklat dilakukan cepat, tepat, dan memberikan kepuasan pelanggan.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="uk-text-justify uk-padding">
+                        <p class="uk-text-center">Untuk mencapai Visi tersebut, maka Misi BBPPMPV Seni dan Budaya adalah:</p>
+                        <ol>
+                            <li>
+                                <p>Mewujudkan program peningkatan kompetensi pendidik dan tenaga kependidikan vokasi bidang seni dan budaya yang berkualitas dan berdaya saing global sesuai standar dunia usaha dan dunia industri;</p>
+                            </li>
+                            <li>
+                                <p>Mewujudkan program kemitraan dan penyelarasan pengembangan mutu pendidikan vokasi bidang seni dan budaya dengan dunia usaha dan dunia industri;</p>
+                            </li>
+                            <li>
+                                <p>Mewujudkan keterjangkauan dan perluasan akses layanan program peningkatan kompetensi pendidik dan tenaga kependidikan vokasi bidang seni dan budaya;</p>
+                            </li>
+                            <li>
+                                <p>Mewujudkan sistem tata kelola lembaga yang akuntabel dan transparan.</p>
+                            </li>
+                        </ol>
+                    </div>
+                </li>
+            </ul>
         <?php } ?>
     </div>
 </section>

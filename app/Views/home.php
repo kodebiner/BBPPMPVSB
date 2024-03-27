@@ -2,8 +2,24 @@
 
 <?= $this->section('main') ?>
 
+<!-- Slideshow -->
+<div class="uk-section">
+    <div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slideshow="animation: fade; autoplay: true; ratio:10:3; pause-on-hover: false; autoplay-interval: 5000;">
+        <ul class="uk-slideshow-items">
+            <?php foreach ($slideshows as $slideshow) { ?>
+                <li>
+                    <img src="img/slideshow/<?= $slideshow['file'] ?>" alt="" uk-cover>
+                </li>
+            <?php } ?>
+        </ul>
+        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href uk-slidenav-previous uk-slideshow-item="previous"></a>
+        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href uk-slidenav-next uk-slideshow-item="next"></a>
+    </div>
+</div>
+<!-- Slideshow End -->
+
 <!-- External Link Section -->
-<section class="uk-section uk-section-default">
+<!-- <section class="uk-section uk-section-default">
     <div class="uk-container uk-container-expand">
         <div class="uk-child-width-1-1 uk-child-width-1-2@m uk-child-width-1-3@l uk-grid-match uk-flex-middle" uk-grid>
             <div></div>
@@ -15,7 +31,7 @@
             <div></div>
         </div>
     </div>
-</section>
+</section> -->
 <!-- External Link Section End -->
 
 <!-- Berita Section -->
@@ -99,6 +115,29 @@
                 <?php
                 }
                 ?>
+            </div>
+            <div class="uk-margin uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider="autoplay; true:">
+                <ul class="uk-slider-items uk-child-width-1-1 uk-grid">
+                    <?php
+                    foreach ($newses as $key => $news) {
+                        $images = json_decode($news['images']);
+                    ?>
+                    <li>
+                        <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/berita/<?= $news['alias'] ?>">
+                            <img src="<?= $images->image_intro ?>" width="1800" height="1200" alt="">
+                            <div class="uk-position-bottom-right uk-tile-default">
+                                <div class="uk-overlay uk-padding-small uk-width-medium uk-margin-remove-first-child">
+                                    <div class="uk-text-meta uk-margin-top">
+                                        <span class="uk-text-primary"><?= $news['title'] ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <?php
+                    }
+                    ?>
+                </ul>
             </div>
         </div>
         <!-- Mobile View End -->
