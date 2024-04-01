@@ -36,4 +36,9 @@ class Home extends BaseController
         return view('home', $data);
         // return view('welcome_message');
     }
+
+    public function migration()
+    {
+        echo command('migrate --all');
+    }
 }

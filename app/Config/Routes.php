@@ -9,6 +9,7 @@ use CodeIgniter\Router\RouteCollection;
 //  Home
 $routes->group('/', static function ($routes) {
     $routes->get('', 'Home::index');
+    $routes->get('migration', 'Home::migration');
 });
 
 // News
