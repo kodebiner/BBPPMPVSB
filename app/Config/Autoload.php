@@ -46,6 +46,8 @@ class Autoload extends AutoloadConfig
     public $psr4 = [
         APP_NAMESPACE => APPPATH, // For custom app namespace
         'Config'      => APPPATH . 'Config',
+        'CodeIgniter\\Settings' => APPPATH . 'ThirdParty/settings-2.2.0/src',
+        'CodeIgniter\\Shield'   => APPPATH . 'ThirdParty/shield-1.0.2/src', 
     ];
 
     /**
@@ -82,7 +84,10 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $files = [];
+    public $files = [
+        APPPATH . 'ThirdParty/shield-1.0.0-beta.3/src/Helpers/auth_helper.php',
+        APPPATH . 'ThirdParty/shield-1.0.0-beta.3/src/Helpers/email_helper.php',
+    ];
 
     /**
      * -------------------------------------------------------------------
@@ -95,5 +100,5 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $helpers = [];
+    public $helpers = ['auth', 'setting'];
 }

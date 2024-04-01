@@ -5,6 +5,13 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+// Shield
+service('auth')->routes($routes, ['except' => ['login', 'register']]);
+$routes->get('login', '\App\Controllers\Auth::loginView');
+$routes->get('register', '\App\Controllers\Auth::registerView');
+// $routes->get('register', '\App\Controllers\Auth\RegisterController::registerView');
+// $routes->get('login', '\App\Controllers\Auth\LoginController::loginView');
+// $routes->get('register', '\App\Controllers\Auth\RegisterController::registerView');
 
 //  Home
 $routes->group('/', static function ($routes) {
