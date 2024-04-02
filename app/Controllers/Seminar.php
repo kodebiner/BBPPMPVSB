@@ -20,18 +20,18 @@ class Seminar extends BaseController
         // Search Engine
         // Populating Data
         if (isset($input['search']) && !empty($input['search'])) {
-            $newses     = $ContentModel->where('catid', '20')->orderBy('publish_up', 'DESC')->like('title', $input['search'])->find();
+            $newses     = $ContentModel->where('catid', '20')->orWhere('catid', '13')->orderBy('publish_up', 'DESC')->like('title', $input['search'])->find();
         } else {
-            $newses     = $ContentModel->where('catid', '20')->orderBy('publish_up', 'DESC')->paginate(10, 'news');
+            $newses     = $ContentModel->where('catid', '20')->orWhere('catid', '13')->orderBy('publish_up', 'DESC')->paginate(10, 'news');
         }
 
         // Parsing Data To View
         $data                   = $this->data;
-        $data['title']          = "Seminar";
-        $data['description']    = "Seminar terkait BBPPMPVSB";
+        $data['title']          = "Seminar / Webinar";
+        $data['description']    = "Seminar dan Webinar terkait BBPPMPVSB";
         $data['newses']         = $newses;
-        $data['caturi']         = 'seminar';
-        $data['cattitle']       = 'Seminar';
+        $data['caturi']         = 'informasi/seminarwebinar';
+        $data['cattitle']       = 'Seminar / Webinar';
         $data['count']          = count($newses);
         $data['pager']          = $ContentModel->pager;
 
@@ -57,8 +57,8 @@ class Seminar extends BaseController
         $data['description']    = $article['alias'];
         $data['article']        = $article;
         $data['category']       = $category;
-        $data['caturi']         = 'seminar';
-        $data['cattitle']       = 'Seminar';
+        $data['caturi']         = 'informasi/seminarwebinar';
+        $data['cattitle']       = 'Seminar / Webinar';
         $data['user']           = $user;
 
         // Return Data To View

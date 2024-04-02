@@ -143,15 +143,15 @@
                                             </ul>
                                         </div>
                                     </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?><?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='informasi') && ($uri->getSegment(2)==='diklatpelatihan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='informasi') && ($uri->getSegment(2)==='seminarwebinar')?'uk-active':'' ?>">
                                         <a href="">Informasi Kegiatan</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
-                                                <li class="<?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?>">
-                                                    <a href="galeri/foto">Diklat / Pelatihan</a>
+                                                <li class="<?= ($uri->getSegment(1)==='informasi') && ($uri->getSegment(2)==='diklatpelatihan')?'uk-active':'' ?>">
+                                                    <a href="informasi/diklatpelatihan">Diklat / Pelatihan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
-                                                    <a href="galeri/video">Seminar / Webinar</a>
+                                                <li class="<?= ($uri->getSegment(1)==='informasi') && ($uri->getSegment(2)==='seminarwebinar')?'uk-active':'' ?>">
+                                                    <a href="informasi/seminarwebinar">Seminar / Webinar</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -344,14 +344,14 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2 )=== 'foto')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'informasi') && ($uri->getSegment(2 )=== 'diklat')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'informasi') && ($uri->getSegment(2) === 'seminarwebinar')?'uk-active':'' ?>">
                                             <a href="">Informasi Kegiatan <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
-                                                <li class="<?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2 )=== 'foto')?'uk-active':'' ?>">
-                                                    <a href="galeri/foto">Diklat / Pelatihan</a>
+                                                <li class="<?= ($uri->getSegment(1) === 'informasi') && ($uri->getSegment(2 )=== 'diklat')?'uk-active':'' ?>">
+                                                    <a href="informasi/diklat">Diklat / Pelatihan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
-                                                    <a href="galeri/video">Seminar / Webinar</a>
+                                                <li class="<?= ($uri->getSegment(1) === 'informasi') && ($uri->getSegment(2) === 'seminarwebinar')?'uk-active':'' ?>">
+                                                    <a href="informasi/seminarwebinar">Seminar / Webinar</a>
                                                 </li>
                                             </ul>
                                         </li>

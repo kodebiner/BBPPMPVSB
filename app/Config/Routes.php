@@ -61,3 +61,9 @@ $routes->group('galeri', static function ($routes) {
 $routes->group('profil', static function ($routes) {
     $routes->get('', 'Profile::index');
 });
+
+// Infomrasi Kegiatan
+$routes->group('informasi', static function ($routes) {
+    $routes->get('seminarwebinar', 'Seminar::index');
+    $routes->get('seminarwebinar/(:any)', 'Seminar::article/$1');
+});
