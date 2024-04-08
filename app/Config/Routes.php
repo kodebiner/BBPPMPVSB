@@ -73,7 +73,7 @@ $routes->group('informasi', static function ($routes) {
 
 // Artista
 $routes->group('artista', static function ($routes) {
-    $routes->get('', 'Artista::index');
-    $routes->get('artikel', 'Artista::index');
+    // $routes->get('', 'Artista::index');
+    $routes->get('news', 'Artista::index');
     $routes->get('(:any)', 'Artista::article/$1');
 });
