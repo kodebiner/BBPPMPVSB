@@ -32,12 +32,12 @@ $routes->group('jadwal-kegiatan', static function ($routes) {
 });
 
 // Diklat
-$routes->group('diklat', static function ($routes) {
-    $routes->get('artikel', 'Diklat::indexarticle');
-    $routes->get('pendaftaran', 'Diklat::indexregistration');
-    $routes->get('artikel/(:any)', 'Diklat::diklatarticle/$1');
-    $routes->get('pendaftaran/(:any)', 'Diklat::diklatregistration/$1');
-});
+// $routes->group('diklat', static function ($routes) {
+//     $routes->get('artikel', 'Diklat::indexarticle');
+//     $routes->get('pendaftaran', 'Diklat::indexregistration');
+//     $routes->get('artikel/(:any)', 'Diklat::diklatarticle/$1');
+//     $routes->get('pendaftaran/(:any)', 'Diklat::diklatregistration/$1');
+// });
 
 // Seminar
 $routes->group('seminar', static function ($routes) {
@@ -66,4 +66,12 @@ $routes->group('profil', static function ($routes) {
 $routes->group('informasi', static function ($routes) {
     $routes->get('seminarwebinar', 'Seminar::index');
     $routes->get('seminarwebinar/(:any)', 'Seminar::article/$1');
+    $routes->get('diklat', 'Diklat::indexregistration');
+    $routes->get('diklat/(:any)', 'Diklat::diklatregistration/$1');
+});
+
+// Artista
+$routes->group('artista', static function ($routes) {
+    $routes->get('', 'Artista::index');
+    $routes->get('(:any)', 'Artista::article/$1');
 });
