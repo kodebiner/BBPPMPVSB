@@ -5,13 +5,14 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
 // Shield
 service('auth')->routes($routes, ['except' => ['login', 'register']]);
-$routes->get('login', '\App\Controllers\Auth::loginView');
-$routes->get('register', '\App\Controllers\Auth::registerView');
-// $routes->get('register', '\App\Controllers\Auth\RegisterController::registerView');
-// $routes->get('login', '\App\Controllers\Auth\LoginController::loginView');
-// $routes->get('register', '\App\Controllers\Auth\RegisterController::registerView');
+$routes->get('login', '\App\Controllers\Login::loginView');
+$routes->get('register', '\App\Controllers\Register::registerView');
+$routes->post('register', '\App\Controllers\Register::registerAction');
+$routes->post('login', '\App\Controllers\Login::loginAction');
+
 
 //  Home
 $routes->group('/', static function ($routes) {
@@ -73,5 +74,6 @@ $routes->group('informasi', static function ($routes) {
 // Artista
 $routes->group('artista', static function ($routes) {
     $routes->get('', 'Artista::index');
+    $routes->get('artikel', 'Artista::index');
     $routes->get('(:any)', 'Artista::article/$1');
 });
