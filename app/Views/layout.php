@@ -130,14 +130,14 @@
                                     <li>
                                         <a href="webinar">RBI</a>
                                     </li>
-                                    <li class="uk-parent<?= ($uri->getSegment(1) === 'artista') ? 'uk-active' : '' ?>">
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='artista') && ($uri->getSegment(2)==='')?'uk-active':'' ?>">
                                         <a href="">Publikasi</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                                 <li>
                                                     <a href="https://sendikraf.kemdikbud.go.id" target="_blank">Jurnal Sendikraf</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'artista') ? 'uk-active' : '' ?>">
+                                                <li class="<?= ($uri->getSegment(1)==='artista') && ($uri->getSegment(2)==='')?'uk-active':'' ?>">
                                                     <a href="artista">Majalah Artista</a>
                                                 </li>
                                             </ul>

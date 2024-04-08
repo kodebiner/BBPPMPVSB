@@ -47,26 +47,20 @@ class Artista extends BaseController
     public function article($alias)
     {
         // Calling Models
-        $CategoriesModel        = new CategoriesModel();
-        $ContentModel           = new ContentModel();
-        $UserModel              = new UserModel();
+        $ArtistaModel           = new ArtistaModel();
 
         // Populating Data
-        $article                = $ContentModel->where('alias', $alias)->first();
-        $category               = $CategoriesModel->where('id', $article['catid'])->first();
-        $user                   = $UserModel->where('id', $article['created_by'])->first();
+        $article                = $ArtistaModel->where('alias', $alias)->first();
 
         // Parsing Data To View
         $data                   = $this->data;
         $data['title']          = $article['title'];
         $data['description']    = $article['alias'];
         $data['article']        = $article;
-        $data['category']       = $category;
-        $data['caturi']         = 'berita';
-        $data['cattitle']       = 'Berita';
-        $data['user']           = $user;
+        $data['caturi']         = 'artista';
+        $data['cattitle']       = 'Artista';
 
         // Return Data To View
-        return view('article', $data);
+        return view('fileartista', $data);
     }
 }

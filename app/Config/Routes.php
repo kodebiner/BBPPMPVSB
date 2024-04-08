@@ -63,17 +63,17 @@ $routes->group('profil', static function ($routes) {
     $routes->get('', 'Profile::index');
 });
 
+// Artista
+$routes->group('artista', static function ($routes) {
+    $routes->get('', 'Artista::index');
+    // $routes->get('news', 'Artista::index');
+    $routes->get('(:any)', 'Artista::article/$1');
+});
+
 // Infomrasi Kegiatan
 $routes->group('informasi', static function ($routes) {
     $routes->get('seminarwebinar', 'Seminar::index');
     $routes->get('seminarwebinar/(:any)', 'Seminar::article/$1');
     $routes->get('diklat', 'Diklat::indexregistration');
     $routes->get('diklat/(:any)', 'Diklat::diklatregistration/$1');
-});
-
-// Artista
-$routes->group('artista', static function ($routes) {
-    // $routes->get('', 'Artista::index');
-    $routes->get('news', 'Artista::index');
-    $routes->get('(:any)', 'Artista::article/$1');
 });
