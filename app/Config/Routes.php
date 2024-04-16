@@ -7,12 +7,22 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // Shield
-service('auth')->routes($routes, ['except' => ['login', 'register']]);
+service('auth')->routes($routes, ['except' => ['login', 'register',]]);
 $routes->get('login', '\App\Controllers\Login::loginView');
 $routes->get('register', '\App\Controllers\Register::registerView');
 $routes->post('register', '\App\Controllers\Register::registerAction');
 $routes->post('login', '\App\Controllers\Login::loginAction');
 
+//  Dashboard
+// $routes->get('dashboard', 'Auth::dashboard');
+// $routes->get('dashboard/artista', 'Auth::artista');
+
+$routes->group('dashboard', static function ($routes) {
+    service('auth')->routes($routes);
+    $routes->get('', 'Auth::dashboard', ['filter' => 'session']);
+    $routes->get('artista', 'Auth::artista', ['filter' => 'session']);
+    $routes->get('slideshow', 'Auth::slideshow',['filter' => 'session']);
+});
 
 //  Home
 $routes->group('/', static function ($routes) {
