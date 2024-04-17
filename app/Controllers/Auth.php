@@ -25,6 +25,7 @@ class Auth extends BaseController
         $user = $usersmodel->find($this->data['uid']);
 
         $data = $this->data;
+        $data['title'] = "Dashboard";
         $data['user'] = $user;
         return view('Views/dashboard' , $data);
     }
@@ -40,6 +41,7 @@ class Auth extends BaseController
         $artista = $ArtistaModel->findAll();
 
         $data               = $this->data;
+        $data['title']      = "Dashboard Majalah Artista";
         $data['user']       = $user;
         $data['artista']    = $artista;
         return view('Views/admin/artista',$data);
@@ -56,9 +58,11 @@ class Auth extends BaseController
         $artista = $ArtistaModel->findAll();
 
         $data               = $this->data;
+        $data['title']      = "Dashboard Kategori";
         $data['user']       = $user;
         $data['artista']    = $artista;
-        return view('Views/admin/artista',$data);
+
+        return view('Views/admin/ketegori',$data);
     }
 
     public function galeri()
@@ -72,9 +76,11 @@ class Auth extends BaseController
         $artista = $ArtistaModel->findAll();
 
         $data               = $this->data;
+        $data['title']     = "Dashboard Galeri";
         $data['user']       = $user;
         $data['artista']    = $artista;
-        return view('Views/admin/artista',$data);
+
+        return view('Views/admin/galeri',$data);
     }
 
     public function slideshow()
@@ -88,9 +94,46 @@ class Auth extends BaseController
         $artista = $ArtistaModel->findAll();
 
         $data               = $this->data;
+        $data['title']     = "Dashboard Slideshow";
         $data['user']       = $user;
         $data['artista']    = $artista;
-        return view('Views/admin/artista',$data);
+
+        return view('Views/admin/slideshow',$data);
+    }
+
+    public function addartista()
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $ArtistaModel   = new ArtistaModel();
+
+        // Get Data
+        $user = $usersmodel->find($this->data['uid']);
+
+        $data               = $this->data;
+        $data['title']      = "Dashboard Tambah Artista";
+        $data['user']       = $user;
+        // $data['artista']    = $artista;
+
+        return view('Views/admin/addartista',$data);
+    }
+
+    public function editartista($id)
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $ArtistaModel   = new ArtistaModel();
+
+        // Get Data
+        $user = $usersmodel->find($this->data['uid']);
+        $artista = $ArtistaModel->find($id);
+
+        $data               = $this->data;
+        $data['title']      = "Dashboard Ubah Artista";
+        $data['user']       = $user;
+        $data['artista']    = $artista;
+
+        return view('Views/admin/editartista',$data);
     }
 
 }

@@ -21,6 +21,8 @@ $routes->group('dashboard', static function ($routes) {
     service('auth')->routes($routes);
     $routes->get('', 'Auth::dashboard', ['filter' => 'session']);
     $routes->get('artista', 'Auth::artista', ['filter' => 'session']);
+    $routes->get('addartista', 'Auth::addartista', ['filter' => 'session']);
+    $routes->get('editartista/(:num)', 'Auth::editartista/$1', ['filter' => 'session']);
     $routes->get('slideshow', 'Auth::slideshow',['filter' => 'session']);
 });
 

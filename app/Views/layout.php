@@ -169,9 +169,9 @@
                                             </ul>
                                         </div>
                                     </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?><?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
+                                    <!-- <li class="uk-parent <?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?><?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
                                         <a href="login">Login</a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                             <div class="uk-navbar-right">
@@ -368,9 +368,6 @@
                                                     <a href="galeri/video">Galeri Video</a>
                                                 </li>
                                             </ul>
-                                        </li>
-                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === '') ? 'uk-active' : '' ?>">
-                                            <a href="login">Login</a>
                                         </li>
                                     </ul>
                                 </div>
