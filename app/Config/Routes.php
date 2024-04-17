@@ -82,6 +82,11 @@ $routes->group('artista', static function ($routes) {
     $routes->get('(:any)', 'Artista::article/$1');
 });
 
+// Pengaduan
+$routes->group('pengaduan', static function ($routes) {
+    $routes->get('standarpelayanan', 'Pengaduan::standarpelayanan');
+});
+
 // Infomrasi Kegiatan
 $routes->group('informasi', static function ($routes) {
     $routes->get('seminarwebinar', 'Seminar::index');
