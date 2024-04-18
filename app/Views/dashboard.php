@@ -24,53 +24,58 @@
    left: 0;
    bottom: 0;
    width: 100%;
-   background-color:rgba(60, 105, 151, .8);
+   background-color: rgb(60, 105, 151);
    color: white;
    text-align: center;
 }
 </style>
 <body>
-    <nav class="uk-navbar-container uk-light" style="background-color: rgba(60, 105, 151, .8);">
-        <!-- <div class="uk-container uk-margin-medium-left"> -->
-        <div class="uk-container uk-width-1-1">
-            <div uk-navbar>
-            
-                <div class="uk-navbar-left">
-                    <ul class="uk-navbar-nav">
-                        <li class="uk-active"><button class="uk-button uk-button-default uk-margin-top-small" uk-icon="icon:  menu" type="button" uk-toggle="target: #offcanvas-overlay"></button></li>
-                    </ul>
-                </div>
+    <div uk-sticky="start: 150; animation: uk-animation-slide-top; sel-target: #navbar; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent">
+        <nav id="navbar" class="uk-navbar-container uk-light" style="background-color: rgb(60, 105, 151)">
+            <!-- <div class="uk-container uk-margin-medium-left"> -->
+            <div class="uk-container uk-width-1-1">
+                <div uk-navbar>
+                
+                    <div class="uk-navbar-left">
+                        <ul class="uk-navbar-nav">
+                            <li class="uk-active"><button class="uk-button uk-button-default uk-margin-top-small" uk-icon="icon:  menu" type="button" uk-toggle="target: #offcanvas-overlay"></button></li>
+                            <!-- <li class="uk-active"><a class="uk-navbar-toggle uk-navbar-toggle-animate" uk-toggle="target: #offcanvas-overlay" uk-navbar-toggle-icon></a></li> -->
+                            <!-- <a class="uk-navbar-toggle uk-navbar-toggle-animate" uk-navbar-toggle-icon uk-toggle="target: #offcanvas-overlay"></a> -->
+                        </ul>
+                    </div>
 
-                <div class="uk-navbar-right">
-                    <ul class="uk-navbar-nav">
-                        <li>
-                            <a href="#"><span class="uk-margin-small-right" uk-icon="user"></span><?=$user['username']?></a>
-                            <div class="uk-navbar-dropdown">
-                                <ul class="uk-nav uk-navbar-dropdown-nav">
-                                    <li><a href="#">Pengaturan Profil</a></li>
-                                    <li><a href="logout">Logout</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav">
+                            <li>
+                                <a href="#"><span class="uk-margin-small-right" uk-icon="user"></span><?=$user['username']?></a>
+                                <div class="uk-navbar-dropdown">
+                                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                                        <li><a href="#">Pengaturan Profil</a></li>
+                                        <li><a href="logout">Logout</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </div>
 
     <div class="uk-section uk-preserve-color uk-margin-large-left">
         <?= $this->renderSection('content') ?>
     </div>
 
-    <div id="offcanvas-overlay" uk-offcanvas="mode: push">
-    <!-- <div id="offcanvas-overlay" uk-offcanvas="overlay: true"> -->
-        <div class="uk-offcanvas-bar" style="background-color: #3c6997">
+    <!-- <div id="offcanvas-overlay" uk-offcanvas="mode: push"> -->
+    <div id="offcanvas-overlay" uk-offcanvas="overlay: true">
+        <div class="uk-offcanvas-bar" style="background-color: #6489ae">
             <button class="uk-offcanvas-close" type="button" uk-close></button>
             <h3 class="uk-text-uppercase"><span style="padding-right:10px; padding-top: 3px; display:inline-block;"><img src="/favicon/favicon-32x32.png"></img></span>bbppmpvsb</h3>
             <hr class="uk-divider-icon">
             <ul class="uk-iconnav uk-iconnav-vertical uk-nav-default">
                 <li class="<?= (($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === '')) ? 'uk-active' : '' ?>"><a href="/dashboard"><span class="uk-margin-right" uk-icon="home"></span>Beranda</a></li>
+                <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'berita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addberita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editberita') ? 'uk-active' : '' ?>"><a href="dashboard/berita"><span class="uk-margin-right" uk-icon="copy"></span>Berita</a></li>
                 <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'artista') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addartista') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editartista') ? 'uk-active' : '' ?>"><a href="dashboard/artista"><span class="uk-margin-right" uk-icon="file-text"></span>Artista</a></li>
                 <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'kategori') ? 'uk-active' : '' ?>"><a href="dashboard/kategori"><span class="uk-margin-right" uk-icon="list"></span>Kategori</a></li>
                 <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'galeri') ? 'uk-active' : '' ?>"><a href="dashboard/galeri"><span class="uk-margin-right" uk-icon="image"></span>Galeri</a></li>

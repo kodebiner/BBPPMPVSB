@@ -13,18 +13,38 @@ $routes->get('register', '\App\Controllers\Register::registerView');
 $routes->post('register', '\App\Controllers\Register::registerAction');
 $routes->post('login', '\App\Controllers\Login::loginAction');
 
-//  Dashboard
-// $routes->get('dashboard', 'Auth::dashboard');
-// $routes->get('dashboard/artista', 'Auth::artista');
-
+// Dasboard
 $routes->group('dashboard', static function ($routes) {
     service('auth')->routes($routes);
     $routes->get('', 'Auth::dashboard', ['filter' => 'session']);
+    $routes->get('berita', 'Auth::berita', ['filter' => 'session']);
     $routes->get('artista', 'Auth::artista', ['filter' => 'session']);
+    $routes->get('addberita', 'Auth::addberita', ['filter' => 'session']);
     $routes->get('addartista', 'Auth::addartista', ['filter' => 'session']);
     $routes->get('editartista/(:num)', 'Auth::editartista/$1', ['filter' => 'session']);
     $routes->get('slideshow', 'Auth::slideshow',['filter' => 'session']);
 });
+
+// Uploads
+$routes->group('upload', static function ($routes){
+    service('auth')->routes($routes);
+    $routes->post('foto', 'Upload::foto', ['filter => session']);
+    $routes->post('pdf', 'Upload::pdf', ['filter => session']);
+});
+
+// Add
+$routes->group('add', static function ($routes){
+    service('auth')->routes($routes);
+    $routes->post('artista', 'Upload::addartista', ['filter => session']);
+    $routes->post('berita', 'Upload::addberita', ['filter => session']);
+});
+
+// Save
+$routes->group('save', static function ($routes){
+    service('auth')->routes($routes);
+    $routes->post('artista/(:num)', 'Upload::artista/$1', ['filter => session']);
+});
+
 
 //  Home
 $routes->group('/', static function ($routes) {
