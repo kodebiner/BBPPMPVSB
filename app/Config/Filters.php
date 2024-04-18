@@ -48,11 +48,7 @@ class Filters extends BaseConfig
             // 'csrf',
             // 'invalidchars',
             // 'session' => ['except' => ['login*', 'register', 'auth/a/*', 'logout']],
-            // 'session' => ['except' => ['dashboard/login']],
-            // 'session' => ['except' => ['dashboard/login*', 'dashboard/register', 'dashboard/auth/a/*', 'logout']],
             'force-reset' => ['except' => ['login*', 'register', 'auth/a/*', 'change-password', 'logout']],
-            // 'session' => ['except' => ['dashbooard/login*', 'dashbooard/register', 'dashbooard/auth/a/*', 'dashbooard/logout']],
-            // 'session' => ['except' => ['dashboard/login',]],
             
         ],
         'after' => [
