@@ -73,26 +73,26 @@
                                     <li class="<?= ($uri->getSegment(1) === 'berita') ? 'uk-active':''?> ">
                                         <a href="berita">Berita</a>
                                     </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='masyarakat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='masyarakat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
                                         <a href="">Layanan</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                                 <li>
                                                     <a href="https://www.lapor.go.id/">Permohonan Informasi</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
-                                                    <a href="pengaduan/standarpelayanan">Standar Pelayanan</a>
+                                                <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
+                                                    <a href="layanan/standarpelayanan">Standar Pelayanan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirpengaduan')?'uk-active':'' ?>">
-                                                    <a href="pengaduan/formulirpengaduan">Maklumat Layanan</a>
+                                                <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirlayanan')?'uk-active':'' ?>">
+                                                    <a href="layanan/formulirlayanan">Maklumat Layanan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirpengaduan')?'uk-active':'' ?>">
-                                                    <a href="pengaduan/formulirpengaduan">Hasil Survey</a>
+                                                <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirlayanan')?'uk-active':'' ?>">
+                                                    <a href="layanan/formulirlayanan">Hasil Survey</a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='masyarakat')?'uk-active':'' ?>">
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirpengaduan')?'uk-active':'' ?>">
                                         <a href="">Pengaduan</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
@@ -285,20 +285,20 @@
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'berita') ? 'uk-active' : '' ?>">
                                             <a href="berita">Berita</a>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2 )=== 'formulirpengaduan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'formulirlayanan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
                                             <a href="">Layanan <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
                                                 <li>
                                                     <a href="https://www.lapor.go.id/">Permohonan Informasi</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
-                                                    <a href="pengaduan/standarpelayanan">Standar Pelayanan</a>
+                                                <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
+                                                    <a href="layanan/standarpelayanan">Standar Pelayanan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2 )=== 'formulirpengaduan')?'uk-active':'' ?>">
-                                                    <a href="pengaduan/formulirpengaduan">Maklumat Layanan</a>
+                                                <li class="<?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'formulirlayanan')?'uk-active':'' ?>">
+                                                    <a href="layanan/formulirlayanan">Maklumat Layanan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2 )=== 'formulirpengaduan')?'uk-active':'' ?>">
-                                                    <a href="pengaduan/formulirpengaduan">Hasil Survey</a>
+                                                <li class="<?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'formulirlayanan')?'uk-active':'' ?>">
+                                                    <a href="layanan/formulirlayanan">Hasil Survey</a>
                                                 </li>
                                             </ul>
                                         </li>

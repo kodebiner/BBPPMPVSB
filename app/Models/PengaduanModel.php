@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class PengaduanModel extends Model
 {
     protected $allowedFields = [
-        'email', 'phone', 'note', 'created_at',
+        'name', 'email', 'phone', 'note', 'created_at',
     ];
 
     protected $table      = 'pengaduan';

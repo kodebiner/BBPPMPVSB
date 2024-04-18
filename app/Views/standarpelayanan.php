@@ -28,6 +28,10 @@
             <?php } ?>
         </div>
 
+        <!-- Divider -->
+        <hr class="uk-margin">
+        <!-- Divider End -->
+
         <!-- Tab Section -->
         <ul class="uk-flex-middle uk-text-center uk-child-width-1-3 uk-margin" uk-tab="connect: .switcher-standarpelayanan" uk-grid>
             <?php if ($ismobile === false) { ?>
@@ -53,10 +57,6 @@
             <?php } ?>
         </ul>
         <!-- Tab Section End -->
-
-        <!-- Divider -->
-        <hr class="uk-margin">
-        <!-- Divider End -->
 
         <!-- Switcher Section -->
         <ul class="uk-switcher switcher-standarpelayanan uk-margin-medium">

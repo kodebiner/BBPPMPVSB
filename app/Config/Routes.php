@@ -82,9 +82,15 @@ $routes->group('artista', static function ($routes) {
     $routes->get('(:any)', 'Artista::article/$1');
 });
 
+// Layanan
+$routes->group('layanan', static function ($routes) {
+    $routes->get('standarpelayanan', 'Pengaduan::standarpelayanan');
+});
+
 // Pengaduan
 $routes->group('pengaduan', static function ($routes) {
-    $routes->get('standarpelayanan', 'Pengaduan::standarpelayanan');
+    $routes->get('formulirpengaduan', 'Pengaduan::indexpengaduan');
+    $routes->post('pengaduanmasyarakat', 'Pengaduan::formaduan');
 });
 
 // Infomrasi Kegiatan
