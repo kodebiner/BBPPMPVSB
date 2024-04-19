@@ -73,12 +73,12 @@
                                     <li class="<?= ($uri->getSegment(1) === 'berita') ? 'uk-active':''?> ">
                                         <a href="berita">Berita</a>
                                     </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='masyarakat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirpermohonan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
                                         <a href="">Layanan</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
-                                                <li>
-                                                    <a href="https://www.lapor.go.id/">Permohonan Informasi</a>
+                                                <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirpermohonan')?'uk-active':'' ?>">
+                                                    <a href="layanan/formulirpermohonan">Permohonan Informasi</a>
                                                 </li>
                                                 <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
                                                     <a href="layanan/standarpelayanan">Standar Pelayanan</a>
@@ -285,11 +285,11 @@
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'berita') ? 'uk-active' : '' ?>">
                                             <a href="berita">Berita</a>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'formulirlayanan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'formulirpermohonan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
                                             <a href="">Layanan <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
-                                                <li>
-                                                    <a href="https://www.lapor.go.id/">Permohonan Informasi</a>
+                                                <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirpermohonan')?'uk-active':'' ?>">
+                                                    <a href="layanan/formulirpermohonan">Permohonan Informasi</a>
                                                 </li>
                                                 <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
                                                     <a href="layanan/standarpelayanan">Standar Pelayanan</a>

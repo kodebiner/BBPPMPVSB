@@ -50,6 +50,7 @@ $routes->group('save', static function ($routes){
 $routes->group('/', static function ($routes) {
     $routes->get('', 'Home::index');
     $routes->get('migration', 'Home::migration');
+    $routes->get('movedata', 'Home::movedata');
 });
 
 // News
@@ -65,12 +66,12 @@ $routes->group('jadwal-kegiatan', static function ($routes) {
 });
 
 // Diklat
-// $routes->group('diklat', static function ($routes) {
-//     $routes->get('artikel', 'Diklat::indexarticle');
-//     $routes->get('pendaftaran', 'Diklat::indexregistration');
-//     $routes->get('artikel/(:any)', 'Diklat::diklatarticle/$1');
-//     $routes->get('pendaftaran/(:any)', 'Diklat::diklatregistration/$1');
-// });
+$routes->group('diklat', static function ($routes) {
+    // $routes->get('artikel', 'Diklat::indexarticle');
+    $routes->get('pendaftaran', 'Diklat::indexregistration');
+    // $routes->get('artikel/(:any)', 'Diklat::diklatarticle/$1');
+    $routes->get('pendaftaran/(:any)', 'Diklat::diklatregistration/$1');
+});
 
 // Seminar
 $routes->group('seminar', static function ($routes) {
@@ -104,7 +105,9 @@ $routes->group('artista', static function ($routes) {
 
 // Layanan
 $routes->group('layanan', static function ($routes) {
-    $routes->get('standarpelayanan', 'Pengaduan::standarpelayanan');
+    $routes->get('standarpelayanan', 'Layanan::standarpelayanan');
+    $routes->get('formulirpermohonan', 'Layanan::indexpermohonan');
+    $routes->post('permohonaninformasi', 'Layanan::formpermohonan');
 });
 
 // Pengaduan
