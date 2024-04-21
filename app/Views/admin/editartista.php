@@ -19,8 +19,7 @@
                         </div>
                     </div>
                 </div>
-                <progress id="js-progressbarpdf" class="uk-progress" value="0" max="100" hidden></progress>
-
+                
                 <h5 class="uk-margin-small-top">Upload File</h5>
                 <div class="js-upload uk-placeholder uk-text-center" style="height: 20px;">
                     <span uk-icon="icon: cloud-upload"></span>
@@ -31,6 +30,7 @@
                         <span class="uk-link">Pilih satu</span>
                     </div>
                 </div>
+                <progress id="js-progressbarpdf" class="uk-progress" value="0" max="100" hidden></progress>
                 <!-- End Of Upload File -->
 
                 <!-- Upload Foto -->
@@ -65,7 +65,6 @@
             <div class="uk-card-footer">
                 <p uk-margin class="uk-text-right">
                     <button class="uk-button uk-light" style="background-color: rgba(60, 105, 151, .8); color:white;" type="submit">Simpan</button>
-                    <button class="uk-button uk-button-danger">Hapus</button>
                 </p>
             </div>
         </form>
@@ -100,6 +99,8 @@
             },
             error: function () {
                 console.log('error', arguments);
+                var error = arguments[0].xhr.response.message.uploads;
+                alert(error);
             },
             complete: function () {
                 console.log('complete', arguments);
@@ -187,12 +188,15 @@
             },
             beforeAll: function () {
                 console.log('beforeAll', arguments);
+
             },
             load: function () {
                 console.log('load', arguments);
             },
             error: function () {
                 console.log('error', arguments);
+                var error = arguments[0].xhr.response.message.upload;
+                alert(error);
             },
             complete: function () {
                 console.log('complete', arguments);

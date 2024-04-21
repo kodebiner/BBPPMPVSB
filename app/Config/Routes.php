@@ -17,11 +17,24 @@ $routes->post('login', '\App\Controllers\Login::loginAction');
 $routes->group('dashboard', static function ($routes) {
     service('auth')->routes($routes);
     $routes->get('', 'Auth::dashboard', ['filter' => 'session']);
+
+    // Berita
     $routes->get('berita', 'Auth::berita', ['filter' => 'session']);
-    $routes->get('artista', 'Auth::artista', ['filter' => 'session']);
     $routes->get('addberita', 'Auth::addberita', ['filter' => 'session']);
+    $routes->get('editberita/(:num)', 'Auth::editberita/$1', ['filter' => 'session']);
+
+    // Artista
+    $routes->get('artista', 'Auth::artista', ['filter' => 'session']);
     $routes->get('addartista', 'Auth::addartista', ['filter' => 'session']);
     $routes->get('editartista/(:num)', 'Auth::editartista/$1', ['filter' => 'session']);
+    $routes->post('removeartista/(:num)', 'Auth::removeartista/$1', ['filter' => 'session']);
+
+    // Kategori
+    $routes->get('kategori', 'Auth::kategori', ['filter' => 'session']);
+    $routes->get('addkategori', 'Auth::addkategori', ['filter' => 'session']);
+    $routes->get('editkategori/(:num)', 'Auth::editkategori/$1', ['filter' => 'session']);
+
+    // Slideshow
     $routes->get('slideshow', 'Auth::slideshow',['filter' => 'session']);
 });
 
@@ -29,6 +42,7 @@ $routes->group('dashboard', static function ($routes) {
 $routes->group('upload', static function ($routes){
     service('auth')->routes($routes);
     $routes->post('foto', 'Upload::foto', ['filter => session']);
+    $routes->post('fotoberita', 'Upload::fotoberita', ['filter => session']);
     $routes->post('pdf', 'Upload::pdf', ['filter => session']);
 });
 

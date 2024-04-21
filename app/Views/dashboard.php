@@ -20,16 +20,17 @@
 </head>
 <style>
 .footer {
-   position: fixed;
+   position:fixed;
    left: 0;
    bottom: 0;
    width: 100%;
    background-color: rgb(60, 105, 151);
    color: white;
    text-align: center;
+   z-index: 2;
 }
 </style>
-<body>
+<body style="margin-bottom: 100px;">
     <div uk-sticky="start: 150; animation: uk-animation-slide-top; sel-target: #navbar; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent">
         <nav id="navbar" class="uk-navbar-container uk-light" style="background-color: rgb(60, 105, 151)">
             <!-- <div class="uk-container uk-margin-medium-left"> -->
@@ -76,6 +77,10 @@
             <ul class="uk-iconnav uk-iconnav-vertical uk-nav-default" uk-nav>
                 <li class="<?= (($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === '')) ? 'uk-active' : '' ?>"><a href="/dashboard"><span class="uk-margin-right" uk-icon="home"></span>Beranda</a></li>
                 <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'berita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addberita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editberita') ? 'uk-active' : '' ?>"><a href="dashboard/berita"><span class="uk-margin-right" uk-icon="file-text"></span>Berita</a></li>
+                <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'berita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addberita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editberita') ? 'uk-active' : '' ?>"><a href="dashboard/berita"><span class="uk-margin-right" uk-icon="comments"></span>Seminar</a></li>
+                <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'berita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addberita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editberita') ? 'uk-active' : '' ?>"><a href="dashboard/berita"><span class="uk-margin-right" uk-icon="world"></span>Web Binar</a></li>
+                <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'berita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addberita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editberita') ? 'uk-active' : '' ?>"><a href="dashboard/berita"><span class="uk-margin-right" uk-icon="move"></span>Jadwal Kegiatan</a></li>
+                <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'berita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addberita') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editberita') ? 'uk-active' : '' ?>"><a href="dashboard/berita"><span class="uk-margin-right" uk-icon="file-edit"></span>Diklat</a></li>
                 <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'artista') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addartista') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editartista') ? 'uk-active' : '' ?>"><a href="dashboard/artista"><span class="uk-margin-right" uk-icon="copy"></span>Artista</a></li>
                 <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'kategori') ? 'uk-active' : '' ?>"><a href="dashboard/kategori"><span class="uk-margin-right" uk-icon="thumbnails"></span>Kategori</a></li>
                 <li class="uk-nav-divider uk-margin-small uk-parent">
@@ -108,8 +113,8 @@
     }
     ?>
 
-    <div class="footer">
-        <p class="uk-margin-top">Copyright &copy; <?php auto_copyright("2023"); ?><br />PT.Kode Biner Teknologi Indonesia</p>
-    </div>
 </body>
+<div class="footer">
+    <p class="uk-margin-top">Copyright &copy; <?php auto_copyright("2023"); ?><br />PT.Kode Biner Teknologi Indonesia</p>
+</div>
 </html>

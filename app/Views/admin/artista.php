@@ -16,19 +16,46 @@
                         <tr>
                             <th>File</th>
                             <th>Foto</th>
-                            <th class="uk-text-center">Ubah</th>
+                            <th class="uk-text-center uk-width-medium">Ubah</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach($artista as $art){ ?>
-                            <tr>
+                            <tr id="artrow<?=$art['id']?>">
                                 <td><a id="filepdf" href="artista/artikel/<?=$art['file']?>" target="_blank"><span uk-icon="file-text"></span><?=$art['file']?></a></td>
                                 <td>
                                     <div uk-lightbox>
                                         <a href="artista/foto/<?=$art['photo']?>"><img width="50" height="50" src="artista/foto/<?=$art['photo']?>" alt="<?=$art['photo']?>"></a>
                                     </div>
                                 </td>
-                                <td class="uk-text-center"><a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editartista/<?=$art['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a></td>
+                                <td class="uk-text-center">
+                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editartista/<?=$art['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
+                                    <!-- <a style="background-color: red; color: white;" onclick="return confirm('<?= 'Anda yakin ingin menghapus data ini ?' ?>')" class="uk-button uk-botton-small uk-light" href="dashboard/editartista/<?=$art['id']?>" uk-toggle><span uk-icon="icon: trash; ratio:1"></span></a> -->
+                                    <a style="background-color: red; color: white;" onclick="removeArtista<?= $art['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
+                                    <script>
+                                        function removeArtista<?= $art['id']; ?>() {
+                                            let text = "Anda yakin ingin menghapus data Artista ini?";
+                                            if (confirm(text) == true) {
+                                                $.ajax({
+                                                    url: "dashboard/removeartista/<?= $art['id'] ?>",
+                                                    method: "POST",
+                                                    data: {
+                                                        artista: <?= $art['id'] ?>,
+                                                    },
+                                                    dataType: "json",
+                                                    error: function() {
+                                                        console.log('error', arguments);
+                                                    },
+                                                    success: function() {
+                                                        console.log('success', arguments);
+                                                        alert('data berhasil di hapus');
+                                                        $("#artrow<?=$art['id']?>").remove();
+                                                    },
+                                                })
+                                            }
+                                        }
+                                    </script>
+                                </td>
                             </tr>
                         <?php } ?>
                     </tbody>
