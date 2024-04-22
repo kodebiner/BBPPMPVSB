@@ -60,6 +60,12 @@
                         <?php } ?>
                     </tbody>
                 </table>
+
+                <!-- Pagination -->
+                <div class="uk-container uk-container-xlarge uk-margin-top">
+                    <?= $pager->links('news', 'uikit_full') ?>
+                </div>
+                <!-- Pagination End -->
             </div>
         </div>
     </div>

@@ -51,7 +51,7 @@ class News extends BaseController
         // Parsing Data To View
         $data                   = $this->data;
         $data['title']          = $article['title'];
-        $data['description']    = $article['alias'];
+        $data['description']    = $article['description'];
         $data['article']        = $article;
         $data['caturi']         = 'berita';
         $data['cattitle']       = 'Berita';

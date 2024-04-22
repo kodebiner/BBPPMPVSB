@@ -27,7 +27,7 @@
                                 <td><?=$slide['file']?></td>
                                 <td>
                                     <div uk-lightbox>
-                                        <a href="artista/foto/<?=$slide['file']?>"><img width="50" height="50" src="artista/foto/<?=$slide['file']?>" alt="<?=$slide['file']?>"></a>
+                                        <a href="img/slideshow/<?=$slide['file']?>"><img width="50" height="50" src="img/slideshow/<?=$slide['file']?>" alt="<?=$slide['file']?>"></a>
                                     </div>
                                 </td>
                                 <td class="uk-text-center">
@@ -71,6 +71,12 @@
                         <?php } ?>
                     </tbody>
                 </table>
+
+                <!-- Pagination -->
+                <div class="uk-container uk-container-xlarge uk-margin-top">
+                    <?= $pager->links('news', 'uikit_full') ?>
+                </div>
+                <!-- Pagination End -->
             </div>
         </div>
     </div>

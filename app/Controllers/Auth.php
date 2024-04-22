@@ -24,6 +24,7 @@ class Auth extends BaseController
     {
         return view('Views/register');
     }
+    
     public function dashboard()
     {
         // Calling Models
@@ -41,14 +42,13 @@ class Auth extends BaseController
     // Berita Views
     public function berita()
     {
-
         // Calling Models
         $usersmodel     = new UsersModel();
         $BeritaModel    = new BeritaModel();
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
-        $news = $BeritaModel->findAll();
+        $news = $BeritaModel->orderBy('updated_at', 'DESC')->paginate(20, 'news');
         $users = $usersmodel->findAll();
         array_multisort($news, SORT_DESC);
 
@@ -58,6 +58,8 @@ class Auth extends BaseController
         $data['user']       = $user;
         $data['berita']     = $news;
         $data['users']      = $users;
+        $data['count']      = count($news);
+        $data['pager']      = $BeritaModel->pager;
 
         return view('Views/admin/berita', $data);
     }
@@ -122,7 +124,7 @@ class Auth extends BaseController
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
-        $seminar = $SeminarModel->findAll();
+        $seminar = $SeminarModel->orderBy('updated_at', 'DESC')->paginate(20, 'news');
         $users = $usersmodel->findAll();
         array_multisort($seminar, SORT_DESC);
 
@@ -132,6 +134,8 @@ class Auth extends BaseController
         $data['user']       = $user;
         $data['berita']     = $seminar;
         $data['users']      = $users;
+        $data['count']      = count($seminar);
+        $data['pager']      = $SeminarModel->pager;
 
         return view('Views/admin/seminar', $data);
     }
@@ -194,7 +198,7 @@ class Auth extends BaseController
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
-        $diklat = $DiklatModel->findAll();
+        $diklat = $DiklatModel->orderBy('updated_at', 'DESC')->paginate(20, 'news');
         $users = $usersmodel->findAll();
         array_multisort($diklat, SORT_DESC);
 
@@ -204,6 +208,8 @@ class Auth extends BaseController
         $data['user']       = $user;
         $data['berita']     = $diklat;
         $data['users']      = $users;
+        $data['count']      = count($diklat);
+        $data['pager']      = $DiklatModel->pager;
 
         return view('Views/admin/diklat', $data);
     }
@@ -266,7 +272,7 @@ class Auth extends BaseController
 
         // Get Data
         $user   = $usersmodel->find($this->data['uid']);
-        $jadwal = $ScheduleModel->findAll();
+        $jadwal = $ScheduleModel->orderBy('updated_at', 'DESC')->paginate(20, 'news');
         $users  = $usersmodel->findAll();
         array_multisort($jadwal, SORT_DESC);
 
@@ -276,6 +282,8 @@ class Auth extends BaseController
         $data['user']       = $user;
         $data['berita']     = $jadwal;
         $data['users']      = $users;
+        $data['count']      = count($jadwal);
+        $data['pager']      = $ScheduleModel->pager;
 
         return view('Views/admin/jadwal', $data);
     }
@@ -338,7 +346,7 @@ class Auth extends BaseController
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
-        $artista = $ArtistaModel->findAll();
+        $artista = $ArtistaModel->orderBy('id', 'DESC')->paginate(20, 'news');
         array_multisort($artista, SORT_DESC);
 
         // Parsing Data
@@ -346,6 +354,8 @@ class Auth extends BaseController
         $data['title']      = "Dashboard Majalah Artista";
         $data['user']       = $user;
         $data['artista']    = $artista;
+        $data['count']      = count($artista);
+        $data['pager']      = $ArtistaModel->pager;
         return view('Views/admin/artista', $data);
     }
 
@@ -426,12 +436,14 @@ class Auth extends BaseController
 
         // Get Data
         $user   = $usersmodel->find($this->data['uid']);
-        $photos = $PhotoModel->findAll();
+        $photos = $PhotoModel->orderBy('updated_at', 'DESC')->paginate(20, 'news');
 
         $data               = $this->data;
         $data['title']     = "Dashboard Galeri Foto";
         $data['user']       = $user;
         $data['photos']     = $photos;
+        $data['count']      = count($photos);
+        $data['pager']      = $PhotoModel->pager;
 
         return view('Views/admin/foto', $data);
     }
@@ -493,13 +505,15 @@ class Auth extends BaseController
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
-        $slideshow = $SlideshowModel->findAll();
+        $slideshow = $SlideshowModel->orderBy('id', 'DESC')->paginate(20, 'news');
         array_multisort($slideshow,SORT_DESC);
 
         $data                   = $this->data;
         $data['title']          = "Dashboard Slideshow";
         $data['user']           = $user;
         $data['slideshow']      = $slideshow;
+        $data['count']          = count($slideshow);
+        $data['pager']          = $SlideshowModel->pager;
 
         return view('Views/admin/slideshow', $data);
     }

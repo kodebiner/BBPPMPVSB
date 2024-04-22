@@ -27,7 +27,7 @@
                                 <td><?=$foto['title']?></td>
                                 <td>
                                     <div uk-lightbox>
-                                        <a href="artista/foto/<?=$foto['images']?>"><img width="50" height="50" src="artista/foto/<?=$foto['images']?>" alt="<?=$foto['images']?>"></a>
+                                        <a href="<?=$foto['images']?>"><img width="50" height="50" src="<?=$foto['images']?>" alt="<?=$foto['images']?>"></a>
                                     </div>
                                 </td>
                                 <td class="uk-text-center">
@@ -61,6 +61,12 @@
                         <?php } ?>
                     </tbody>
                 </table>
+
+                <!-- Pagination -->
+                <div class="uk-container uk-container-xlarge uk-margin-top">
+                    <?= $pager->links('news', 'uikit_full') ?>
+                </div>
+                <!-- Pagination End -->
             </div>
         </div>
     </div>

@@ -112,7 +112,7 @@ class Diklat extends BaseController
         // Parsing Data To View
         $data                   = $this->data;
         $data['title']          = $article['title'];
-        $data['description']    = $article['alias'];
+        $data['description']    = $article['description'];
         $data['article']        = $article;
         $data['category']       = $category;
         $data['caturi']         = 'diklat/pendaftaran';
