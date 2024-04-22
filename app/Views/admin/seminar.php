@@ -15,37 +15,37 @@
                 <table class="uk-table uk-table-small uk-table-striped">
                     <thead>
                         <tr>
-                            <th>Penulis</th>
-                            <th>Judul</th>
-                            <th>Pendahulan</th>
+                            <!-- <th>Penulis</th> -->
+                            <th>Judul Seminar</th>
+                            <!-- <th>Pendahulan</th>
                             <th>Isi</th>
                             <th>Ringkasan</th>
-                            <th>Gambar</th>
-                            <th class="uk-text-center">Ubah</th>
+                            <th>Gambar</th> -->
+                            <th>Kelola Seminar</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($berita as $news) { ?>
                             <tr id="rowberita<?=$news['id']?>">
-                                <?php 
+                                <!-- </?php 
                                     $authors = "";
                                     foreach ($users as $author) {
                                         if($news['userid'] === $author['id']){
                                             $authors = $author['username'];
                                         }
                                     } 
-                                ?>
-                                <td><?=$authors?></td>
+                                ?> -->
+                                <!-- <td></?=$authors?></td>
+                                <td></?=$news['introtext']?></td>
+                                <td></?=$news['fulltext']?></td>
+                                <td></?=$news['description']?></td> -->
                                 <td><?=$news['title']?></td>
-                                <td><?=$news['introtext']?></td>
-                                <td><?=$news['fulltext']?></td>
-                                <td><?=$news['description']?></td>
-                                <td>
+                                <!-- <td>
                                     <div uk-lightbox>
-                                        <a href="artista/foto/<?=$news['images']?>"><img width="50" height="50" src="<?=$news['images']?>" alt="<?=$news['images']?>"></a>
+                                        <a href="artista/foto/</?=$news['images']?>"><img width="50" height="50" src="</?=$news['images']?>" alt="</?=$news['images']?>"></a>
                                     </div>
-                                </td>
-                                <td class="uk-text-center">
+                                </td> -->
+                                <td>
                                     <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editseminar/<?=$news['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
                                     <a style="background-color: red; color: white;" onclick="removeArtista<?= $news['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
                                     <script>

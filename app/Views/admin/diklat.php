@@ -15,21 +15,21 @@
                 <table class="uk-table uk-table-small uk-table-striped">
                     <thead>
                         <tr>
-                            <th>Judul</th>
-                            <th>Gambar</th>
-                            <th class="uk-text-center">Ubah</th>
+                            <th>Judul Diklat</th>
+                            <!-- <th>Gambar</th> -->
+                            <th>Kelola Diklat</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($berita as $news) { ?>
                             <tr id="rowberita<?=$news['id']?>">
                                 <td><?=$news['title']?></td>
-                                <td>
+                                <!-- <td>
                                     <div uk-lightbox>
-                                        <a href="<?=$news['images']?>"><img width="50" height="50" src="<?=$news['images']?>" alt="<?=$news['images']?>"></a>
+                                        <a href="</?=$news['images']?>"><img width="50" height="50" src="</?=$news['images']?>" alt="</?=$news['images']?>"></a>
                                     </div>
-                                </td>
-                                <td class="uk-text-center">
+                                </td> -->
+                                <td>
                                     <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editdiklat/<?=$news['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
                                     <a style="background-color: red; color: white;" onclick="removeArtista<?= $news['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
                                     <script>

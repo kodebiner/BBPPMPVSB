@@ -74,7 +74,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . '/artista/foto/', $truename . '.' . $ext);
+            $input->move(FCPATH . 'images', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -108,7 +108,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . '/artista/foto/', $truename . '.' . $ext);
+            $input->move(FCPATH . 'images/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -142,7 +142,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . '/artista/foto/', $truename . '.' . $ext);
+            $input->move(FCPATH . 'images/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -176,7 +176,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . '/artista/foto/', $truename . '.' . $ext);
+            $input->move(FCPATH . 'images/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -210,7 +210,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . '/artista/foto/', $truename . '.' . $ext);
+            $input->move(FCPATH . 'images/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -244,7 +244,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . '/artista/foto/', $truename . '.' . $ext);
+            $input->move(FCPATH . 'images/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
