@@ -20,16 +20,15 @@
 <!-- Article Section -->
 <section>
     <div class="uk-container uk-container-xlarge">
-        <div class="uk-grid-match uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1" uk-grid uk-height-match="target: > div > a > .uk-card">
+        <div class="uk-grid-match uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1" uk-grid uk-height-match="target: > div > a > .uk-card" uk-lightbox="animation: slide">
             <?php
             foreach ($newses as $key => $news) {
-                $images = json_decode($news['images']);
             ?>
                 <div>
-                    <a class="uk-link-reset" href="<?= $caturi ?>/<?= $news['alias'] ?>" target="_blank">
+                    <a class="uk-inline-clip uk-transition-toggle uk-link-toggle" href="<?= $news['images'] ?>" data-caption="<?= $news['title'] ?>">
                         <div class="uk-card uk-card-default">
                             <div class="uk-card-media-top">
-                                <img src="<?= $images->image_intro ?>" alt="<?= $news['title'] ?>">
+                                <img src="<?= $news['images'] ?>" alt="<?= $news['title'] ?>">
                             </div>
                             <div class="uk-card-body">
                                 <h5><?= $news['title'] ?></h5>

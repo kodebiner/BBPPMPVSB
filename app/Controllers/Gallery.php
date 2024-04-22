@@ -4,6 +4,8 @@ namespace App\Controllers;
 use App\Models\ContentModel;
 use App\Models\CategoriesModel;
 use App\Models\UserModel;
+use App\Models\PhotoModel;
+use App\Models\VideoModel;
 
 class Gallery extends BaseController
 {
@@ -15,7 +17,7 @@ class Gallery extends BaseController
         $pager      = \Config\Services::pager();
 
         // Calling Models
-        $ContentModel           = new ContentModel();
+        $PhotoModel           = new PhotoModel();
 
         // Search Engine
         // Populating Data
@@ -25,12 +27,12 @@ class Gallery extends BaseController
         //     $galleries     = $ContentModel->where('catid', '18')->orderBy('publish_up', 'DESC')->paginate(24, 'gallery');
         // }
 
-        $galleriesdata     = $ContentModel->where('catid', '18')->orderBy('publish_up', 'DESC')->find();
+        $galleriesdata     = $PhotoModel->orderBy('updated_at', 'DESC')->find();
         $galleries = [];
         foreach ($galleriesdata as $gallery) {
-            $images = json_decode($gallery['images']);
+            $images = $gallery['images'];
 
-            if (!empty($images->image_intro)) {
+            if (!empty($images)) {
                 $galleries[]     = $gallery;
             }
         }
@@ -62,7 +64,7 @@ class Gallery extends BaseController
         $pager      = \Config\Services::pager();
 
         // Calling Models
-        $ContentModel           = new ContentModel();
+        $VideoModel           = new VideoModel();
 
         // Search Engine
         // Populating Data
@@ -72,12 +74,12 @@ class Gallery extends BaseController
         //     $galleries     = $ContentModel->where('catid', '16')->orderBy('publish_up', 'DESC')->paginate(24, 'gallery');
         // }
 
-        $galleriesdata     = $ContentModel->where('catid', '16')->orderBy('publish_up', 'DESC')->find();
+        $galleriesdata     = $VideoModel->orderBy('updated_at', 'DESC')->find();
         $galleries = [];
         foreach ($galleriesdata as $gallery) {
-            $images = json_decode($gallery['images']);
+            $images = $gallery['images'];
 
-            if (!empty($images->image_intro)) {
+            if (!empty($images)) {
                 $galleries[]     = $gallery;
             }
         }
@@ -100,15 +102,35 @@ class Gallery extends BaseController
 
         // Parsing Data To View
         $data                   = $this->data;
-        $data['title']          = "Galeri VIdeo";
-        $data['description']    = "Galeri VIdeo terkait BBPPMPVSB";
+        $data['title']          = "Galeri Video";
+        $data['description']    = "Galeri Video terkait BBPPMPVSB";
         $data['galleries']      = $galleries;
         $data['caturi']         = 'galeri/video';
-        $data['cattitle']       = 'Galeri VIdeo';
+        $data['cattitle']       = 'Galeri Video';
         $data['count']          = count($galleries);
         $data['pager']          = $pager_links;
 
         // Return Data To View
-        return view('gallery', $data);
+        return view('video', $data);
+    }
+
+    public function playvideo($id)//: string
+    {
+        // Calling Models
+        $VideoModel             = new VideoModel();
+
+        // Populating Data
+        $galleriesdata          = $VideoModel->where('id', $id)->first();
+
+        // Parsing Data To View
+        $data                   = $this->data;
+        $data['title']          = $galleriesdata['title'];
+        $data['description']    = "Galeri Video terkait BBPPMPVSB";
+        $data['galleries']      = $galleriesdata;
+        $data['caturi']         = 'galeri/video';
+        $data['cattitle']       = 'Galeri Video';
+
+        // Return Data To View
+        return view('playvideo', $data);
     }
 }

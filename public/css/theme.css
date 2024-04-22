@@ -10138,7 +10138,7 @@ h6 {
 .h1,
 .uk-h1,
 h1 {
-    font-size: 39.9px;
+    font-size: 28x;
     line-height: 1.2;
     font-family: "Roboto", sans-serif;
     font-weight: 300
@@ -10147,7 +10147,7 @@ h1 {
 .h2,
 .uk-h2,
 h2 {
-    font-size: 36.1px;
+    font-size: 25px;
     line-height: 1.2;
     font-family: "Roboto", sans-serif;
     font-weight: 300
@@ -10156,7 +10156,7 @@ h2 {
 .h3,
 .uk-h3,
 h3 {
-    font-size: 32px;
+    font-size: 21px;
     line-height: 1.5;
     font-family: "Roboto", sans-serif;
     font-weight: 300
@@ -10165,7 +10165,7 @@ h3 {
 .h4,
 .uk-h4,
 h4 {
-    font-size: 26px;
+    font-size: 16px;
     line-height: 1.5;
     font-family: "Roboto", sans-serif;
     font-weight: 300
@@ -10174,7 +10174,7 @@ h4 {
 .h5,
 .uk-h5,
 h5 {
-    font-size: 20px;
+    font-size: 14px;
     line-height: 1.6;
     font-family: "Roboto", sans-serif;
     font-weight: 300
@@ -10183,7 +10183,7 @@ h5 {
 .h6,
 .uk-h6,
 h6 {
-    font-size: 16px;
+    font-size: 10px;
     line-height: 1.4;
     font-family: "Roboto", sans-serif;
     font-weight: 300
@@ -10199,6 +10199,26 @@ h6 {
     .uk-h2,
     h2 {
         font-size: 38px
+    }
+    .h3,
+    .uk-h3,
+    h3 {
+        font-size: 36px
+    }
+    .h4,
+    .uk-h4,
+    h4 {
+        font-size: 33px
+    }
+    .h5,
+    .uk-h5,
+    h5 {
+        font-size: 28px
+    }
+    .h6,
+    .uk-h6,
+    h6 {
+        font-size: 25px
     }
 }
 

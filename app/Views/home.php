@@ -44,11 +44,10 @@
                     <div class="uk-child-width-1-1" uk-grid>
                         <?php
                         foreach ($workshops as $key => $workshop) {
-                            $images = json_decode($workshop['images']);
                         ?>
                         <div>
                             <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/berita/<?= $workshop['alias'] ?>">
-                                <img src="<?= $images->image_intro ?>" width="610" height="420" alt="<?= $workshop['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
+                                <img src="<?= $workshop['images'] ?>" width="610" height="420" alt="<?= $workshop['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
                                 <div class="uk-position-bottom-left uk-tile-default">
                                     <div class="uk-overlay uk-padding-small uk-width-medium uk-margin-remove-first-child">
                                         <div class="uk-text-meta uk-margin-top">
@@ -68,13 +67,12 @@
                         <ul class="uk-slider-items uk-child-width-1-1 uk-grid">
                             <?php
                             foreach ($newses as $key => $news) {
-                                $images = json_decode($news['images']);
                             ?>
                             <li>
                                 <a href="/berita/<?= $news['alias'] ?>">
                                     <div class="uk-inline">
                                         <div>
-                                            <img src="<?= $images->image_intro ?>" width="1800" height="1200" alt="">
+                                            <img src="<?= $news['images'] ?>" width="1800" height="1200" alt="">
                                         </div>
                                         <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-light">
                                             <h3 class="uk-margin-remove uk-text-bold uk-margin-remove"><?= $news['title'] ?></h3>
@@ -98,11 +96,10 @@
             <div class="uk-grid-match uk-child-width-1-1" uk-grid>
                 <?php
                 foreach ($workshops as $key => $workshop) {
-                    $images = json_decode($workshop['images']);
                 ?>
                     <div>
                         <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/berita/<?= $workshop['alias'] ?>">
-                            <img src="<?= $images->image_intro ?>" width="610" height="420" alt="<?= $workshop['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
+                            <img src="<?= $workshop['images'] ?>" width="610" height="420" alt="<?= $workshop['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
                             <div class="uk-position-bottom-left uk-tile-default">
                                 <div class="uk-overlay uk-padding-small uk-width-medium uk-margin-remove-first-child">
                                     <div class="uk-text-meta uk-margin-top">
@@ -120,11 +117,10 @@
                 <ul class="uk-slider-items uk-child-width-1-1 uk-grid">
                     <?php
                     foreach ($newses as $key => $news) {
-                        $images = json_decode($news['images']);
                     ?>
                     <li>
                         <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/berita/<?= $news['alias'] ?>">
-                            <img src="<?= $images->image_intro ?>" width="1800" height="1200" alt="">
+                            <img src="<?= $news['images'] ?>" width="1800" height="1200" alt="">
                             <div class="uk-position-bottom-right uk-tile-default">
                                 <div class="uk-overlay uk-padding-small uk-width-medium uk-margin-remove-first-child">
                                     <div class="uk-text-meta uk-margin-top">
@@ -166,12 +162,11 @@
             <ul class="uk-slider-items uk-child-width-1-1 uk-child-width-1-4@m" uk-grid uk-lightbox="animation: scale">
                 <?php
                 foreach ($schedules as $key => $schedule) {
-                    $images = json_decode($schedule['images']);
                 ?>
                     <li>
                         <div class="uk-flex uk-flex-middle uk-height-medium">
-                            <a class="uk-inline" href="<?= $images->image_intro ?>" data-caption="<?= $schedule['title'] ?>">
-                                <img src="<?= $images->image_intro ?>" alt="<?= $schedule['title'] ?>">
+                            <a class="uk-inline" href="<?= $schedule['images'] ?>" data-caption="<?= $schedule['title'] ?>">
+                                <img src="<?= $schedule['images'] ?>" alt="<?= $schedule['title'] ?>">
                             </a>
                         </div>
                     </li>
@@ -199,7 +194,7 @@
         <div class="uk-container uk-container-expand uk-margin">
             <div class="uk-text-center uk-margin">
                 <h3 class="uk-text-primary">
-                    <a href="/diklat/artikel" style="text-transform: uppercase; text-decoration-line: underline;">Diklat</a>
+                    <a href="/informasi/diklat" style="text-transform: uppercase; text-decoration-line: underline;">Diklat</a>
                 </h3>
             </div>
             
@@ -207,11 +202,12 @@
                 <!-- Dekstop View -->
                 <div class="uk-grid-match" uk-grid>
                     <div class="uk-width-2-5">
-                        <?php $leadDiklatImage = json_decode($diklats[0]['images']); ?>
-                        <a class="uk-container uk-container-expand uk-background-cover uk-inline" data-src="<?= $leadDiklatImage->image_intro ?>" uk-img href="/diklat/artikel/<?= $diklats[0]['alias'] ?>">
-                            <div class="uk-position-bottom">
-                                <div class="uk-panel uk-overlay uk-overlay-primary uk-text-center">
-                                    <h4 class="uk-text-bold" style="color: #fff;"><?= $diklats[0]['title'] ?></h4>
+                        <a class="uk-inline-clip uk-transition-toggle uk-link-toggle" href="/informasi/diklat">
+                            <img src="<?= $diklats[0]['images'] ?>" alt="<?= $diklats[0]['title'] ?>">
+                            <div class="uk-overlay-primary uk-transition-fade uk-position-cover"></div>
+                            <div class="uk-position-center uk-transition-fade">
+                                <div class="uk-overlay">
+                                    <div class="uk-h4 uk-margin-top uk-margin-remove-bottom uk-text-center" style="color: #fff;"><?= $diklats[0]['title'] ?></div>
                                 </div>
                             </div>
                         </a>
@@ -222,19 +218,17 @@
                                 <?php
                                 foreach ($diklats as $key => $diklat) {
                                     if ($key > 0) {
-                                        $images = json_decode($diklat['images']);
                                 ?>
                                     <div>
                                         <div class="uk-panel">
                                             <div class="uk-height-medium">
-                                                <a href="/diklat/artikel/<?= $diklat['alias'] ?>">
+                                                <a href="/informasi/diklat">
                                                     <div class="uk-height-small@m uk-flex uk-flex-middle">
-                                                        <img src="<?= $images->image_intro ?>" alt="<?= $diklat['title'] ?>">
+                                                        <img src="<?= $diklat['images'] ?>" alt="<?= $diklat['title'] ?>">
                                                     </div>
                                                     <div class="uk-h5 uk-text-justify uk-margin-top uk-margin-remove-bottom uk-text-bold" style="color: #fff;"><?= $diklat['title'] ?></div>
                                                 </a>
                                             </div>
-                                            <h6 class="uk-margin-remove uk-text-justify uk-text-meta" style="color: #000;"><?= $diklat['introtext'] ?></h6>
                                         </div>
                                     </div>
                                 <?php
@@ -251,11 +245,10 @@
                 <div class="uk-grid-match uk-child-width-1-1" uk-grid>
                     <?php
                     foreach ($diklats as $key => $diklat) {
-                        $images = json_decode($diklat['images']);
                     ?>
                         <div>
-                            <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/diklat/<?= $diklat['alias'] ?>">
-                                <img src="<?= $images->image_intro ?>" width="610" height="420" alt="<?= $diklat['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
+                            <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/informasi/diklat">
+                                <img src="<?= $diklat['images'] ?>" width="610" height="420" alt="<?= $diklat['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
                                 <div class="uk-position-bottom uk-light uk-text-center">
                                     <div class="uk-overlay uk-overlay-primary uk-padding-small uk-margin-remove-first-child">
                                         <div class="uk-text-meta uk-margin-top">

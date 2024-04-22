@@ -27,11 +27,11 @@
                     <h3 class="uk-margin uk-text-center"><?= $article['title'] ?></h3>
                 </div>
                 <div class="uk-panel uk-text-lead uk-margin-large uk-text-center">
-                    <div><?= $article['metadesc'] ?></div>
+                    <div><?= $article['description'] ?></div>
                 </div>
                 <div class="uk-grid-match uk-grid-divider uk-child-width-1-3 uk-flex-center uk-text-meta uk-text-center uk-margin" uk-grid uk-height-match="target: > .match-content">
                     <div class="match-content uk-flex-middle">
-                        <div id="publish_up"></div>
+                        <div id="updated_at"></div>
                     </div>
                     <div class="match-content uk-flex-middle">
                         <div><?= $user['name'] ?></div>
@@ -42,8 +42,7 @@
 
         <div class="uk-margin">
             <div class="uk-margin-small">
-                <?php $images = json_decode($article['images']); ?>
-                <img src="<?= $images->image_intro ?>" class="uk-width-1-1">
+                <img src="<?= $article['images'] ?>" class="uk-width-1-1">
             </div>
         </div>
 
@@ -56,7 +55,7 @@
 
 <script>
     // Date In Indonesia
-    var publishupdate   = "<?= $article['publish_up'] ?>";
+    var publishupdate   = "<?= $article['updated_at'] ?>";
     var thatdate        = publishupdate.split( /[- :]/ );
     thatdate[1]--;
     var publishthatdate = new Date( ...thatdate );
@@ -90,6 +89,6 @@
     }
 
     var publishfulldate         = publishday + ", " + publishdate + " " + publishmonth + " " + publishyear;
-    document.getElementById("publish_up").innerHTML = publishfulldate;
+    document.getElementById("updated_at").innerHTML = publishfulldate;
 </script>
 <?= $this->endSection() ?>

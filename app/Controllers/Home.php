@@ -19,12 +19,16 @@ class Home extends BaseController
         // Calling Models
         $ContentModel   = new ContentModel();
         $SlideshowModel = new SlideshowModel();
+        $BeritaModel    = new BeritaModel();
+        $SeminarModel   = new SeminarModel();
+        $ScheduleModel  = new ScheduleModel();
+        $DiklatModel    = new DiklatModel();
         
         // Populating Data
-        $newses     = $ContentModel->where('catid', '12')->orderBy('publish_up', 'DESC')->limit(4)->find();
-        $workshops  = $ContentModel->where('catid', '20')->orWhere('catid', '13')->orderBy('publish_up', 'DESC')->limit(3)->find();
-        $schedules  = $ContentModel->where('catid', '17')->orderBy('publish_up', 'DESC')->limit(6)->find();
-        $diklats    = $ContentModel->where('catid', '14')->orderBy('publish_up', 'DESC')->limit(4)->find();
+        $newses     = $BeritaModel->orderBy('updated_at', 'DESC')->limit(4)->find();
+        $workshops  = $SeminarModel->orderBy('updated_at', 'DESC')->limit(3)->find();
+        $schedules  = $ScheduleModel->orderBy('updated_at', 'DESC')->limit(6)->find();
+        $diklats    = $DiklatModel->orderBy('updated_at', 'DESC')->limit(4)->find();
         $slideshows = $SlideshowModel->where('status', '1')->orderBy('id', 'DESC')->find();
 
         // Parsing Data To View

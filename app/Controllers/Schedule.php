@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\ContentModel;
-use App\Models\CategoriesModel;
 use App\Models\UserModel;
+use App\Models\ScheduleModel;
 
 class Schedule extends BaseController
 {
@@ -15,14 +14,14 @@ class Schedule extends BaseController
         $pager      = \Config\Services::pager();
 
         // Calling Models
-        $ContentModel           = new ContentModel();
+        $ScheduleModel           = new ScheduleModel();
 
         // Search Engine
         // Populating Data
         if (isset($input['search']) && !empty($input['search'])) {
-            $newses     = $ContentModel->where('catid', '17')->orderBy('publish_up', 'DESC')->like('title', $input['search'])->find();
+            $newses     = $ScheduleModel->orderBy('updated_at', 'DESC')->like('title', $input['search'])->find();
         } else {
-            $newses     = $ContentModel->where('catid', '17')->orderBy('publish_up', 'DESC')->paginate(12, 'news');
+            $newses     = $ScheduleModel->orderBy('updated_at', 'DESC')->paginate(12, 'news');
         }
 
 
@@ -34,7 +33,7 @@ class Schedule extends BaseController
         $data['caturi']         = 'jadwal-kegiatan';
         $data['cattitle']       = 'Jadwal Kegiatan';
         $data['count']          = count($newses);
-        $data['pager']          = $ContentModel->pager;
+        $data['pager']          = $ScheduleModel->pager;
 
         // Return Data To View
         return view('registration', $data);
@@ -43,13 +42,11 @@ class Schedule extends BaseController
     public function article($alias)
     {
         // Calling Models
-        $CategoriesModel        = new CategoriesModel();
-        $ContentModel           = new ContentModel();
         $UserModel              = new UserModel();
+        $ScheduleModel           = new ScheduleModel();
 
         // Populating Data
-        $article                = $ContentModel->where('alias', $alias)->first();
-        $category               = $CategoriesModel->where('id', $article['catid'])->first();
+        $article                = $ScheduleModel->where('alias', $alias)->first();
         $user                   = $UserModel->where('id', $article['created_by'])->first();
 
         // Parsing Data To View
@@ -57,7 +54,6 @@ class Schedule extends BaseController
         $data['title']          = $article['title'];
         $data['description']    = $article['alias'];
         $data['article']        = $article;
-        $data['category']       = $category;
         $data['caturi']         = 'jadwal-kegiatan';
         $data['cattitle']       = 'Jadwal Kegiatan';
         $data['user']           = $user;

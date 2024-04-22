@@ -26,8 +26,7 @@
             <div class="uk-grid-match uk-grid-divider uk-margin" uk-grid>
                 <div class="uk-width-3-4">
                     <a href="/<?= $caturi ?>/<?= $newses[0]['alias'] ?>">
-                        <?php $leadNewsImage = json_decode($newses[0]['images']); ?>
-                        <div class="uk-height-large uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="<?= $leadNewsImage->image_intro ?>" uk-img></div>
+                        <div class="uk-height-large uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="<?= $newses[0]['images'] ?>" uk-img></div>
                     </a>
                     <div class="uk-panel uk-margin">
                         <div class="uk-margin uk-child-width-1-2" uk-grid>
@@ -45,8 +44,7 @@
                 <?php if ($count > 1) { ?>
                 <div class="uk-width-1-4">
                     <a href="/<?= $caturi ?>/<?= $newses[1]['alias'] ?>">
-                        <?php $leadNewsImage = json_decode($newses[1]['images']); ?>
-                        <div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="<?= $leadNewsImage->image_intro ?>" uk-img></div>
+                        <div class="uk-height-medium uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="<?= $newses[1]['images'] ?>" uk-img></div>
                     </a>
                     <a class="uk-link-heading" href="/<?= $caturi ?>/<?= $newses[1]['alias'] ?>">
                         <div><?= $newses[1]['title'] ?></div>
@@ -67,12 +65,11 @@
                 <?php
                 foreach ($newses as $key => $news) {
                     if (($key > 1) && $key < 7) {
-                        $images = json_decode($news['images']);
                 ?>
                     <div>
                         <div class="uk-panel uk-margin">
                             <a href="/<?= $caturi ?>/<?= $news['alias'] ?>">
-                                <div class="uk-height-small uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="<?= $images->image_intro ?>" uk-img></div>
+                                <div class="uk-height-small uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="<?= $news['images'] ?>" uk-img></div>
                             </a>
                             <div class="section-2-title uk-margin-small">
                                 <h5 class="uk-margin-small-top uk-margin-remove-bottom">
@@ -102,8 +99,7 @@
                             <div class="uk-flex-middle" uk-grid>
                                 <div class="uk-flex-last uk-flex-center uk-width-1-2">
                                     <a href="/<?= $caturi ?>/<?= $newses[7]['alias'] ?>">
-                                        <?php $leadNewsImage = json_decode($newses[7]['images']); ?>
-                                        <div class="uk-height-large uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="<?= $leadNewsImage->image_intro ?>" uk-img></div>
+                                        <div class="uk-height-large uk-flex uk-flex-center uk-flex-middle uk-background-cover" data-src="<?= $newses[7]['images'] ?>" uk-img></div>
                                     </a>
                                 </div>
                                 <div class="uk-width-expand">
@@ -149,12 +145,11 @@
                 <?php
                 foreach ($newses as $key => $news) {
                     if ($key < 7) {
-                        $images = json_decode($news['images']);
                 ?>
                     <div>
                         <div class="uk-panel uk-margin">
                             <a href="/<?= $caturi ?>/<?= $news['alias'] ?>">
-                                <img src="<?= $images->image_intro ?>" class="uk-width-1-1 uk-flex uk-flex-center uk-flex-middle uk-background-cover">
+                                <img src="<?= $news['images'] ?>" class="uk-width-1-1 uk-flex uk-flex-center uk-flex-middle uk-background-cover">
                             </a>
                             <div class="uk-margin-small">
                                 <h5 class="uk-margin-small-top uk-margin-remove-bottom">
@@ -183,8 +178,7 @@
                             <div class="uk-flex-middle uk-child-width-1-1" uk-grid>
                                 <div class="uk-flex-center">
                                     <a href="/<?= $caturi ?>/<?= $newses[7]['alias'] ?>">
-                                        <?php $leadNewsImage = json_decode($newses[7]['images']); ?>
-                                        <img src="<?= $leadNewsImage->image_intro ?>" class="uk-width-1-1 uk-flex uk-flex-center uk-flex-middle uk-background-cover">
+                                        <img src="<?= $newses[7]['images'] ?>" class="uk-width-1-1 uk-flex uk-flex-center uk-flex-middle uk-background-cover">
                                     </a>
                                 </div>
                                 <div class="uk-width-expand">
