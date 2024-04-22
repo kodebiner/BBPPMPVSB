@@ -8,6 +8,9 @@ use App\Models\BeritaModel;
 use App\Models\SeminarModel;
 use App\Models\DiklatModel;
 use App\Models\ScheduleModel;
+use App\Models\PhotoModel;
+use App\Models\VideoModel;
+use App\Models\SlideshowModel;
 
 class Auth extends BaseController
 {
@@ -113,7 +116,6 @@ class Auth extends BaseController
     // Seminar Views
     public function seminar()
     {
-
         // Calling Models
         $usersmodel     = new UsersModel();
         $SeminarModel   = new SeminarModel();
@@ -159,7 +161,6 @@ class Auth extends BaseController
         $user = $usersmodel->find($this->data['uid']);
         $Seminar = $SeminarModel->find($id);
         $users = $usersmodel->findAll();
-        array_multisort($Seminar, SORT_DESC);
 
         // Parsing Data
         $data               = $this->data;
@@ -227,19 +228,18 @@ class Auth extends BaseController
     {
         // Calling Models
         $usersmodel     = new UsersModel();
-        $SeminarModel    = new SeminarModel();
+        $DiklatModel    = new DiklatModel();
 
         $user = $usersmodel->find($this->data['uid']);
-        $Seminar = $SeminarModel->find($id);
+        $diklat = $DiklatModel->find($id);
         $users = $usersmodel->findAll();
-        array_multisort($Seminar, SORT_DESC);
 
         // Parsing Data
         $data               = $this->data;
         $data['title']      = "Dashboard Edit Diklat";
         $data['user']       = $user;
         $data['users']      = $users;
-        $data['news']       = $Seminar;
+        $data['news']       = $diklat;
 
         return view('Views/admin/editdiklat', $data);
     }
@@ -305,7 +305,6 @@ class Auth extends BaseController
         $user = $usersmodel->find($this->data['uid']);
         $jadwal = $ScheduleModel->find($id);
         $users = $usersmodel->findAll();
-        array_multisort($jadwal, SORT_DESC);
 
         // Parsing Data
         $data               = $this->data;
@@ -419,39 +418,103 @@ class Auth extends BaseController
         return view('Views/admin/ketegori', $data);
     }
 
-    public function galeri()
+    public function foto()
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $PhotoModel     = new PhotoModel();
+
+        // Get Data
+        $user   = $usersmodel->find($this->data['uid']);
+        $photos = $PhotoModel->findAll();
+
+        $data               = $this->data;
+        $data['title']     = "Dashboard Galeri Foto";
+        $data['user']       = $user;
+        $data['photos']     = $photos;
+
+        return view('Views/admin/foto', $data);
+    }
+
+    public function addfoto()
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+    
+        // Get Data
+        $user   = $usersmodel->find($this->data['uid']);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Tambah Foto";
+        $data['user']       = $user;
+
+        return view('Views/admin/addfoto', $data);
+    }
+
+    public function editfoto($id)
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $PhotoModel     = new PhotoModel();
+
+        // Get Data
+        $user = $usersmodel->find($this->data['uid']);
+        $photo = $PhotoModel->find($id);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Ubah Galeri Foto";
+        $data['user']       = $user;
+        $data['news']       = $photo;
+
+        return view('Views/admin/editfoto', $data);
+    }
+
+    public function removefoto($id)
     {
         // Calling Models
         $usersmodel     = new UsersModel();
         $ArtistaModel   = new ArtistaModel();
 
         // Get Data
-        $user = $usersmodel->find($this->data['uid']);
-        $artista = $ArtistaModel->findAll();
+        $artista = $ArtistaModel->find($id);
 
-        $data               = $this->data;
-        $data['title']     = "Dashboard Galeri";
-        $data['user']       = $user;
-        $data['artista']    = $artista;
+        $ArtistaModel->delete($artista);
 
-        return view('Views/admin/galeri', $data);
+        die(json_encode(array($artista)));
     }
 
     public function slideshow()
     {
         // Calling Models
         $usersmodel     = new UsersModel();
-        $ArtistaModel   = new ArtistaModel();
+        $SlideshowModel   = new SlideshowModel();
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
-        $artista = $ArtistaModel->findAll();
+        $slideshow = $SlideshowModel->findAll();
+        array_multisort($slideshow,SORT_DESC);
 
-        $data               = $this->data;
-        $data['title']     = "Dashboard Slideshow";
-        $data['user']       = $user;
-        $data['artista']    = $artista;
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Slideshow";
+        $data['user']           = $user;
+        $data['slideshow']      = $slideshow;
 
         return view('Views/admin/slideshow', $data);
+    }
+
+    public function addslideshow(){
+        // Calling Models
+        $usersmodel     = new UsersModel();
+
+        // Get Data
+        $user = $usersmodel->find($this->data['uid']);
+
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Tambah Slideshow";
+        $data['user']           = $user;
+
+        return view('Views/admin/addslideshow', $data);
     }
 }

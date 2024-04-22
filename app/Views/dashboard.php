@@ -83,14 +83,14 @@
                 <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'artista') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addartista') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editartista') ? 'uk-active' : '' ?>"><a href="dashboard/artista"><span class="uk-margin-right" uk-icon="copy"></span>Artista</a></li>
                 <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'jadwal') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addjadwal') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editjadwal') ? 'uk-active' : '' ?>"><a href="dashboard/jadwal"><span class="uk-margin-right" uk-icon="move"></span>Jadwal Kegiatan</a></li>
                 <!-- <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'kategori') ? 'uk-active' : '' ?>"><a href="dashboard/kategori"><span class="uk-margin-right" uk-icon="thumbnails"></span>Kategori</a></li> -->
-                <li class="uk-nav-divider uk-margin-small uk-parent">
-                    <a href="#"><span class="uk-margin-right" uk-icon="grid"></span>Galeri <span uk-nav-parent-icon></span></a>
+                <li class="uk-nav-divider uk-margin-small uk-parent <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'video') || ($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === 'foto') ? 'uk-active' : '' ?>">
+                    <a href="#"><span class="uk-margin-right" uk-icon="grid"></span>Galeri<span uk-nav-parent-icon></span></a>
                     <ul class="uk-iconnav uk-iconnav-vertical uk-nav-sub">
-                        <li class="<?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'galeri') ? 'uk-active' : '' ?>"><a href="#"><span class="uk-margin-right" uk-icon="image"></span>Foto</a></li>
-                        <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'galeri') ? 'uk-active' : '' ?>"><a href="#"><span class="uk-margin-right" uk-icon="play-circle"></span>Video</a></li>
+                        <li class="<?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'galeri') || ($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === 'foto') ? 'uk-active' : '' ?>"><a href="dashboard/foto"><span class="uk-margin-right" uk-icon="image"></span>Foto</a></li>
+                        <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'galeri') || ($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === 'video') ? 'uk-active' : '' ?>"><a href="dashboard/video"><span class="uk-margin-right" uk-icon="play-circle"></span>Video</a></li>
                     </ul>
                 </li>
-                <li class="uk-nav-divider <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'galeri') ? 'uk-active' : '' ?>"><a href="slideshow"><span class="uk-margin-right" uk-icon="album"></span>Slideshow</a></li>
+                <li class="uk-nav-divider <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'slideshow') ? 'uk-active' : '' ?>"><a href="dashboard/slideshow"><span class="uk-margin-right" uk-icon="album"></span>Slideshow</a></li>
             </ul>
         </div>
     </div>

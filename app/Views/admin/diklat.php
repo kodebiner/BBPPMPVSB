@@ -15,11 +15,7 @@
                 <table class="uk-table uk-table-small uk-table-striped">
                     <thead>
                         <tr>
-                            <th>Penulis</th>
                             <th>Judul</th>
-                            <th>Pendahulan</th>
-                            <th>Isi</th>
-                            <th>Ringkasan</th>
                             <th>Gambar</th>
                             <th class="uk-text-center">Ubah</th>
                         </tr>
@@ -27,19 +23,7 @@
                     <tbody>
                         <?php foreach ($berita as $news) { ?>
                             <tr id="rowberita<?=$news['id']?>">
-                                <?php 
-                                    $authors = "";
-                                    foreach ($users as $author) {
-                                        if($news['userid'] === $author['id']){
-                                            $authors = $author['username'];
-                                        }
-                                    } 
-                                ?>
-                                <td><?=$authors?></td>
                                 <td><?=$news['title']?></td>
-                                <td><?=$news['introtext']?></td>
-                                <td><?=$news['fulltext']?></td>
-                                <td><?=$news['description']?></td>
                                 <td>
                                     <div uk-lightbox>
                                         <a href="artista/foto/<?=$news['images']?>"><img width="50" height="50" src="artista/foto/<?=$news['images']?>" alt="<?=$news['images']?>"></a>

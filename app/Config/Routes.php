@@ -48,13 +48,28 @@ $routes->group('dashboard', static function ($routes) {
     $routes->get('editjadwal/(:num)', 'Auth::editjadwal/$1', ['filter' => 'session']);
     $routes->post('removejadwal/(:num)', 'Auth::removejadwal/$1', ['filter' => 'session']);
 
+    // Foto
+    $routes->get('foto', 'Auth::foto', ['filter' => 'session']);
+    $routes->get('addfoto', 'Auth::addfoto', ['filter' => 'session']);
+    $routes->get('editfoto/(:num)', 'Auth::editfoto/$1', ['filter' => 'session']);
+    $routes->post('removefoto/(:num)', 'Auth::removefoto/$1', ['filter' => 'session']);
+
+    // Video
+    $routes->get('video', 'Auth::video', ['filter' => 'session']);
+    $routes->get('addvideo', 'Auth::addvideo', ['filter' => 'session']);
+    $routes->get('editvideo/(:num)', 'Auth::editvideo/$1', ['filter' => 'session']);
+    $routes->post('removevideo/(:num)', 'Auth::removevideo/$1', ['filter' => 'session']);
+
     // Kategori
-    $routes->get('kategori', 'Auth::kategori', ['filter' => 'session']);
-    $routes->get('addkategori', 'Auth::addkategori', ['filter' => 'session']);
-    $routes->get('editkategori/(:num)', 'Auth::editkategori/$1', ['filter' => 'session']);
+    // $routes->get('kategori', 'Auth::kategori', ['filter' => 'session']);
+    // $routes->get('addkategori', 'Auth::addkategori', ['filter' => 'session']);
+    // $routes->get('editkategori/(:num)', 'Auth::editkategori/$1', ['filter' => 'session']);
 
     // Slideshow
     $routes->get('slideshow', 'Auth::slideshow',['filter' => 'session']);
+    $routes->get('addslideshow', 'Auth::addslideshow', ['filter' => 'session']);
+    $routes->get('editslideshow/(:num)', 'Auth::editslideshow/$1', ['filter' => 'session']);
+    $routes->post('removeslideshow/(:num)', 'Auth::removeslideshow/$1', ['filter' => 'session']);
 });
 
 // Uploads
@@ -62,6 +77,10 @@ $routes->group('upload', static function ($routes){
     service('auth')->routes($routes);
     $routes->post('foto', 'Upload::foto', ['filter => session']);
     $routes->post('fotoberita', 'Upload::fotoberita', ['filter => session']);
+    $routes->post('fotoseminar', 'Upload::fotoseminar', ['filter => session']);
+    $routes->post('fotodiklat', 'Upload::fotodiklat', ['filter => session']);
+    $routes->post('fotojadwal', 'Upload::fotojadwal', ['filter => session']);
+    $routes->post('fotogaleri', 'Upload::fotogaleri', ['filter => session']);
     $routes->post('pdf', 'Upload::pdf', ['filter => session']);
 });
 
@@ -70,6 +89,12 @@ $routes->group('add', static function ($routes){
     service('auth')->routes($routes);
     $routes->post('artista', 'Upload::addartista', ['filter => session']);
     $routes->post('berita', 'Upload::addberita', ['filter => session']);
+    $routes->post('seminar', 'Upload::addseminar', ['filter => session']);
+    $routes->post('diklat', 'Upload::adddiklat', ['filter => session']);
+    $routes->post('jadwal', 'Upload::addjadwal', ['filter => session']);
+    $routes->post('slideshow', 'Upload::addslideshow', ['filter => session']);
+    $routes->post('foto', 'Upload::addfoto', ['filter => session']);
+    $routes->post('fotogaleri', 'Upload::addfotogaleri', ['filter => session']);
 });
 
 // Update
@@ -77,8 +102,12 @@ $routes->group('save', static function ($routes){
     service('auth')->routes($routes);
     $routes->post('artista/(:num)', 'Upload::artista/$1', ['filter => session']);
     $routes->post('berita/(:num)', 'Upload::editberita/$1', ['filter => session']);
+    $routes->post('seminar/(:num)', 'Upload::editseminar/$1', ['filter => session']);
+    $routes->post('diklat/(:num)', 'Upload::editdiklat/$1', ['filter => session']);
+    $routes->post('jadwal/(:num)', 'Upload::editjadwal/$1', ['filter => session']);
+    $routes->post('foto/(:num)', 'Upload::editfoto/$1', ['filter => session']);
+    $routes->post('fotogaleri/(:num)', 'Upload::editfotogaleri/$1', ['filter => session']);
 });
-
 
 //  Home
 $routes->group('/', static function ($routes) {

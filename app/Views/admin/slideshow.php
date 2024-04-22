@@ -1,106 +1,66 @@
 <?= $this->extend('dashboard') ?>
 
 <?= $this->section('content') ?>
-    <div class="uk-child-width-expand@s uk-margin-large-right" uk-grid>
-        <div class="uk-grid-item-match">
-            <div>
-                <h3 class="uk-margin">Kelola Slideshow</h3>
+
+    <div class="uk-card uk-card-small uk-card-body uk-margin-xlarge-right" style="background-color: rgba(60, 105, 151, .8);">
+        <h3 class="uk-card-title uk-light uk-text-uppercase" style="color: white;">&nbsp;&nbsp;Slide Show</h3>
+    </div>
+    <div class="uk-card uk-card-default uk-margin-xlarge-right">
+        <div class="uk-width-1-1" style="margin-left: 45px;">
+            <a style="background-color: rgba(60, 105, 151, .8); color:white" class="uk-button uk-botton-small uk-margin-top uk-light" href="dashboard/addslideshow"><span uk-icon="icon: plus; ratio:0.8"></span>&nbsp;&nbsp;Slide show</a>
+        </div>
+        <div class="uk-card-body">
+            <div class="uk-section uk-padding-remove-top uk-margin-right uk-overflow-auto">
+                <?= view('Views/Auth/_message_block') ?>
+                <table class="uk-table uk-table-small uk-table-striped">
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Gambar</th>
+                            <th class="uk-text-center">Ubah</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($slideshow as $slide) { ?>
+                            <tr id="rowslide<?=$slide['id']?>">
+                                <td><?=$slide['title']?></td>
+                                <td>
+                                    <div uk-lightbox>
+                                        <a href="artista/foto/<?=$slide['file']?>"><img width="50" height="50" src="artista/foto/<?=$slide['file']?>" alt="<?=$slide['file']?>"></a>
+                                    </div>
+                                </td>
+                                <td class="uk-text-center">
+                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editslideshow/<?=$slide['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
+                                    <a style="background-color: red; color: white;" onclick="removeSlide<?= $slide['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
+                                    <script>
+                                        function removeSlide<?= $slide['id']; ?>() {
+                                            let text = "Anda yakin ingin menghapus diklat <?=$slide['title']?> ini?";
+                                            if (confirm(text) == true) {
+                                                $.ajax({
+                                                    url: "dashboard/removeslideshow/<?= $slide['id'] ?>",
+                                                    method: "POST",
+                                                    data: {
+                                                        artista: <?= $slide['id'] ?>,
+                                                    },
+                                                    dataType: "json",
+                                                    error: function() {
+                                                        console.log('error', arguments);
+                                                    },
+                                                    success: function() {
+                                                        console.log('success', arguments);
+                                                        alert('Slideshow berhasil di hapus');
+                                                        $("#rowslide<?=$slide['id']?>").remove();
+                                                    },
+                                                })
+                                            }
+                                        }
+                                    </script>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="uk-text-right">
-            <a class="uk-button uk-button-primary uk-border-rounded" href="#modal-add" uk-toggle><span uk-icon="icon: plus; ratio:0.8"></span>&nbsp;Slideshow</a>
-        </div>
     </div>
-    <!-- <hr class="uk-divider-icon"> -->
-    <div class="uk-section uk-padding-remove-top uk-margin-right uk-overflow-auto">
-        <table class="uk-table uk-table-striped">
-            <thead>
-                <tr>
-                    <th>File</th>
-                    <th>Foto</th>
-                    <th class="uk-text-center">Ubah</th>
-                </tr>
-            </thead>
-            <tbody>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <div uk-lightbox>
-                                <a href="" img class="uk-border-circle" width="50" height="50" src="" alt=""></a>
-                            </div>
-                        </td>
-                        <td class="uk-text-center"><a class="uk-button uk-button-primary uk-border-rounded" href="#modal-edit" uk-toggle><span uk-icon="icon: file-edit;"></span></a></td>
-                    </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="modal-add" uk-modal>
-        <div class="uk-modal-dialog">
-            <button class="uk-modal-close-default" type="button" uk-close></button>
-            <div class="uk-modal-header">
-                <h2 class="uk-modal-title">Tambah Data</h2>
-            </div>
-            <div class="uk-modal-body">
-                <div class="uk-margin-top">
-                    <textarea id="file-add">
-                        Welcome to TinyMCE!
-                    </textarea>
-                </div>
-            </div>
-            <div class="uk-modal-footer uk-text-right">
-                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                <button class="uk-button uk-button-primary" type="button">Save</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- modal add script tinymce -->
-    <script>
-        tinymce.init({
-        selector: 'textarea#file-add',
-        plugins: 'image code',
-        toolbar: 'undo redo | link image | code',
-        image_title: true,
-        automatic_uploads: true,
-        file_picker_types: 'image',
-        file_picker_callback: function (cb, value, meta) {
-            var input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.setAttribute('accept', 'image/*');
-
-            input.onchange = function () {
-            var file = this.files[0];
-
-            var reader = new FileReader();
-            reader.onload = function () {
-                var id = 'blobid' + (new Date()).getTime();
-                var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-                var base64 = reader.result.split(',')[1];
-                var blobInfo = blobCache.create(id, file, base64);
-                blobCache.add(blobInfo);
-
-                cb(blobInfo.blobUri(), { title: file.name });
-            };
-            reader.readAsDataURL(file);
-            };
-
-            input.click();
-        },
-        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(document).on('focusin', function(e) {
-            if ($(event.target).closest(".mce-window").length) {
-                e.stopImmediatePropagation();
-            }
-        });
-        $(document).on('focusin', function(e) {
-            if ($(e.target).closest(".tox-dialog").length) {
-                e.stopImmediatePropagation();
-            }
-        });
-    </script>
 <?= $this->endSection() ?>

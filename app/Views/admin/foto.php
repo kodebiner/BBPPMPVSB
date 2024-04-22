@@ -1,0 +1,98 @@
+<?= $this->extend('dashboard') ?>
+
+<?= $this->section('content') ?>
+
+    <div class="uk-card uk-card-small uk-card-body uk-margin-xlarge-right" style="background-color: rgba(60, 105, 151, .8);">
+        <h3 class="uk-card-title uk-light" style="color: white;">&nbsp;&nbsp;Foto</h3>
+    </div>
+
+    <div class="uk-card uk-card-default uk-margin-xlarge-right">
+        <div class="uk-width-1-1" style="margin-left: 45px;">
+            <a style="background-color: rgba(60, 105, 151, .8); color:white" class="uk-button uk-botton-small uk-margin-top uk-light" href="dashboard/addfoto"><span uk-icon="icon: plus; ratio:0.8"></span>&nbsp;&nbsp;Foto</a>
+        </div>
+        <div class="uk-card-body">
+            <div class="uk-section uk-padding-remove-top uk-margin-right uk-overflow-auto">
+                <?= view('Views/Auth/_message_block') ?>
+                <table class="uk-table uk-table-small uk-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Judul</th>
+                            <th>Gambar</th>
+                            <th class="uk-text-center">Ubah</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($photos as $foto) { ?>
+                            <tr id="rowberita<?=$foto['id']?>">
+                                <td><?=$foto['title']?></td>
+                                <td>
+                                    <div uk-lightbox>
+                                        <a href="artista/foto/<?=$foto['images']?>"><img width="50" height="50" src="artista/foto/<?=$foto['images']?>" alt="<?=$foto['images']?>"></a>
+                                    </div>
+                                </td>
+                                <td class="uk-text-center">
+                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editfoto/<?=$foto['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
+                                    <a style="background-color: red; color: white;" onclick="removeFoto<?= $foto['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
+                                    <script>
+                                        function removeFoto<?= $foto['id']; ?>() {
+                                            let text = "Anda yakin ingin menghapus Foto <?=$foto['title']?> ini?";
+                                            if (confirm(text) == true) {
+                                                $.ajax({
+                                                    url: "dashboard/removefoto/<?= $foto['id'] ?>",
+                                                    method: "POST",
+                                                    data: {
+                                                        artista: <?= $foto['id'] ?>,
+                                                    },
+                                                    dataType: "json",
+                                                    error: function() {
+                                                        console.log('error', arguments);
+                                                    },
+                                                    success: function() {
+                                                        console.log('success', arguments);
+                                                        alert('data berhasil di hapus');
+                                                        $("#rowberita<?=$foto['id']?>").remove();
+                                                    },
+                                                })
+                                            }
+                                        }
+                                    </script>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="uk-card uk-card-default uk-margin-xlarge-right">
+        <div class="uk-width-1-1" style="margin-left: 45px;">
+            <a style="background-color: rgba(60, 105, 151, .8); color:white" class="uk-button uk-botton-small uk-margin-top uk-light" href="dashboard/addfoto"><span uk-icon="icon: plus; ratio:0.8"></span>&nbsp;&nbsp;Foto</a>
+        </div>
+        <div class="uk-card-body uk-padding-small-top">
+            <div class="uk-section uk-padding-remove-top uk-margin-right uk-overflow-auto">
+                </?= view('Views/Auth/_message_block') ?>
+                <div class="uk-child-width-1-3@m" uk-grid>
+                    </?php foreach($photos as $photo) {?>
+                    <div>
+                        <div uk-lightbox>
+                            <a class="uk-inline" href="artista/foto/</?=$photo['images']?>" data-caption="</?=$photo['title']?>">
+                                <img class="uk-object-scale-down" src="artista/foto/</?=$photo['images']?>" alt="</?=$photo['images']?>" width="1800" height="1200">
+                            </a>
+                        </div>
+                        <div class="uk-card-footer" style="background-color: rgba(60, 105, 151, .8);">
+                            <div class="uk-child-width-expand@s uk-text-center" uk-grid>
+                                <div>
+                                    <div><a href="dashboard/editfoto/</?=$photo['id']?>" class="uk-button uk-button-text" style="color: white;">Ubah Foto</a></div>
+                                </div>
+                                <div>
+                                    <div><a href="#" class="uk-button uk-button-text" style="color: white;">Hapus Foto</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </?php } ?>
+                </div>
+            </div>
+        </div>
+    </div> -->
+<?= $this->endSection() ?>
