@@ -19,16 +19,76 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <style>
-.footer {
-   position:fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   background-color: rgb(60, 105, 151);
-   color: white;
-   text-align: center;
-   z-index: 2;
-}
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 25px;
+    }
+    
+    .switch input { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 3px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+    
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+    
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+    
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+    
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+    
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    .footer {
+    position:fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(60, 105, 151);
+    color: white;
+    text-align: center;
+    z-index: 2;
+    }
 </style>
 <body style="margin-bottom: 100px;">
     <div uk-sticky="start: 150; animation: uk-animation-slide-top; sel-target: #navbar; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent">
@@ -90,7 +150,7 @@
                         <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'galeri') || ($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === 'video') ? 'uk-active' : '' ?>"><a href="dashboard/video"><span class="uk-margin-right" uk-icon="play-circle"></span>Video</a></li>
                     </ul>
                 </li>
-                <li class="uk-nav-divider <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'slideshow') ? 'uk-active' : '' ?>"><a href="dashboard/slideshow"><span class="uk-margin-right" uk-icon="album"></span>Slideshow</a></li>
+                <li class="uk-nav-divider <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'slideshow') || ($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === 'addslideshow') || ($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === 'editslideshow') ? 'uk-active' : '' ?>"><a href="dashboard/slideshow"><span class="uk-margin-right" uk-icon="album"></span>Slideshow</a></li>
             </ul>
         </div>
     </div>

@@ -3,17 +3,21 @@
 <?= $this->section('content') ?>
 
     <div class="uk-card uk-card-small uk-card-body uk-margin-xlarge-right uk-light" style="background-color:  rgba(60, 105, 151, .8);;">
-        <h3 class="uk-card-title">Tambah Slide Show</h3>
+        <h3 class="uk-card-title">Ubah Foto Slideshow</h3>
     </div>
 
     <div class="uk-card uk-card-default uk-margin-xlarge-right">
         <?= view('Views/Auth/_message_block') ?>
-        <form action="add/slideshow" method="post">
+        <form action="save/slideshow/<?=$news['id']?>" method="post">
             <div class="uk-card-body">
 
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Status Slide Show</label>
             <label class="switch uk-margin-small-left">
-                <input id="status" name="status" type="checkbox">
+                <?php if ($news['status'] === "1"){?>
+                    <input id="status" name="status" type="checkbox" checked>
+                <?php }else{ ?>
+                    <input id="status" name="status" type="checkbox">
+                <?php } ?>
                 <span class="slider round"></span>
             </label>
 
@@ -22,7 +26,10 @@
                 <div>
                     <div class="uk-card uk-card-default">
                         <div class="uk-card-media-top uk-text-center">
-                            <div id="lightbox" uk-lightbox>
+                            <div uk-lightbox>
+                                <a class="uk-inline" id="imagecontainer" href="artista/foto/<?=$news['file']?>" data-caption="<?=$news['file']?>">
+                                    <img id="fileimage" class="uk-margin-top uk-margin-bottom" src="artista/foto/<?=$news['file']?>" width="180" height="120" alt="">
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -35,16 +42,17 @@
                 <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
                 <div uk-form-custom>
                     <input type="file" multiple>
-                    <input type="hidden" id="foto" name="gambar" value="">
+                    <input type="hidden" id="foto" name="gambar" value="<?=$news['file']?>">
                     <span class="uk-link">Pilih satu</span>
                 </div>
             </div>
             <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
             <!-- End Upload Foto -->
 
-            <!-- Upload Foto Sampul Script -->
+            <!-- Upload Foto Script -->
             <script>
-                    var barfoto = document.getElementById('js-upload-createfoto');
+
+                var barfoto = document.getElementById('js-upload-createfoto');
 
                 UIkit.upload('#js-upload-foto', {
 
@@ -62,12 +70,15 @@
                     },
                     beforeAll: function () {
                         console.log('beforeAll', arguments);
+
                     },
                     load: function () {
                         console.log('load', arguments);
                     },
                     error: function () {
                         console.log('error', arguments);
+                        var error = arguments[0].xhr.response.message.upload;
+                        alert(error);
                     },
                     complete: function () {
                         console.log('complete', arguments);
@@ -75,12 +86,11 @@
                         var filename = arguments[0].response;
                         console.log(filename);
 
-                        if (document.getElementById('imagecontainer')) {
-                            document.getElementById('imagecontainer').remove();
+                        if (document.getElementById('fileimage')) {
+                            document.getElementById('fileimage').remove();
                         };
 
-                        // var containerimage = document.getElementById('imagecontainer');
-                        var lightbox = document.getElementById('lightbox');
+                        var containerimage = document.getElementById('imagecontainer');
 
                         var linkimg = document.createElement('a');
                         linkimg.setAttribute('id','imagecontainer');
@@ -97,7 +107,7 @@
                         imagetag.setAttribute('heigth','180');
                         imagetag.setAttribute('alt', filename);
 
-                        lightbox.appendChild(linkimg);
+                        containerimage.appendChild(linkimg);
                         linkimg.appendChild(imagetag);
 
                         document.getElementById("foto").value = filename;
@@ -136,6 +146,7 @@
                     }
 
                 });
+
             </script>
             <!-- End Upload Foto Sampul Script -->
 

@@ -60,11 +60,6 @@ $routes->group('dashboard', static function ($routes) {
     $routes->get('editvideo/(:num)', 'Auth::editvideo/$1', ['filter' => 'session']);
     $routes->post('removevideo/(:num)', 'Auth::removevideo/$1', ['filter' => 'session']);
 
-    // Kategori
-    // $routes->get('kategori', 'Auth::kategori', ['filter' => 'session']);
-    // $routes->get('addkategori', 'Auth::addkategori', ['filter' => 'session']);
-    // $routes->get('editkategori/(:num)', 'Auth::editkategori/$1', ['filter' => 'session']);
-
     // Slideshow
     $routes->get('slideshow', 'Auth::slideshow',['filter' => 'session']);
     $routes->get('addslideshow', 'Auth::addslideshow', ['filter' => 'session']);
@@ -81,6 +76,7 @@ $routes->group('upload', static function ($routes){
     $routes->post('fotodiklat', 'Upload::fotodiklat', ['filter => session']);
     $routes->post('fotojadwal', 'Upload::fotojadwal', ['filter => session']);
     $routes->post('fotogaleri', 'Upload::fotogaleri', ['filter => session']);
+    $routes->post('fotoslideshow', 'Upload::fotoslideshow', ['filter => session']);
     $routes->post('pdf', 'Upload::pdf', ['filter => session']);
 });
 
@@ -105,7 +101,8 @@ $routes->group('save', static function ($routes){
     $routes->post('seminar/(:num)', 'Upload::editseminar/$1', ['filter => session']);
     $routes->post('diklat/(:num)', 'Upload::editdiklat/$1', ['filter => session']);
     $routes->post('jadwal/(:num)', 'Upload::editjadwal/$1', ['filter => session']);
-    $routes->post('foto/(:num)', 'Upload::editfoto/$1', ['filter => session']);
+    $routes->post('jadwal/(:num)', 'Upload::editjadwal/$1', ['filter => session']);
+    $routes->post('slideshow/(:num)', 'Upload::editslideshow/$1', ['filter => session']);
     $routes->post('fotogaleri/(:num)', 'Upload::editfotogaleri/$1', ['filter => session']);
 });
 

@@ -517,4 +517,38 @@ class Auth extends BaseController
 
         return view('Views/admin/addslideshow', $data);
     }
+
+    public function editslideshow($id)
+    {
+        // Calling Models
+        $usersmodel         = new UsersModel();
+        $SlideshowModel     = new SlideshowModel();
+
+        // Get Data
+        $user = $usersmodel->find($this->data['uid']);
+        $slideshow = $SlideshowModel->find($id);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Ubah Foto Slide Show";
+        $data['user']       = $user;
+        $data['news']       = $slideshow;
+
+
+        return view('Views/admin/editslideshow', $data);
+    }
+
+    public function removeslideshow($id)
+    {
+        // Calling Models
+        $SlideshowModel   = new SlideshowModel();
+
+        // Get Data
+        $slideshow = $SlideshowModel->find($id);
+
+        $SlideshowModel->delete($slideshow);
+
+        die(json_encode(array($slideshow)));
+    }
+
 }

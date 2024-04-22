@@ -9,6 +9,8 @@ use App\Models\ScheduleModel;
 use App\Models\SeminarModel;
 use App\Models\PhotoModel;
 use App\Models\VideoModel;
+use App\Models\SlideshowModel;
+
 
 class Upload extends BaseController
 {
@@ -575,15 +577,10 @@ class Upload extends BaseController
     public function editdiklat($id){
 
         // Calling Models
-        $UserModel      = new UsersModel();
         $DiklatModel    = new DiklatModel();
 
         // Get Data
         $input  = $this->request->getPost();
-        $user   = $UserModel->find($this->data['uid']);
-
-        // Alias
-        $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
         // News Data 
         $diklat = [
@@ -607,13 +604,13 @@ class Upload extends BaseController
         $input  = $this->request->getPost();
 
         // News Data 
-        $diklat = [
+        $foto = [
             'title'         => $input['judul'],
             'images'        => $input['gambar'],
         ];
 
         // insert News
-        $PhotoModel->insert($diklat);
+        $PhotoModel->insert($foto);
         return redirect()->to('dashboard/foto')->with('message', "Foto Berhasil Di Tambahkan!");
     }
 
@@ -638,45 +635,57 @@ class Upload extends BaseController
         return redirect()->to('dashboard/foto')->with('message', "Foto Berhasil Di Ubah!");
     }
 
-    // Add Foto Galeri
+    // Add Slideshow
     public function addslideshow()
     {
         // Calling Models
-        $PhotoModel    = new PhotoModel();
+        $SlideshowModel    = new SlideshowModel();
 
         // Get Data
         $input  = $this->request->getPost();
+        
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
 
         // News Data 
-        $diklat = [
-            'title'         => $input['judul'],
-            'images'        => $input['gambar'],
+        $slide = [
+            'file'        => $input['gambar'],
+            'status'      => $status,
         ];
 
         // insert News
-        $PhotoModel->insert($diklat);
-        return redirect()->to('dashboard/foto')->with('message', "Foto Berhasil Di Tambahkan!");
+        $SlideshowModel->insert($slide);
+        return redirect()->to('dashboard/slideshow')->with('message', "Slide Show Berhasil Di Tambahkan!");
     }
 
-    // Edit Foto Galeri
+    // Edit Slideshow
     public function editslideshow($id){
 
         // Calling Models
-        $PhotoModel     = new PhotoModel();
+        $SlideshowModel     = new SlideshowModel();
 
         // Get Data
         $input  = $this->request->getPost();
+
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
 
         // News Data 
         $foto = [
             'id'            => $id,
-            'title'         => $input['judul'],
-            'images'        => $input['gambar'],
+            'file'          => $input['gambar'],
+            'status'        => $status,
         ];
 
         // insert News
-        $PhotoModel->save($foto);
-        return redirect()->to('dashboard/foto')->with('message', "Foto Berhasil Di Ubah!");
+        $SlideshowModel->save($foto);
+        return redirect()->to('dashboard/slideshow')->with('message', "Slide Show Berhasil Di Ubah!");
     }
 
     
