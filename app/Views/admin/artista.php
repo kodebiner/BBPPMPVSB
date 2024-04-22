@@ -30,7 +30,7 @@
                                 </td>
                                 <td class="uk-text-center">
                                     <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editartista/<?=$art['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
-                                    <!-- <a style="background-color: red; color: white;" onclick="return confirm('<?= 'Anda yakin ingin menghapus data ini ?' ?>')" class="uk-button uk-botton-small uk-light" href="dashboard/editartista/<?=$art['id']?>" uk-toggle><span uk-icon="icon: trash; ratio:1"></span></a> -->
+                                    <!-- <a style="background-color: red; color: white;" onclick="return confirm('<?= 'Anda yakin ingin menghapus data ini ?' ?>')" class="uk-button uk-botton-small uk-light" href="dashboard/editartista/</?=$art['id']?>" uk-toggle><span uk-icon="icon: trash; ratio:1"></span></a> -->
                                     <a style="background-color: red; color: white;" onclick="removeArtista<?= $art['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
                                     <script>
                                         function removeArtista<?= $art['id']; ?>() {

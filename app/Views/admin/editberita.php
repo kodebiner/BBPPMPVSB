@@ -8,34 +8,34 @@
 
     <div class="uk-card uk-card-default uk-margin-xlarge-right">
         <?= view('Views/Auth/_message_block') ?>
-        <form action="add/berita" method="post">
+        <form action="save/berita/<?=$news['id']?>" method="post">
             <div class="uk-card-body">
 
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Judul</label>
             <div class="uk-margin">
                 <div class="uk-form-controls">
-                    <input class="uk-input uk-box-shadow-small uk-border-rounded" id="form-stacked-text" name="judul" value="<?=$news['judul']?>" type="text" placeholder="Masukkan Judul...">
+                    <input class="uk-input uk-box-shadow-small uk-border-rounded" id="form-stacked-text" name="judul" value="<?=$news['title']?>" type="text" placeholder="Masukkan Judul...">
                 </div>
             </div>
             
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Ringkasan</label>
             <div class="uk-margin">
                 <div class="uk-form-controls">
-                    <textarea class="uk-textarea uk-box-shadow-small uk-border-rounded" rows="5" name="ringkasan" placeholder="Masukkan Ringkasan..." aria-label="Textarea"><?=$news['ringkasan']?></textarea>
+                    <textarea class="uk-textarea uk-box-shadow-small uk-border-rounded" rows="5" name="ringkasan" placeholder="Masukkan Ringkasan..." aria-label="Textarea"><?=$news['description']?></textarea>
                 </div>
             </div>
             
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold">Pendahulan</label>
             <div class="uk-margin">
                 <textarea name="pendahuluan" id="file-picker" placeholder="Masukkan Pendahuluan...">
-                    <?=$news['pendahuluan']?>
+                    <?=$news['introtext']?>
                 </textarea>
             </div>
 
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold">Isi</label>
             <div class="uk-margin">
                 <textarea name="isi" id="file-picker" placeholder="Masukkan Isi..">
-                    <?=$news['isi']?>
+                    <?=$news['fulltext']?>
                 </textarea>
             </div>
 
@@ -44,7 +44,10 @@
                 <div>
                     <div class="uk-card uk-card-default">
                         <div class="uk-card-media-top uk-text-center">
-                            <div id="lightbox" uk-lightbox>
+                            <div uk-lightbox>
+                                <a class="uk-inline" id="imagecontainer" href="artista/foto/<?=$news['images']?>" data-caption="<?=$news['images']?>">
+                                    <img id="fileimage" class="uk-margin-top uk-margin-bottom" src="artista/foto/<?=$news['images']?>" width="180" height="120" alt="">
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -57,20 +60,21 @@
                 <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
                 <div uk-form-custom>
                     <input type="file" multiple>
-                    <input type="hidden" id="foto" name="gambar" value="">
+                    <input type="hidden" id="foto" name="gambar" value="<?=$news['images']?>">
                     <span class="uk-link">Pilih satu</span>
                 </div>
             </div>
             <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
             <!-- End Upload Foto -->
 
-            <!-- Upload Foto Sampul Script -->
+            <!-- Upload Foto Script -->
             <script>
-                    var barfoto = document.getElementById('js-upload-createfoto');
+
+                var barfoto = document.getElementById('js-upload-createfoto');
 
                 UIkit.upload('#js-upload-foto', {
 
-                    url: 'upload/fotoberita',
+                    url: 'upload/foto',
                     multiple: true,
                     name: 'uploads',
                     param: {
@@ -84,12 +88,15 @@
                     },
                     beforeAll: function () {
                         console.log('beforeAll', arguments);
+
                     },
                     load: function () {
                         console.log('load', arguments);
                     },
                     error: function () {
                         console.log('error', arguments);
+                        var error = arguments[0].xhr.response.message.upload;
+                        alert(error);
                     },
                     complete: function () {
                         console.log('complete', arguments);
@@ -97,12 +104,11 @@
                         var filename = arguments[0].response;
                         console.log(filename);
 
-                        if (document.getElementById('imagecontainer')) {
-                            document.getElementById('imagecontainer').remove();
+                        if (document.getElementById('fileimage')) {
+                            document.getElementById('fileimage').remove();
                         };
 
-                        // var containerimage = document.getElementById('imagecontainer');
-                        var lightbox = document.getElementById('lightbox');
+                        var containerimage = document.getElementById('imagecontainer');
 
                         var linkimg = document.createElement('a');
                         linkimg.setAttribute('id','imagecontainer');
@@ -119,7 +125,7 @@
                         imagetag.setAttribute('heigth','180');
                         imagetag.setAttribute('alt', filename);
 
-                        lightbox.appendChild(linkimg);
+                        containerimage.appendChild(linkimg);
                         linkimg.appendChild(imagetag);
 
                         document.getElementById("foto").value = filename;
@@ -158,6 +164,7 @@
                     }
 
                 });
+
             </script>
             <!-- End Upload Foto Sampul Script -->
 

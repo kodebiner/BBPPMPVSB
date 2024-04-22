@@ -166,7 +166,7 @@ class Upload extends BaseController
                 ],
             ],
             'photo' => [
-                'label'  => 'Sampul Majalah Artista',
+                'label'  => 'Foto Majalah Artista',
                 'rules'  => 'required',
                 'errors' => [
                     'required'      => '{field} harus di upload',
@@ -175,7 +175,7 @@ class Upload extends BaseController
         ];
 
         if (!$this->validate($rules)) {
-            return redirect()->to('dashboard/addartista')->withInput()->with('errors', $this->validator->getErrors());
+            return redirect()->to('dashboard/editartista/'.$id)->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $artista = [
@@ -188,6 +188,7 @@ class Upload extends BaseController
         return redirect()->back()->with('message', "Data Berhasil Di Simpan!");
     }
 
+    // Add Berita
     public function addberita()
     {
         // Calling Models
@@ -214,7 +215,38 @@ class Upload extends BaseController
 
         // insert News
         $BeritaModel->insert($berita);
-        return redirect()->to('dashboard/berita')->with('message', "Data Berhasil Di Tambahkan!");
+        return redirect()->to('dashboard/berita')->with('message', "Berita Berhasil Di Tambahkan!");
+    }
+
+    // Edit Berita
+    public function editberita($id){
+
+        // Calling Models
+        $UserModel      = new UsersModel();
+        $BeritaModel    = new BeritaModel();
+
+        // Get Data
+        $input  = $this->request->getPost();
+        $user   = $UserModel->find($this->data['uid']);
+
+        // Alias
+        $aliases = preg_replace('/\s+/', '-', $input['judul']);
+
+        // News Data 
+        $berita = [
+            'id'            => $id,
+            'userid'        => $user['id'],
+            'title'         => $input['judul'],
+            'alias'         => $aliases,
+            'introtext'     => $input['pendahuluan'],
+            'fulltext'      => $input['isi'],
+            'images'        => $input['gambar'],
+            'description'   => $input['ringkasan'],
+        ];
+
+        // insert News
+        $BeritaModel->save($berita);
+        return redirect()->to('dashboard/berita')->with('message', "Berita Berhasil Di Ubah!");
     }
 }
 ?>

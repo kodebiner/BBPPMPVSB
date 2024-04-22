@@ -22,12 +22,31 @@ $routes->group('dashboard', static function ($routes) {
     $routes->get('berita', 'Auth::berita', ['filter' => 'session']);
     $routes->get('addberita', 'Auth::addberita', ['filter' => 'session']);
     $routes->get('editberita/(:num)', 'Auth::editberita/$1', ['filter' => 'session']);
+    $routes->post('removeberita/(:num)', 'Auth::removeberita/$1', ['filter' => 'session']);
 
     // Artista
     $routes->get('artista', 'Auth::artista', ['filter' => 'session']);
     $routes->get('addartista', 'Auth::addartista', ['filter' => 'session']);
     $routes->get('editartista/(:num)', 'Auth::editartista/$1', ['filter' => 'session']);
     $routes->post('removeartista/(:num)', 'Auth::removeartista/$1', ['filter' => 'session']);
+
+    // Seminar
+    $routes->get('seminar', 'Auth::seminar', ['filter' => 'session']);
+    $routes->get('addseminar', 'Auth::addseminar', ['filter' => 'session']);
+    $routes->get('editseminar/(:num)', 'Auth::editseminar/$1', ['filter' => 'session']);
+    $routes->post('removeseminar/(:num)', 'Auth::removeseminar/$1', ['filter' => 'session']);
+
+    // Diklat
+    $routes->get('diklat', 'Auth::diklat', ['filter' => 'session']);
+    $routes->get('adddiklat', 'Auth::adddiklat', ['filter' => 'session']);
+    $routes->get('editdiklat/(:num)', 'Auth::editdiklat/$1', ['filter' => 'session']);
+    $routes->post('removediklat/(:num)', 'Auth::removediklat/$1', ['filter' => 'session']);
+
+    // Jadwal
+    $routes->get('jadwal', 'Auth::jadwal', ['filter' => 'session']);
+    $routes->get('addjadwal', 'Auth::addjadwal', ['filter' => 'session']);
+    $routes->get('editjadwal/(:num)', 'Auth::editjadwal/$1', ['filter' => 'session']);
+    $routes->post('removejadwal/(:num)', 'Auth::removejadwal/$1', ['filter' => 'session']);
 
     // Kategori
     $routes->get('kategori', 'Auth::kategori', ['filter' => 'session']);
@@ -53,10 +72,11 @@ $routes->group('add', static function ($routes){
     $routes->post('berita', 'Upload::addberita', ['filter => session']);
 });
 
-// Save
+// Update
 $routes->group('save', static function ($routes){
     service('auth')->routes($routes);
     $routes->post('artista/(:num)', 'Upload::artista/$1', ['filter => session']);
+    $routes->post('berita/(:num)', 'Upload::editberita/$1', ['filter => session']);
 });
 
 

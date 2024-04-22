@@ -7,6 +7,7 @@
     </div>
 
     <div class="uk-card uk-card-default uk-margin-xlarge-right">
+        <?= view('Views/Auth/_message_block') ?>
         <form action="save/artista/<?=$artista['id']?>" method="post">
             <div class="uk-card-body">
                 <!-- Upload File -->
