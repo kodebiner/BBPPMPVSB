@@ -36,6 +36,11 @@ $routes->group('dashboard', static function ($routes) {
     $routes->get('editseminar/(:num)', 'Auth::editseminar/$1', ['filter' => 'session']);
     $routes->post('removeseminar/(:num)', 'Auth::removeseminar/$1', ['filter' => 'session']);
 
+    // Webbinar
+    $routes->get('webbinar', 'Auth::webbinar', ['filter' => 'session']);
+    $routes->get('addwebbinar', 'Auth::addwebbinar', ['filter' => 'session']);
+    $routes->get('editwebbinar/(:num)', 'Auth::editwebbinar/$1', ['filter' => 'session']);
+
     // Diklat
     $routes->get('diklat', 'Auth::diklat', ['filter' => 'session']);
     $routes->get('adddiklat', 'Auth::adddiklat', ['filter' => 'session']);
@@ -65,6 +70,11 @@ $routes->group('dashboard', static function ($routes) {
     $routes->get('addslideshow', 'Auth::addslideshow', ['filter' => 'session']);
     $routes->get('editslideshow/(:num)', 'Auth::editslideshow/$1', ['filter' => 'session']);
     $routes->post('removeslideshow/(:num)', 'Auth::removeslideshow/$1', ['filter' => 'session']);
+
+    // Status pengaduan dan permohonan
+    $routes->post('pengaduan/(:num)', 'Auth::pengaduan/$1', ['filter' => 'session']);
+    $routes->post('permohonan/(:num)', 'Auth::permohonan/$1', ['filter' => 'session']);
+
 });
 
 // Uploads
@@ -87,6 +97,7 @@ $routes->group('add', static function ($routes){
     $routes->post('artista', 'Upload::addartista', ['filter => session']);
     $routes->post('berita', 'Upload::addberita', ['filter => session']);
     $routes->post('seminar', 'Upload::addseminar', ['filter => session']);
+    $routes->post('webbinar', 'Upload::addwebbinar', ['filter => session']);
     $routes->post('diklat', 'Upload::adddiklat', ['filter => session']);
     $routes->post('jadwal', 'Upload::addjadwal', ['filter => session']);
     $routes->post('slideshow', 'Upload::addslideshow', ['filter => session']);
@@ -101,8 +112,8 @@ $routes->group('save', static function ($routes){
     $routes->post('artista/(:num)', 'Upload::artista/$1', ['filter => session']);
     $routes->post('berita/(:num)', 'Upload::editberita/$1', ['filter => session']);
     $routes->post('seminar/(:num)', 'Upload::editseminar/$1', ['filter => session']);
+    $routes->post('webbinar/(:num)', 'Upload::editwebbinar/$1', ['filter => session']);
     $routes->post('diklat/(:num)', 'Upload::editdiklat/$1', ['filter => session']);
-    $routes->post('jadwal/(:num)', 'Upload::editjadwal/$1', ['filter => session']);
     $routes->post('jadwal/(:num)', 'Upload::editjadwal/$1', ['filter => session']);
     $routes->post('slideshow/(:num)', 'Upload::editslideshow/$1', ['filter => session']);
     $routes->post('fotogaleri/(:num)', 'Upload::editfotogaleri/$1', ['filter => session']);

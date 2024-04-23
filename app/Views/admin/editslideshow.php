@@ -27,8 +27,8 @@
                     <div class="uk-card uk-card-default">
                         <div class="uk-card-media-top uk-text-center">
                             <div uk-lightbox>
-                                <a class="uk-inline" id="imagecontainer" href="artista/foto/<?=$news['file']?>" data-caption="<?=$news['file']?>">
-                                    <img id="fileimage" class="uk-margin-top uk-margin-bottom" src="artista/foto/<?=$news['file']?>" width="180" height="120" alt="">
+                                <a class="uk-inline" id="imagecontainer" href="<?=$news['file']?>" data-caption="<?=$news['file']?>">
+                                    <img id="fileimage" class="uk-margin-top uk-margin-bottom" src="<?=$news['file']?>" width="300" height="150" alt="">
                                 </a>
                             </div>
                         </div>
@@ -95,16 +95,16 @@
                         var linkimg = document.createElement('a');
                         linkimg.setAttribute('id','imagecontainer');
                         linkimg.setAttribute('class','uk-inline');
-                        linkimg.setAttribute('href','artista/foto/'+filename);
+                        linkimg.setAttribute('href','img/slideshow/'+filename);
                         linkimg.setAttribute('data-caption', filename);
 
 
                         var imagetag = document.createElement('img');
                         imagetag.setAttribute('id','fileimage');
                         imagetag.setAttribute('class','uk-margin-top uk-margin-bottom');
-                        imagetag.setAttribute('src','artista/foto/'+filename);
-                        imagetag.setAttribute('width','120');
-                        imagetag.setAttribute('heigth','180');
+                        imagetag.setAttribute('src','img/slideshow/'+filename);
+                        imagetag.setAttribute('width','300');
+                        imagetag.setAttribute('heigth','150');
                         imagetag.setAttribute('alt', filename);
 
                         containerimage.appendChild(linkimg);

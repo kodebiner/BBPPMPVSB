@@ -278,7 +278,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . '/images/', $truename . '.' . $ext);
+            $input->move(FCPATH . '/img/slideshow/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -420,7 +420,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => $input['gambar'],
+            'images'        => "images/".$input['gambar'],
             'description'   => $input['ringkasan'],
         ];
 
@@ -451,7 +451,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => $input['gambar'],
+            'images'        => "images/".$input['gambar'],
             'description'   => $input['ringkasan'],
         ];
 
@@ -481,8 +481,9 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => $input['gambar'],
+            'images'        => "images/".$input['gambar'],
             'description'   => $input['ringkasan'],
+            'type'          => 0,
         ];
 
         // insert News
@@ -512,13 +513,77 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => $input['gambar'],
+            'images'        => "images/".$input['gambar'],
             'description'   => $input['ringkasan'],
+            'type'          => 0,
         ];
 
         // insert News
         $SeminarModel->save($seminar);
         return redirect()->to('dashboard/seminar')->with('message', "Seminar Berhasil Di Ubah!");
+    }
+
+    // Add Seminar
+    public function addwebbinar()
+    {
+        // Calling Models
+        $UserModel      = new UsersModel();
+        $SeminarModel   = new SeminarModel();
+
+        // Get Data
+        $input  = $this->request->getPost();
+        $user   = $UserModel->find($this->data['uid']);
+
+        // Alias
+        $aliases = preg_replace('/\s+/', '-', $input['judul']);
+
+        // News Data 
+        $seminar = [
+            'userid'        => $user['id'],
+            'title'         => $input['judul'],
+            'alias'         => $aliases,
+            'introtext'     => $input['pendahuluan'],
+            'fulltext'      => $input['isi'],
+            'images'        => "images/".$input['gambar'],
+            'description'   => $input['ringkasan'],
+            'type'          => 1,
+        ];
+
+        // insert News
+        $SeminarModel->insert($seminar);
+        return redirect()->to('dashboard/webbinar')->with('message', "Webinar Berhasil Di Tambahkan!");
+    }
+
+    // Edit Seminar
+    public function editwebbinar($id){
+
+        // Calling Models
+        $UserModel      = new UsersModel();
+        $SeminarModel   = new SeminarModel();
+
+        // Get Data
+        $input  = $this->request->getPost();
+        $user   = $UserModel->find($this->data['uid']);
+
+        // Alias
+        $aliases = preg_replace('/\s+/', '-', $input['judul']);
+
+        // News Data 
+        $seminar = [
+            'id'            => $id,
+            'userid'        => $user['id'],
+            'title'         => $input['judul'],
+            'alias'         => $aliases,
+            'introtext'     => $input['pendahuluan'],
+            'fulltext'      => $input['isi'],
+            'images'        => "images/".$input['gambar'],
+            'description'   => $input['ringkasan'],
+            'type'          => 1,
+        ];
+
+        // insert News
+        $SeminarModel->save($seminar);
+        return redirect()->to('dashboard/webbinar')->with('message', "Webinar Berhasil Di Ubah!");
     }
 
     // Add Jadwal
@@ -542,7 +607,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => $input['gambar'],
+            'images'        => "images/".$input['gambar'],
             'description'   => $input['ringkasan'],
         ];
 
@@ -573,7 +638,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => $input['gambar'],
+            'images'        => "images/".$input['gambar'],
             'description'   => $input['ringkasan'],
         ];
 
@@ -599,7 +664,7 @@ class Upload extends BaseController
         // News Data 
         $diklat = [
             'title'         => $input['judul'],
-            'images'        => $input['gambar'],
+            'images'        => "images/".$input['gambar'],
         ];
 
         // insert News
@@ -620,7 +685,7 @@ class Upload extends BaseController
         $diklat = [
             'id'            => $id,
             'title'         => $input['judul'],
-            'images'        => $input['gambar'],
+            'images'        => "images/".$input['gambar'],
         ];
 
         // insert News
@@ -640,7 +705,7 @@ class Upload extends BaseController
         // News Data 
         $foto = [
             'title'         => $input['judul'],
-            'images'        => $input['gambar'],
+            'images'        => "images/".$input['gambar'],
         ];
 
         // insert News
@@ -661,7 +726,7 @@ class Upload extends BaseController
         $foto = [
             'id'            => $id,
             'title'         => $input['judul'],
-            'images'        => $input['gambar'],
+            'images'        => "images/".$input['gambar'],
         ];
 
         // insert News
@@ -743,7 +808,7 @@ class Upload extends BaseController
         $video = [
             'id'            => $id,
             'title'         => $input['judul'],
-            'images'        => $input['gambar'],
+            'images'        => "images/".$input['gambar'],
             'link'          => $idlink,
         ];
 
@@ -769,7 +834,7 @@ class Upload extends BaseController
 
         // News Data 
         $slide = [
-            'file'        => $input['gambar'],
+            'file'        => "img/slideshow/".$input['gambar'],
             'status'      => $status,
         ];
 
@@ -796,7 +861,7 @@ class Upload extends BaseController
         // News Data 
         $foto = [
             'id'            => $id,
-            'file'          => $input['gambar'],
+            'file'          => "img/slideshow/".$input['gambar'],
             'status'        => $status,
         ];
 

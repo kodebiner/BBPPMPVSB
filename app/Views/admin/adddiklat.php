@@ -17,25 +17,6 @@
                     <input class="uk-input uk-box-shadow-small uk-border-rounded" id="form-stacked-text" name="judul" type="text" placeholder="Masukkan Judul...">
                 </div>
             </div>
-            
-            <!-- <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Ringkasan</label>
-            <div class="uk-margin">
-                <div class="uk-form-controls">
-                    <textarea class="uk-textarea uk-box-shadow-small uk-border-rounded" rows="5" name="ringkasan" placeholder="Masukkan Ringkasan..." aria-label="Textarea"></textarea>
-                </div>
-            </div> -->
-            
-            <!-- <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold">Pendahulan</label>
-            <div class="uk-margin">
-                <textarea name="pendahuluan" id="file-picker" placeholder="Masukkan Pendahuluan...">
-                </textarea>
-            </div> -->
-
-            <!-- <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold">Isi</label>
-            <div class="uk-margin">
-                <textarea name="isi" id="file-picker" placeholder="Masukkan Isi..">
-                </textarea>
-            </div> -->
 
             <!-- Upload Foto -->
             <div class="uk-child-width-1-1@m uk-margin" uk-grid>
@@ -99,7 +80,6 @@
                             document.getElementById('imagecontainer').remove();
                         };
 
-                        // var containerimage = document.getElementById('imagecontainer');
                         var lightbox = document.getElementById('lightbox');
 
                         var linkimg = document.createElement('a');
@@ -113,8 +93,8 @@
                         imagetag.setAttribute('id','fileimage');
                         imagetag.setAttribute('class','uk-margin-top uk-margin-bottom');
                         imagetag.setAttribute('src','images/'+filename);
-                        imagetag.setAttribute('width','120');
-                        imagetag.setAttribute('heigth','180');
+                        imagetag.setAttribute('width','300');
+                        imagetag.setAttribute('heigth','150');
                         imagetag.setAttribute('alt', filename);
 
                         lightbox.appendChild(linkimg);

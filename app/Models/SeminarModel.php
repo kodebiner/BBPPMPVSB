@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class SeminarModel extends Model
 {
     protected $allowedFields = [
-        'userid', 'title', 'alias', 'introtext', 'fulltext', 'images', 'description', 'created_at', 'updated_at', 'deleted_at',
+        'userid', 'title', 'alias', 'type', 'introtext', 'fulltext', 'images', 'description', 'created_at', 'updated_at', 'deleted_at',
     ];
 
     protected $table      = 'seminar';

@@ -45,8 +45,8 @@
                     <div class="uk-card uk-card-default">
                         <div class="uk-card-media-top uk-text-center">
                             <div uk-lightbox>
-                                <a class="uk-inline" id="imagecontainer" href="images/<?=$news['images']?>" data-caption="<?=$news['images']?>">
-                                    <img id="fileimage" class="uk-margin-top uk-margin-bottom" src="images/<?=$news['images']?>" width="180" height="120" alt="">
+                                <a class="uk-inline" id="imagecontainer" href="<?=$news['images']?>" data-caption="<?=$news['images']?>">
+                                    <img id="fileimage" class="uk-margin-top uk-margin-bottom" src="<?=$news['images']?>" width="300" height="150" alt="">
                                 </a>
                             </div>
                         </div>
@@ -121,8 +121,8 @@
                         imagetag.setAttribute('id','fileimage');
                         imagetag.setAttribute('class','uk-margin-top uk-margin-bottom');
                         imagetag.setAttribute('src','images/'+filename);
-                        imagetag.setAttribute('width','120');
-                        imagetag.setAttribute('heigth','180');
+                        imagetag.setAttribute('width','300');
+                        imagetag.setAttribute('heigth','150');
                         imagetag.setAttribute('alt', filename);
 
                         containerimage.appendChild(linkimg);

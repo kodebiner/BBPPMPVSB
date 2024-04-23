@@ -31,13 +31,32 @@
                             $bold = "uk-text-bolder";
                         }
                         ?>
-                            <tr>
-                                <td class="<?=$bold?>"><?=$aduan['name']?></td>
-                                <td class="<?=$bold?>"><?=$aduan['email']?></td>
-                                <td class="<?=$bold?>"><?=$aduan['phone']?></td>
-                                <td class="uk-text-truncate <?=$bold?>"><?=$aduan['note']?></td>
-                                <td class="uk-text-center"><a href="#modal-aduan<?=$aduan['id']?>"><span uk-icon="eye"></span></a></td>
+                            <tr id="rowaduan<?=$aduan['id']?>" class="<?=$bold?>">
+                                <td><?=$aduan['name']?></td>
+                                <td><?=$aduan['email']?></td>
+                                <td><?=$aduan['phone']?></td>
+                                <td class="uk-text-truncate"><?=$aduan['note']?></td>
+                                <td class="uk-text-center"><a onclick="statusAduan<?=$aduan['id']; ?>()" href="#modal-aduan<?=$aduan['id']?>" uk-toggle><span uk-icon="eye"></span></a></td>
                             </tr>
+                            <script>
+                                function statusAduan<?= $aduan['id']; ?>() {
+                                    $.ajax({
+                                        url: "dashboard/pengaduan/<?= $aduan['id'] ?>",
+                                        method: "POST",
+                                        data: {
+                                            aduan: <?= $aduan['id'] ?>,
+                                        },
+                                        dataType: "json",
+                                        error: function() {
+                                            console.log('error', arguments);
+                                        },
+                                        success: function() {
+                                            console.log('success', arguments);
+                                            $("#rowaduan<?=$aduan['id']?>").removeAttr("class");
+                                        },
+                                    })
+                                }
+                            </script>
                         <?php } ?>
                     </tbody>
                 </table>
@@ -56,8 +75,8 @@
             <div class="uk-card-header uk-tile-primary">
                 <div class="uk-grid-small uk-flex-middle" uk-grid>
                     <div class="uk-width-expand">
-                        <h3 class="uk-card-title uk-margin-remove-bottom">Pelayanan Informasi</h3>
-                        <p class="uk-text-meta uk-margin-remove-top"><time datetime="2016-04-01T19:00">Daftar Permohonan Informasi</time></p>
+                        <h3 class="uk-card-title uk-margin-remove-bottom">Daftar Permohonan</h3>
+                        <p class="uk-text-meta uk-margin-remove-top">Daftar Permohonan Informasi</p>
                     </div>
                 </div>
             </div>
@@ -75,14 +94,39 @@
                     </thead>
                     <tbody>
                         <?php foreach($permohonan as $mohon){ ?>
-                            <tr>
+                            <?php
+                                $bolder = ""; 
+                                if($mohon['status'] === "0"){
+                                    $bolder = "uk-text-bolder";
+                                }
+                            ?>
+                            <tr id="rowpermohonan<?=$mohon['id']?>" class="<?=$bolder?>">
                                 <td><?=$mohon['name']?></td>
                                 <td class="uk-text-truncate"><?=$mohon['address']?></td>
                                 <td><?=$mohon['jobs']?></td>
                                 <td><?=$mohon['phone']?></td>
                                 <td class="uk-text-truncate"><?=$mohon['note']?></td>
-                                <td class="uk-text-center"><span uk-icon="eye"></span></td>
+                                <td class="uk-text-center"><a href="#modal-permohonan<?=$mohon['id']?>" onclick="permohonan<?=$mohon['id']; ?>()" uk-toggle><span uk-icon="eye"></span></a></td>
                             </tr>
+                            <script>
+                                function permohonan<?= $mohon['id']; ?>() {
+                                    $.ajax({
+                                        url: "dashboard/permohonan/<?= $mohon['id'] ?>",
+                                        method: "POST",
+                                        data: {
+                                            aduan: <?= $mohon['id'] ?>,
+                                        },
+                                        dataType: "json",
+                                        error: function() {
+                                            console.log('error', arguments);
+                                        },
+                                        success: function() {
+                                            console.log('success', arguments);
+                                            $("#rowpermohonan<?=$mohon['id']?>").removeAttr("class");
+                                        },
+                                    })
+                                }
+                            </script>
                         <?php } ?>
                     </tbody>
                 </table>
@@ -97,38 +141,100 @@
         </div>
     </div>
 
-    <?php ?>
-    <div id="#modal-aduan<?=$aduan['id']?>" uk-modal>
-        <div class="uk-modal-dialog">
-            <button class="uk-modal-close-default" type="button" uk-close></button>
-            <div class="uk-modal-header">
-                <h2 class="uk-modal-title">Modal Title</h2>
-            </div>
-            <div class="uk-modal-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
-            <div class="uk-modal-footer uk-text-right">
-                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                <button class="uk-button uk-button-primary" type="button">Save</button>
+    <!-- Modal Pengaduan -->
+    <?php foreach($pengaduan as $aduan) {?>
+        <div id="modal-aduan<?=$aduan['id']?>" uk-modal>
+            <div class="uk-modal-dialog">
+                <button class="uk-modal-close-default uk-light" type="button" uk-close></button>
+                <div class="uk-modal-header" style="background-color: red;">
+                    <h2 class="uk-card-title uk-text-bolder" style="color: white;">Detail Pengaduan</h2>
+                </div>
+                <div class="uk-modal-body">
+                    <div uk-grid>
+                        <div class="uk-width-1-4@m">
+                            <div class="uk-text-bolder">Nama</div>
+                        </div>
+                        <div class="uk-width-expand@m">
+                            <div class=""><?=$aduan['name']?></div>
+                        </div>
+                    </div>
+                    <div class="uk-margin-small-top" uk-grid>
+                        <div class="uk-width-1-4@m">
+                            <div class="uk-text-bolder">Email</div>
+                        </div>
+                        <div class="uk-width-expand@m">
+                            <div class=""><?=$aduan['email']?></div>
+                        </div>
+                    </div>
+                    <div class="uk-margin-small-top" uk-grid>
+                        <div class="uk-width-1-4@m">
+                            <div class="uk-text-bolder">No.Telefon</div>
+                        </div>
+                        <div class="uk-width-expand@m">
+                            <div class=""><?=$aduan['phone']?></div>
+                        </div>
+                    </div>
+                    <div class="uk-margin-small-top" uk-grid>
+                        <div class="uk-width-1-4@m">
+                            <div class="uk-text-bolder">Pengaduan</div>
+                        </div>
+                        <div class="uk-width-expand@m">
+                            <div class=""><?=$aduan['note']?></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    <?php } ?>
+    <!-- End Modal Pengaduan -->
 
-    
-    
-    <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/5anLPw0Efmo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
-    <!-- <div>
-        <div class="uk-card uk-card-default uk-card-body">Item</div>
-    </div>
-    <div>
-        <div class="uk-card uk-card-default uk-card-body">Item</div>
-    </div>
-    <div>
-        <div class="uk-card uk-card-default uk-card-body">Item</div>
-    </div>
-    <div>
-        <div class="uk-card uk-card-default uk-card-body">Item</div>
-    </div> -->
+    <!-- Permohonan -->
+    <?php foreach($permohonan as $mohon) {?>
+        <div id="modal-permohonan<?=$mohon['id']?>" uk-modal>
+            <div class="uk-modal-dialog">
+                <button class="uk-modal-close-default uk-light" type="button" uk-close></button>
+                <div class="uk-modal-header" style="background-color: #1e87f0;">
+                    <h2 class="uk-card-title uk-text-bolder" style="color: white;">Detail Permohonan</h2>
+                </div>
+                <div class="uk-modal-body">
+                    <div uk-grid>
+                        <div class="uk-width-1-4@m">
+                            <div class="uk-text-bolder">Nama</div>
+                        </div>
+                        <div class="uk-width-expand@m">
+                            <div class=""><?=$mohon['name']?></div>
+                        </div>
+                    </div>
+                    <div class="uk-margin-small-top" uk-grid>
+                        <div class="uk-width-1-4@m">
+                            <div class="uk-text-bolder">Pekerjaan</div>
+                        </div>
+                        <div class="uk-width-expand@m">
+                            <div class=""><?=$mohon['jobs']?></div>
+                        </div>
+                    </div>
+                    <div class="uk-margin-small-top" uk-grid>
+                        <div class="uk-width-1-4@m">
+                            <div class="uk-text-bolder">No.Telefon</div>
+                        </div>
+                        <div class="uk-width-expand@m">
+                            <div class=""><?=$mohon['phone']?></div>
+                        </div>
+                    </div>
+                    <div class="uk-margin-small-top" uk-grid>
+                        <div class="uk-width-1-4@m">
+                            <div class="uk-text-bolder">Permohonan</div>
+                        </div>
+                        <div class="uk-width-expand@m">
+                            <div class=""><?=$mohon['note']?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+    <!-- End Modal Permohonan -->
+
 </div>
 
 <?= $this->endSection() ?>

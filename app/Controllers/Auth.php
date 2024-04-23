@@ -37,7 +37,7 @@ class Auth extends BaseController
         // Get Data
         $user       = $usersmodel->find($this->data['uid']);
         $pengaduan  = $PengaduanModel->orderBy('status','ASC')->paginate(5,'pengaduan');
-        $permohonan = $PermohonanModel->orderBy('created_at','DESC')->paginate(5,'permohonan');
+        $permohonan = $PermohonanModel->orderBy('status','ASC')->paginate(5,'permohonan');
 
         // Parsing data
         $data                       = $this->data;
@@ -137,7 +137,7 @@ class Auth extends BaseController
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
-        $seminar = $SeminarModel->orderBy('updated_at', 'DESC')->paginate(20, 'news');
+        $seminar = $SeminarModel->where('type','0')->orderBy('updated_at', 'DESC')->paginate(20, 'news');
         $users = $usersmodel->findAll();
         array_multisort($seminar, SORT_DESC);
 
@@ -200,6 +200,67 @@ class Auth extends BaseController
         $SeminarModel->delete($seminar);
 
         die(json_encode(array($seminar)));
+    }
+
+    // Webbinar Views
+    public function webbinar()
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $SeminarModel   = new SeminarModel();
+
+        // Get Data
+        $user = $usersmodel->find($this->data['uid']);
+        $seminar = $SeminarModel->where('type','1')->orderBy('updated_at', 'DESC')->paginate(20, 'news');
+        $users = $usersmodel->findAll();
+        array_multisort($seminar, SORT_DESC);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Web binar";
+        $data['user']       = $user;
+        $data['berita']     = $seminar;
+        $data['users']      = $users;
+        $data['count']      = count($seminar);
+        $data['pager']      = $SeminarModel->pager;
+
+        return view('Views/admin/webbinar', $data);
+    }
+
+    public function addwebbinar()
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+
+        // Get Data
+        $user = $usersmodel->find($this->data['uid']);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Tambah Webbinar";
+        $data['user']       = $user;
+
+        return view('Views/admin/addwebbinar', $data);
+    }
+
+    public function editwebbinar($id)
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $SeminarModel    = new SeminarModel();
+
+        $user = $usersmodel->find($this->data['uid']);
+        $Seminar = $SeminarModel->find($id);
+        $users = $usersmodel->findAll();
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Edit Webbinar";
+        $data['user']       = $user;
+        $data['users']      = $users;
+        $data['news']       = $Seminar;
+
+        return view('Views/admin/editwebbinar', $data);
     }
 
     // Diklat Views
@@ -266,14 +327,14 @@ class Auth extends BaseController
     public function removediklat($id)
     {
         // Calling Models
-        $SeminarModel    = new SeminarModel();
+        $DiklatModel = new DiklatModel();
 
         // Get Data
-        $seminar = $SeminarModel->find($id);
+        $diklat = $DiklatModel->find($id);
 
-        $SeminarModel->delete($seminar);
+        $DiklatModel->delete($diklat);
 
-        die(json_encode(array($seminar)));
+        die(json_encode(array($diklat)));
     }
 
     // Jadwal Views
@@ -499,15 +560,14 @@ class Auth extends BaseController
     public function removefoto($id)
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
-        $VideoModel   = new VideoModel();
+        $PhotoModel   = new PhotoModel();
 
         // Get Data
-        $video = $VideoModel->find($id);
+        $photo = $PhotoModel->find($id);
 
-        $VideoModel->delete($video);
+        $PhotoModel->delete($photo);
 
-        die(json_encode(array($video)));
+        die(json_encode(array($photo)));
     }
 
     // Video Views
@@ -645,6 +705,44 @@ class Auth extends BaseController
         $SlideshowModel->delete($slideshow);
 
         die(json_encode(array($slideshow)));
+    }
+
+    // Pengaduan
+    public function pengaduan($id)
+    {
+        // Calling Models
+        $PengaduanModel    = new PengaduanModel();
+
+        // Get Data
+        $aduan = $PengaduanModel->find($id);
+
+        $status = [
+            'id'        => $aduan['id'],
+            'status'    => "1",
+        ];
+
+        $PengaduanModel->save($status);
+
+        die(json_encode(array($status)));
+    }
+
+    // Permohonan
+    public function permohonan($id)
+    {
+        // Calling Models
+        $PermohonanModel    = new PermohonanModel();
+
+        // Get Data
+        $permohonan = $PermohonanModel->find($id);
+
+        $status = [
+            'id'        => $permohonan['id'],
+            'status'    => "1",
+        ];
+
+        $PermohonanModel->save($status);
+
+        die(json_encode(array($status)));
     }
 
 }

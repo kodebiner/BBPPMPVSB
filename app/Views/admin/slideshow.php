@@ -15,7 +15,7 @@
                 <table class="uk-table uk-table-small uk-table-striped">
                     <thead>
                         <tr>
-                            <th>File</th>
+                            <!-- <th>File</th> -->
                             <th>Gambar</th>
                             <th>Status</th>
                             <th>Kelola Slide Show</th>
@@ -24,10 +24,10 @@
                     <tbody>
                         <?php foreach ($slideshow as $slide) { ?>
                             <tr id="rowslide<?=$slide['id']?>">
-                                <td><?=$slide['file']?></td>
+                                <!-- <td></?=$slide['file']?></td> -->
                                 <td>
                                     <div uk-lightbox>
-                                        <a href="img/slideshow/<?=$slide['file']?>"><img width="50" height="50" src="img/slideshow/<?=$slide['file']?>" alt="<?=$slide['file']?>"></a>
+                                        <a href="<?=$slide['file']?>"><img width="50" height="50" src="<?=$slide['file']?>" alt="<?=$slide['file']?>"></a>
                                     </div>
                                 </td>
                                 <td>

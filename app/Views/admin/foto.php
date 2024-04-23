@@ -23,7 +23,7 @@
                     </thead>
                     <tbody>
                         <?php foreach ($photos as $foto) { ?>
-                            <tr id="rowberita<?=$foto['id']?>">
+                            <tr id="rowfoto<?=$foto['id']?>">
                                 <td><?=$foto['title']?></td>
                                 <td>
                                     <div uk-lightbox>
@@ -41,7 +41,7 @@
                                                     url: "dashboard/removefoto/<?= $foto['id'] ?>",
                                                     method: "POST",
                                                     data: {
-                                                        artista: <?= $foto['id'] ?>,
+                                                        foto: <?= $foto['id'] ?>,
                                                     },
                                                     dataType: "json",
                                                     error: function() {
@@ -49,8 +49,8 @@
                                                     },
                                                     success: function() {
                                                         console.log('success', arguments);
-                                                        alert('data berhasil di hapus');
-                                                        $("#rowberita<?=$foto['id']?>").remove();
+                                                        alert('Foto berhasil di hapus');
+                                                        $("#rowfoto<?=$foto['id']?>").remove();
                                                     },
                                                 })
                                             }
