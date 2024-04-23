@@ -46,8 +46,9 @@ class Autoload extends AutoloadConfig
     public $psr4 = [
         APP_NAMESPACE => APPPATH, // For custom app namespace
         'Config'      => APPPATH . 'Config',
-        'CodeIgniter\\Settings' => APPPATH . 'ThirdParty/settings-2.2.0/src',
-        'CodeIgniter\\Shield'   => APPPATH . 'ThirdParty/shield-1.0.2/src', 
+        'CodeIgniter\\Settings'         => APPPATH . 'ThirdParty/settings-2.2.0/src',
+        'CodeIgniter\\Shield'           => APPPATH . 'ThirdParty/shield-1.0.2/src',
+        'Tatter\\Visits'                => APPPATH . 'ThirdParty/visits/src',
     ];
 
     /**

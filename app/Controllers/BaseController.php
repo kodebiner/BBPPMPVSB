@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use Tatter\Visits\Models\VisitModel;
 
 
 use CodeIgniter\Shield\Entities\User;
@@ -67,6 +68,7 @@ abstract class BaseController extends Controller
         $this->uri = $this->request->uri;
 
         // Calling Model
+        $VisitModel     = new VisitModel();
 
         // Login Check
         $auth = service('authentication');
@@ -74,12 +76,18 @@ abstract class BaseController extends Controller
         // Get Accurate Date
         date_default_timezone_set('Asia/Jakarta');
 
+        // Populating Data
+        $dailyvisit     = $VisitModel->where('updated_at <', date('Y-m-d 23:59:59'))->where('updated_at >', date('Y-m-d 00:00:00'))->find();
+        $monthlyvisit   = $VisitModel->where('updated_at <', date('Y-m-t 23:59:59'))->where('updated_at >', date('Y-m-1 00:00:00'))->find();
+
         // Parsing View Data
         $this->data = [
             'ismobile'      => $this->agent->isMobile(),
             'uri'           => $this->uri,
             'authorize'     => service('authorization'),
             'uid'           => auth()->id(),
+            'dailyvisit'    => count($dailyvisit),
+            'monthlyvisit'  => count($monthlyvisit),
         ];
     }
 }

@@ -25,11 +25,11 @@ class Home extends BaseController
         $DiklatModel    = new DiklatModel();
         
         // Populating Data
-        $newses     = $BeritaModel->orderBy('updated_at', 'DESC')->limit(4)->find();
-        $workshops  = $SeminarModel->orderBy('updated_at', 'DESC')->limit(3)->find();
-        $schedules  = $ScheduleModel->orderBy('updated_at', 'DESC')->limit(6)->find();
-        $diklats    = $DiklatModel->orderBy('updated_at', 'DESC')->limit(4)->find();
-        $slideshows = $SlideshowModel->where('status', '1')->orderBy('id', 'DESC')->find();
+        $newses         = $BeritaModel->orderBy('updated_at', 'DESC')->limit(4)->find();
+        $workshops      = $SeminarModel->orderBy('updated_at', 'DESC')->limit(3)->find();
+        $schedules      = $ScheduleModel->orderBy('updated_at', 'DESC')->limit(6)->find();
+        $diklats        = $DiklatModel->orderBy('updated_at', 'DESC')->limit(4)->find();
+        $slideshows     = $SlideshowModel->where('status', '1')->orderBy('id', 'DESC')->find();
 
         // Parsing Data To View
         $data                   = $this->data;
@@ -177,5 +177,62 @@ class Home extends BaseController
 
         // Return
         return redirect()->back()->with('message', "Data Berhasil Dipindahkan");
+    }
+
+    public function reconfseminarwebinar()
+    {
+        // Calling Models
+        $ContentModel       = new ContentModel();
+        $SeminarModel       = new SeminarModel();
+
+        // Populating Data
+        $seminars           = $ContentModel->where('catid', '20')->find();
+        $webinars           = $ContentModel->orWhere('catid', '13')->find();
+
+        // Truncate Seminar
+        $SeminarModel->truncate();
+        // Truncate Seminar End
+        
+        // Data Seminar
+        foreach ($seminars as $seminar) {
+            $images = json_decode($seminar['images']);
+            $dataseminar = [
+                'userid'        => $seminar['created_by'],
+                'title'         => $seminar['title'],
+                'alias'         => $seminar['alias'],
+                'introtext'     => $seminar['introtext'],
+                'fulltext'      => $seminar['fulltext'],
+                'images'        => $images->image_intro,
+                'description'   => $seminar['metadesc'],
+                'created_at'    => $seminar['created'],
+                'updated_at'    => $seminar['modified'],
+                'type'          => 0,
+            ];
+
+            // Insert Data
+            $SeminarModel->insert($dataseminar);
+        }
+        // Data Seminar End
+        
+        // Data Webinar
+        foreach ($webinars as $webinar) {
+            $images = json_decode($webinar['images']);
+            $datawebinar = [
+                'userid'        => $webinar['created_by'],
+                'title'         => $webinar['title'],
+                'alias'         => $webinar['alias'],
+                'introtext'     => $webinar['introtext'],
+                'fulltext'      => $webinar['fulltext'],
+                'images'        => $images->image_intro,
+                'description'   => $webinar['metadesc'],
+                'created_at'    => $webinar['created'],
+                'updated_at'    => $webinar['modified'],
+                'type'          => 1,
+            ];
+
+            // Insert Data
+            $SeminarModel->insert($datawebinar);
+        }
+        // Data Webinar End
     }
 }

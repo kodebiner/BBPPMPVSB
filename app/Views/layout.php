@@ -130,15 +130,15 @@
                                     <li>
                                         <a href="webinar">RBI</a>
                                     </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='artista') && ($uri->getSegment(2)==='')?'uk-active':'' ?>">
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='publikasi') && ($uri->getSegment(2)==='artista')?'uk-active':'' ?>">
                                         <a href="">Publikasi</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                                 <li>
                                                     <a href="https://sendikraf.kemdikbud.go.id" target="_blank">Jurnal Sendikraf</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1)==='artista') && ($uri->getSegment(2)==='')?'uk-active':'' ?>">
-                                                    <a href="artista">Majalah Artista</a>
+                                                <li class="<?= ($uri->getSegment(1)==='publikasi') && ($uri->getSegment(2)==='artista')?'uk-active':'' ?>">
+                                                    <a href="publikasi/artista">Majalah Artista</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -175,10 +175,15 @@
                                 </ul>
                             </div>
                             <div class="uk-navbar-right">
-                                <form class="uk-search uk-search-default">
+                                <!-- <form class="uk-search uk-search-default">
                                     <span class="uk-search-icon-flip" uk-search-icon></span>
                                     <input class="uk-search-input" type="search" placeholder="Search" aria-label="Search">
-                                </form>
+                                </form> -->
+                                <div class="uk-panel">
+                                    <div class="uk-text-emphasis">Pengunjung :</div>
+                                    <div class="uk-text-emphasis uk-margin-left">Hari ini <span class="uk-float-right uk-margin-left uk-text-secondary"><?= $dailyvisit; ?></span></div>
+                                    <div class="uk-text-emphasis uk-margin-left">Bulan ini <span class="uk-float-right uk-margin-left uk-text-secondary"><?= $monthlyvisit; ?></span></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -247,9 +252,7 @@
                             </div>
                             <div class="uk-navbar-right">
                                 <a uk-toggle="" href="#tm-dialog-mobile" class="uk-navbar-toggle" role="button" aria-label="Open menu">
-                                    <div uk-navbar-toggle-icon="" class="uk-icon uk-navbar-toggle-icon">
-
-                                    </div>
+                                    <div uk-navbar-toggle-icon="" class="uk-icon uk-navbar-toggle-icon"></div>
                                 </a>
                             </div>
                         </nav>
@@ -265,14 +268,6 @@
                     <!-- Button Close End -->
                     <div class="uk-margin">
                         <div class="uk-child-width-1-1" uk-grid>
-                            <div>
-                                <div class="uk-panel">
-                                    <form class="uk-search uk-search-default">
-                                        <a href="" uk-search-icon></a>
-                                        <input class="uk-search-input" type="search" placeholder="Search" aria-label="Search">
-                                    </form>
-                                </div>
-                            </div>
                             <div>
                                 <div class="uk-panel">
                                     <ul class="uk-nav-default" uk-nav>
@@ -336,14 +331,14 @@
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'webinar') ? 'uk-active' : '' ?>">
                                             <a href="webinar">RBI</a>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'artista') ? 'uk-active' : '' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'publikasi') && ($uri->getSegment(2 )=== 'artista')?'uk-active':'' ?>">
                                             <a href="">Publikasi <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
                                                 <li>
                                                     <a href="https://sendikraf.kemdikbud.go.id" target="_blank">Jurnal Sendikraft</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'artista') ? 'uk-active' : '' ?>">
-                                                    <a href="artista">Majalah Artista</a>
+                                                <li class="<?= ($uri->getSegment(1) === 'publikasi') && ($uri->getSegment(2) === 'artista')?'uk-active':'' ?>">
+                                                    <a href="publikasi/artista">Majalah Artista</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -370,6 +365,13 @@
                                             </ul>
                                         </li>
                                     </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="uk-panel">
+                                    <div class="uk-text-emphasis">Pengunjung :</div>
+                                    <div class="uk-text-emphasis uk-margin-left">Hari ini <span class="uk-float-right uk-margin-left uk-text-secondary"><?= $dailyvisit; ?></span></div>
+                                    <div class="uk-text-emphasis uk-margin-left">Bulan ini <span class="uk-float-right uk-margin-left uk-text-secondary"><?= $monthlyvisit; ?></span></div>
                                 </div>
                             </div>
                         </div>

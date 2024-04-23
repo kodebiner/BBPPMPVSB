@@ -35,7 +35,7 @@ class Artista extends BaseController
         $data['title']          = "Majalah Artista";
         $data['description']    = "Majalah Artista terkait BBPPMPVSB";
         $data['artistas']       = $artistas;
-        $data['caturi']         = 'artista';
+        $data['caturi']         = 'publikasi/artista';
         $data['cattitle']       = 'Majalah Artista';
         $data['count']          = count($artistas);
         $data['pager']          = $pager_links;
@@ -57,7 +57,7 @@ class Artista extends BaseController
         $data['title']          = $article['title'];
         $data['description']    = $article['alias'];
         $data['article']        = $article;
-        $data['caturi']         = 'artista';
+        $data['caturi']         = 'publikasi/artista';
         $data['cattitle']       = 'Artista';
 
         // Return Data To View

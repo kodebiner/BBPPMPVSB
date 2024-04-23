@@ -22,7 +22,7 @@
 <section class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom">
     <!-- <embed type="application/pdf" src="download/artista/<?= $article['file'] ?>" width="" height=""></embed> -->
     <div class="uk-text-center">
-        <object type="application/pdf" data="download/artista/<?= $article['file'] ?>" width="1500" height="1300"></object>
+        <object type="application/pdf" data="artista/artikel/<?= $article['file'] ?>" width="1500" height="1300"></object>
     </div>
 </section>
 <!-- Article Section End -->

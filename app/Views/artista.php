@@ -30,8 +30,8 @@
                         </a>
                     </div> -->
                     <div class="uk-light uk-scrollspy-inview">
-                        <a class="uk-inline-clip uk-transition-toggle uk-link-toggle" href="artista/<?= $artista['alias'] ?>">
-                            <img src="images/artista/<?= $artista['photo'] ?>" alt="<?= $artista['title'] ?>">
+                        <a class="uk-inline-clip uk-transition-toggle uk-link-toggle" href="publikasi/artista/<?= $artista['alias'] ?>">
+                            <img src="artista/foto/<?= $artista['photo'] ?>" alt="<?= $artista['title'] ?>">
                             <div class="uk-overlay-primary uk-transition-fade uk-position-cover"></div>
                             <div class="uk-position-center uk-transition-fade">
                                 <div class="uk-overlay">

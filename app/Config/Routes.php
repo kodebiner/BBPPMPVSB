@@ -125,6 +125,7 @@ $routes->group('/', static function ($routes) {
     $routes->get('', 'Home::index');
     $routes->get('migration', 'Home::migration');
     $routes->get('movedata', 'Home::movedata');
+    $routes->get('reconfseminarwebinar', 'Home::reconfseminarwebinar');
 });
 
 // News
@@ -152,10 +153,10 @@ $routes->group('profil', static function ($routes) {
 });
 
 // Artista
-$routes->group('artista', static function ($routes) {
-    $routes->get('', 'Artista::index');
+$routes->group('publikasi', static function ($routes) {
+    $routes->get('artista', 'Artista::index');
     // $routes->get('news', 'Artista::index');
-    $routes->get('(:any)', 'Artista::article/$1');
+    $routes->get('artista/(:any)', 'Artista::article/$1');
 });
 
 // Layanan
