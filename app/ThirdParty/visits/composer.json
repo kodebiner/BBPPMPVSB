@@ -1,0 +1,77 @@
+{
+    "name": "tatter/visits",
+    "description": "Lightweight traffic tracking for CodeIgniter 4",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "codeigniter",
+        "codeigniter4",
+        "traffic",
+        "visits",
+        "analytics"
+    ],
+    "authors": [
+        {
+            "name": "Matthew Gatner",
+            "email": "mgatner@tattersoftware.com",
+            "homepage": "https://tattersoftware.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/tattersoftware/codeigniter4-visits",
+    "require": {
+        "php": "^7.4 || ^8.0"
+    },
+    "require-dev": {
+        "codeigniter4/framework": "^4.2",
+        "tatter/imposter": "^1.0",
+        "tatter/tools": "^2.0",
+        "kint-php/kint": "^5.1"
+    },
+    "suggest": {
+        "codeigniter4/authentication-implementation": "Required to track authenticated users."
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Tatter\\Visits\\": "src"
+        },
+        "exclude-from-classmap": [
+            "**/Database/Migrations/**"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Support\\": "tests/_support"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "scripts": {
+        "analyze": [
+            "phpstan analyze",
+            "psalm",
+            "rector process --dry-run"
+        ],
+        "ci": [
+            "Composer\\Config::disableProcessTimeout",
+            "@deduplicate",
+            "@analyze",
+            "@composer normalize --dry-run",
+            "@test",
+            "@inspect",
+            "@style"
+        ],
+        "deduplicate": "phpcpd app/ src/",
+        "inspect": "deptrac analyze --cache-file=build/deptrac.cache",
+        "mutate": "infection --threads=2 --skip-initial-tests --coverage=build/phpunit",
+        "retool": "retool",
+        "style": "php-cs-fixer fix --verbose --ansi --using-cache=no",
+        "test": "phpunit"
+    }
+}
