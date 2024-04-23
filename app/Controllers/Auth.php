@@ -13,6 +13,8 @@ use App\Models\VideoModel;
 use App\Models\SlideshowModel;
 use App\Models\PengaduanModel;
 use App\Models\PermohonanModel;
+use App\Models\IdentitasModel;
+use CodeIgniter\Shield\Entities\User;
 
 class Auth extends BaseController
 {
@@ -50,6 +52,30 @@ class Auth extends BaseController
 
         // Retrun View
         return view('Views/admin/dashboard', $data);
+    }
+
+    public function users()
+    {
+        // Calling Models
+        $usersmodel = new UsersModel();
+        $IdentitasModel     = new IdentitasModel();
+
+        // Get Data
+        $user       = $usersmodel->find($this->data['uid']);
+        $users      = $users = auth()->getProvider()->findAll();
+        $identitas  = $IdentitasModel->findAll();
+
+        dd($identitas);
+
+        // dd($users);
+        // Parsing data
+        $data                       = $this->data;
+        $data['title']              = "Dashboard Users";
+        $data['user']               = $user;
+        $data['users']              = $users;
+
+        // Retrun View
+        return view('Views/admin/users', $data);
     }
 
     // Berita Views

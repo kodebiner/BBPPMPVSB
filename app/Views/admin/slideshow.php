@@ -27,7 +27,7 @@
                                 <!-- <td></?=$slide['file']?></td> -->
                                 <td>
                                     <div uk-lightbox>
-                                        <a href="<?=$slide['file']?>"><img width="50" height="50" src="<?=$slide['file']?>" alt="<?=$slide['file']?>"></a>
+                                        <a href="img/slideshow/<?=$slide['file']?>"><img width="50" height="50" src="<?=$slide['file']?>" alt="<?=$slide['file']?>"></a>
                                     </div>
                                 </td>
                                 <td>

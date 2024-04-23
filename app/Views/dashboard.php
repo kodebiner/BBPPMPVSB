@@ -151,6 +151,7 @@
                     </ul>
                 </li>
                 <li class="uk-nav-divider <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'slideshow') || ($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === 'addslideshow') || ($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === 'editslideshow') ? 'uk-active' : '' ?>"><a href="dashboard/slideshow"><span class="uk-margin-right" uk-icon="album"></span>Slideshow</a></li>
+                <li class="uk-nav-divider <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'users') ? 'uk-active' : '' ?>"><a href="dashboard/users"><span class="uk-margin-right" uk-icon="user"></span>Kelola Pengguna</a></li>
             </ul>
         </div>
     </div>

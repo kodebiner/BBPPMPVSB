@@ -18,6 +18,9 @@ $routes->group('dashboard', static function ($routes) {
     service('auth')->routes($routes);
     $routes->get('', 'Auth::dashboard', ['filter' => 'session']);
 
+    // Users
+    $routes->get('users', 'Auth::users', ['filter' => 'session']);
+
     // Berita
     $routes->get('berita', 'Auth::berita', ['filter' => 'session']);
     $routes->get('addberita', 'Auth::addberita', ['filter' => 'session']);
