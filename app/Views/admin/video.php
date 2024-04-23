@@ -27,8 +27,8 @@
                                 <td><?=$foto['title']?></td>
                                 <td>
                                     <div uk-lightbox>
-                                        <a href="images/<?=$foto['images']?>">
-                                        <img width="80" height="60" src="images/<?=$foto['images']?>" alt="<?=$foto['images']?>">
+                                        <a href="<?=$foto['images']?>">
+                                        <img width="80" height="60" src="<?=$foto['images']?>" alt="<?=$foto['images']?>">
                                         </a>
                                     </div>
                                 </td>

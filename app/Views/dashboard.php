@@ -175,6 +175,6 @@
 
 </body>
 <div class="footer">
-    <p class="uk-margin-top">Copyright &copy; <?php auto_copyright("2023"); ?><br />PT.Kode Biner Teknologi Indonesia</p>
+    <p class="uk-margin-top">Copyright &copy; <?php auto_copyright("2023"); ?><br />PT Kodebiner Teknologi Indonesia</p>
 </div>
 </html>

@@ -20,16 +20,16 @@
 
 <!-- Content Section -->
 <section class="uk-background-norepeat uk-background-cover uk-background-top-center uk-section" data-src="img/bg.svg" uk-img>
-        <div class="uk-container uk-container-xlarge">
-            <div class="uk-child-width-1-1 uk-child-width-1-2@m uk-flex-middle" uk-grid>
-                <div>
-                    <h3 class="uk-text-secondary"><?= $galleries['title'] ?></h3>
-                </div>
-                <div>
-                    <iframe src="<?= $galleries['link'] ?>" width="1920" height="1080" allowfullscreen uk-responsive uk-video="automute: true"></iframe>
-                </div>
+    <div class="uk-container uk-container-xlarge">
+        <div class="uk-flex-middle" uk-grid>
+            <div class="uk-width-1-3@m uk-width-1-1">
+                <h5 class="uk-text-secondary uk-text-justify"><?= $galleries['title'] ?></h5>
+            </div>
+            <div class="uk-width-2-3@m uk-width-1-1">
+                <iframe src="https://www.youtube.com/embed/<?= $galleries['link'] ?>" width="1920" height="1080" allowfullscreen uk-responsive uk-video="automute: true"></iframe>
             </div>
         </div>
+    </div>
 </section>
 <!-- Content Section End -->
 <?= $this->endSection() ?>

@@ -92,13 +92,13 @@
                         var linkimg = document.createElement('a');
                         linkimg.setAttribute('id','imagecontainer');
                         linkimg.setAttribute('class','uk-inline');
-                        linkimg.setAttribute('href','images/'+filename);
+                        linkimg.setAttribute('href',filename);
                         linkimg.setAttribute('data-caption', filename);
 
                         // var imagetag = document.createElement('video');
                         // imagetag.setAttribute('id','fileimage');
                         // imagetag.setAttribute('class','uk-margin-top uk-margin-bottom');
-                        // imagetag.setAttribute('src','images/'+filename);
+                        // imagetag.setAttribute('src',filename);
                         // imagetag.setAttribute('width','800');
                         // imagetag.setAttribute('heigth','1300');
                         // imagetag.setAttribute('alt', filename);
@@ -111,7 +111,7 @@
                         var imagetag = document.createElement('img');
                         imagetag.setAttribute('id','fileimage');
                         imagetag.setAttribute('class','uk-margin-top uk-margin-bottom');
-                        imagetag.setAttribute('src','images/'+filename);
+                        imagetag.setAttribute('src',filename);
                         imagetag.setAttribute('width','600');
                         imagetag.setAttribute('heigth','300');
                         imagetag.setAttribute('alt', filename);

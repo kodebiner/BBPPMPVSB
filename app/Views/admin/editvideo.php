@@ -31,8 +31,8 @@
                     <div class="uk-card uk-card-default">
                         <div class="uk-card-media-top uk-text-center">
                             <div uk-lightbox>
-                                <a class="uk-inline" id="imagecontainer" href="images/<?=$news['images']?>" data-caption="<?=$news['images']?>">
-                                    <img id="fileimage" class="uk-margin-top uk-margin-bottom" src="images/<?=$news['images']?>" width="600" height="300" alt="">
+                                <a class="uk-inline" id="imagecontainer" href="<?=$news['images']?>" data-caption="<?=$news['images']?>">
+                                    <img id="fileimage" class="uk-margin-top uk-margin-bottom" src="<?=$news['images']?>" width="600" height="300" alt="">
                                 </a>
                             </div>
                         </div>
@@ -99,14 +99,14 @@
                         var linkimg = document.createElement('a');
                         linkimg.setAttribute('id','imagecontainer');
                         linkimg.setAttribute('class','uk-inline');
-                        linkimg.setAttribute('href','images/'+filename);
+                        linkimg.setAttribute('href',filename);
                         linkimg.setAttribute('data-caption', filename);
 
 
                         var imagetag = document.createElement('img');
                         imagetag.setAttribute('id','fileimage');
                         imagetag.setAttribute('class','uk-margin-top uk-margin-bottom');
-                        imagetag.setAttribute('src','images/'+filename);
+                        imagetag.setAttribute('src',filename);
                         imagetag.setAttribute('width','600');
                         imagetag.setAttribute('heigth','300');
                         imagetag.setAttribute('alt', filename);
