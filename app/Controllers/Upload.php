@@ -74,7 +74,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . 'images', $truename . '.' . $ext);
+            $input->move(FCPATH . "/images/", $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -108,7 +108,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . 'images/', $truename . '.' . $ext);
+            $input->move(FCPATH . '/images/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -142,7 +142,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . 'images/', $truename . '.' . $ext);
+            $input->move(FCPATH . '/images/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -176,7 +176,41 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . 'images/', $truename . '.' . $ext);
+            $input->move(FCPATH . '/images/', $truename . '.' . $ext);
+
+            // Getting True Filename
+            $returnFile = $truename . '.' . $ext;
+
+            // Returning Message
+            die(json_encode($returnFile));
+        }
+    }
+
+    public function videogaleri()
+    {
+        $image      = \Config\Services::image();
+        $validation = \Config\Services::validation();
+        $input      = $this->request->getFile('uploads');
+
+        // Validation Rules
+        $rules = [
+            'uploads'   => 'uploaded[uploads]|mime_in[uploads,application/pdf,application/macbinary,application/mac-binary,application/octet-stream,application/x-binary,application/x-macbinary,image/png,image/jpeg,image/pjpeg,video/mp4]',
+        ];
+
+        // Get Extention
+        $ext = $input->getClientExtension();
+
+        // Validating
+        if (!$this->validate($rules)) {
+            http_response_code(400);
+            die(json_encode(array('message' => $this->validator->getErrors())));
+        }
+
+        if ($input->isValid() && !$input->hasMoved()) {
+            // Saving uploaded file
+            $filename = $input->getRandomName();
+            $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
+            $input->move(FCPATH . '/images/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -210,7 +244,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . 'images/', $truename . '.' . $ext);
+            $input->move(FCPATH . '/images/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -244,7 +278,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . 'images/', $truename . '.' . $ext);
+            $input->move(FCPATH . '/images/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -591,7 +625,7 @@ class Upload extends BaseController
 
         // insert News
         $DiklatModel->save($diklat);
-        return redirect()->to('dashboard/seminar')->with('message', "Diklat Berhasil Di Ubah!");
+        return redirect()->to('dashboard/diklat')->with('message', "Diklat Berhasil Di Ubah!");
     }
 
     // Add Foto Galeri
@@ -633,6 +667,89 @@ class Upload extends BaseController
         // insert News
         $PhotoModel->save($foto);
         return redirect()->to('dashboard/foto')->with('message', "Foto Berhasil Di Ubah!");
+    }
+
+    // Add Video Galeri
+    public function addvideogaleri()
+    {
+        // Calling Models
+        $VideoModel    = new VideoModel();
+
+        // Video Data
+        $input  = $this->request->getPost();
+
+        $url = $input['link'];
+
+        function getYoutubeEmbedUrl($url)
+        {
+            $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
+            $longUrlRegex = '/youtube.com\/((?:embed)|(?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
+
+            if (preg_match($longUrlRegex, $url, $matches)) {
+                $youtube_id = $matches[count($matches) - 1];
+            }
+
+            if (preg_match($shortUrlRegex, $url, $matches)) {
+                $youtube_id = $matches[count($matches) - 1];
+            }
+            // return 'https://www.youtube.com/embed/' . $youtube_id ;
+            return $youtube_id ;
+        }
+
+        $idlink = getYoutubeEmbedUrl($url);
+        // $link = '<iframe width="560" height="315" src="'.$idlink.'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+
+        // News Data 
+        $video = [
+            'title'         => $input['judul'],
+            'images'        => $input['gambar'],
+            'link'          => $idlink,
+        ];
+
+        // insert News
+        $VideoModel->insert($video);
+        return redirect()->to('dashboard/video')->with('message', "Video Berhasil Di Tambahkan!");
+    }
+
+    // Edit Video Galeri
+    public function editvideogaleri($id){
+
+        // Calling Models
+        $VideoModel     = new VideoModel();
+
+        // Get Data
+        $input  = $this->request->getPost();
+        $url = $input['link'];
+
+        function YoutubeEmbedUrl($url)
+        {
+            $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
+            $longUrlRegex = '/youtube.com\/((?:embed)|(?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
+
+            if (preg_match($longUrlRegex, $url, $matches)) {
+                $youtube_id = $matches[count($matches) - 1];
+            }
+
+            if (preg_match($shortUrlRegex, $url, $matches)) {
+                $youtube_id = $matches[count($matches) - 1];
+            }
+            // return 'https://www.youtube.com/embed/' . $youtube_id ;
+            return $youtube_id ;
+        }
+
+        $idlink = YoutubeEmbedUrl($url);
+
+        // Video Data 
+        $video = [
+            'id'            => $id,
+            'title'         => $input['judul'],
+            'images'        => $input['gambar'],
+            'link'          => $idlink,
+        ];
+
+        // insert News
+        $VideoModel->save($video);
+        return redirect()->to('dashboard/video')->with('message', "Video Berhasil Di Ubah!");
     }
 
     // Add Slideshow

@@ -17,8 +17,8 @@
                         <tr>
                             <th>File</th>
                             <th>Gambar</th>
-                            <th class="uk-text-center">Status</th>
-                            <th class="uk-text-center">Ubah</th>
+                            <th>Status</th>
+                            <th>Kelola Slide Show</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,7 +30,7 @@
                                         <a href="img/slideshow/<?=$slide['file']?>"><img width="50" height="50" src="img/slideshow/<?=$slide['file']?>" alt="<?=$slide['file']?>"></a>
                                     </div>
                                 </td>
-                                <td class="uk-text-center">
+                                <td>
                                     <?php 
                                     $status="";
                                     if($slide['status'] === "1"){
@@ -40,7 +40,7 @@
                                     }?>
                                     <?=$status?>
                                 </td>
-                                <td class="uk-text-center">
+                                <td>
                                     <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editslideshow/<?=$slide['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
                                     <a style="background-color: red; color: white;" onclick="removeSlide<?= $slide['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
                                     <script>

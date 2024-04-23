@@ -74,7 +74,7 @@
 
                 UIkit.upload('#js-upload-foto', {
 
-                    url: 'upload/foto',
+                    url: 'upload/fotoberita',
                     multiple: true,
                     name: 'uploads',
                     param: {

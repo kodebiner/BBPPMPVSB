@@ -21,7 +21,7 @@
                             <th>Isi</th>
                             <th>Ringkasan</th>
                             <th>Gambar</th> -->
-                            <th>Ubah</th>
+                            <th>Kelola Jadwal</th>
                         </tr>
                     </thead>
                     <tbody>

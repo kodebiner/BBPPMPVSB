@@ -76,6 +76,7 @@ $routes->group('upload', static function ($routes){
     $routes->post('fotodiklat', 'Upload::fotodiklat', ['filter => session']);
     $routes->post('fotojadwal', 'Upload::fotojadwal', ['filter => session']);
     $routes->post('fotogaleri', 'Upload::fotogaleri', ['filter => session']);
+    $routes->post('videogaleri', 'Upload::videogaleri', ['filter => session']);
     $routes->post('fotoslideshow', 'Upload::fotoslideshow', ['filter => session']);
     $routes->post('pdf', 'Upload::pdf', ['filter => session']);
 });
@@ -91,6 +92,7 @@ $routes->group('add', static function ($routes){
     $routes->post('slideshow', 'Upload::addslideshow', ['filter => session']);
     $routes->post('foto', 'Upload::addfoto', ['filter => session']);
     $routes->post('fotogaleri', 'Upload::addfotogaleri', ['filter => session']);
+    $routes->post('videogaleri', 'Upload::addvideogaleri', ['filter => session']);
 });
 
 // Update
@@ -104,6 +106,7 @@ $routes->group('save', static function ($routes){
     $routes->post('jadwal/(:num)', 'Upload::editjadwal/$1', ['filter => session']);
     $routes->post('slideshow/(:num)', 'Upload::editslideshow/$1', ['filter => session']);
     $routes->post('fotogaleri/(:num)', 'Upload::editfotogaleri/$1', ['filter => session']);
+    $routes->post('videogaleri/(:num)', 'Upload::editvideogaleri/$1', ['filter => session']);
 });
 
 //  Home

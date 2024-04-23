@@ -11,6 +11,8 @@ use App\Models\ScheduleModel;
 use App\Models\PhotoModel;
 use App\Models\VideoModel;
 use App\Models\SlideshowModel;
+use App\Models\PengaduanModel;
+use App\Models\PermohonanModel;
 
 class Auth extends BaseController
 {
@@ -28,14 +30,25 @@ class Auth extends BaseController
     public function dashboard()
     {
         // Calling Models
-        $usersmodel = new UsersModel();
+        $usersmodel         = new UsersModel();
+        $PermohonanModel    = new PermohonanModel();
+        $PengaduanModel     = new PengaduanModel();
 
         // Get Data
-        $user = $usersmodel->find($this->data['uid']);
+        $user       = $usersmodel->find($this->data['uid']);
+        $pengaduan  = $PengaduanModel->orderBy('status','ASC')->paginate(5,'pengaduan');
+        $permohonan = $PermohonanModel->orderBy('created_at','DESC')->paginate(5,'permohonan');
 
-        $data = $this->data;
-        $data['title'] = "Dashboard";
-        $data['user'] = $user;
+        // Parsing data
+        $data                       = $this->data;
+        $data['title']              = "Dashboard";
+        $data['user']               = $user;
+        $data['permohonan']         = $permohonan;
+        $data['pengaduan']          = $pengaduan;
+        $data['pager']              = $PengaduanModel->pager;
+        $data['pagerpermohonan']    = $PermohonanModel->pager;
+
+        // Retrun View
         return view('Views/admin/dashboard', $data);
     }
 
@@ -487,14 +500,83 @@ class Auth extends BaseController
     {
         // Calling Models
         $usersmodel     = new UsersModel();
-        $ArtistaModel   = new ArtistaModel();
+        $VideoModel   = new VideoModel();
 
         // Get Data
-        $artista = $ArtistaModel->find($id);
+        $video = $VideoModel->find($id);
 
-        $ArtistaModel->delete($artista);
+        $VideoModel->delete($video);
 
-        die(json_encode(array($artista)));
+        die(json_encode(array($video)));
+    }
+
+    // Video Views
+    public function video(){
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $VideoModel     = new VideoModel();
+
+        // Get Data
+        $user  = $usersmodel->find($this->data['uid']);
+        $video = $VideoModel->orderBy('updated_at', 'DESC')->paginate(20, 'news');
+
+        $data               = $this->data;
+        $data['title']      = "Dashboard Galeri Video";
+        $data['user']       = $user;
+        $data['photos']     = $video;
+        $data['count']      = count($video);
+        $data['pager']      = $VideoModel->pager;
+
+        return view('Views/admin/video', $data);
+    }
+
+    public function addvideo()
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+    
+        // Get Data
+        $user   = $usersmodel->find($this->data['uid']);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Tambah Video";
+        $data['user']       = $user;
+
+        return view('Views/admin/addvideo', $data);
+    }
+
+    public function editvideo($id)
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $VideoModel     = new VideoModel();
+
+        // Get Data
+        $user = $usersmodel->find($this->data['uid']);
+        $video = $VideoModel->find($id);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Ubah Galeri Video";
+        $data['user']       = $user;
+        $data['news']       = $video;
+
+        return view('Views/admin/editvideo', $data);
+    }
+
+    public function removevideo($id)
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $VideoModel   = new VideoModel();
+
+        // Get Data
+        $video = $VideoModel->find($id);
+
+        $VideoModel->delete($video);
+
+        die(json_encode(array($video)));
     }
 
     public function slideshow()

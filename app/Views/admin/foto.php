@@ -18,7 +18,7 @@
                         <tr>
                             <th>Judul</th>
                             <th>Gambar</th>
-                            <th class="uk-text-center">Ubah</th>
+                            <th>Kelola Foto</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,7 +30,7 @@
                                         <a href="<?=$foto['images']?>"><img width="50" height="50" src="<?=$foto['images']?>" alt="<?=$foto['images']?>"></a>
                                     </div>
                                 </td>
-                                <td class="uk-text-center">
+                                <td>
                                     <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editfoto/<?=$foto['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
                                     <a style="background-color: red; color: white;" onclick="removeFoto<?= $foto['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
                                     <script>

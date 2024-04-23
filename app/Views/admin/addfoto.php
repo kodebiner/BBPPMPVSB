@@ -49,7 +49,7 @@
 
                 UIkit.upload('#js-upload-foto', {
 
-                    url: 'upload/fotodiklat',
+                    url: 'upload/fotogaleri',
                     multiple: true,
                     name: 'uploads',
                     param: {
