@@ -10,6 +10,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Tatter\Visits\Models\VisitModel;
 
+
 /**
  * Class BaseController
  *
@@ -28,6 +29,9 @@ abstract class BaseController extends Controller
      * @var CLIRequest|IncomingRequest
      */
     protected $request;
+    protected $uri;
+    protected $data;
+    protected $agent;
 
     /**
      * An array of helpers to be loaded automatically upon

@@ -16,9 +16,6 @@ use App\Models\PermohonanModel;
 use App\Models\IdentitasModel;
 use App\Models\GroupModel;
 
-// use CodeIgniter\Shield\Models\GroupModel;
-// use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Config\AuthGroups;
 
 class Auth extends BaseController
 {
@@ -63,7 +60,6 @@ class Auth extends BaseController
     {
         // Calling Models
         $usersmodel         = new UsersModel();
-        // $IdentitasModel     = new IdentitasModel();
         $GroupModel         = new GroupModel();
 
 
@@ -843,6 +839,11 @@ class Auth extends BaseController
         $PermohonanModel->save($status);
 
         die(json_encode(array($status)));
+    }
+
+    public function errors()
+    {
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound(); 
     }
 
 }

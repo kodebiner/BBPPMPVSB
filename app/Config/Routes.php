@@ -12,119 +12,123 @@ $routes->get('login', '\App\Controllers\Login::loginView');
 $routes->get('register', '\App\Controllers\Register::registerView');
 $routes->post('register', '\App\Controllers\Register::registerAction');
 $routes->post('login', '\App\Controllers\Login::loginAction');
+$routes->get('errors', '\App\Controllers\Auth::errors');
+
+
 
 // Dasboard
 $routes->group('dashboard', static function ($routes) {
     service('auth')->routes($routes);
-    $routes->get('', 'Auth::dashboard', ['filter' => 'session']);
+    $routes->get('', 'Auth::dashboard', ['filter' => 'group:superadmin,admin',]);
 
     // Users
-    $routes->get('users', 'Auth::users', ['filter' => 'session']);
-    $routes->get('addusers', 'Auth::addusers', ['filter' => 'session']);
-    $routes->get('editusers/(:num)', 'Auth::editusers/$1', ['filter' => 'session']);
+    $routes->get('users', 'Auth::users', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
+    $routes->get('addusers', 'Auth::addusers', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
+    $routes->get('editusers/(:num)', 'Auth::editusers/$1', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
 
     // Berita
-    $routes->get('berita', 'Auth::berita', ['filter' => 'session']);
-    $routes->get('addberita', 'Auth::addberita', ['filter' => 'session']);
-    $routes->get('editberita/(:num)', 'Auth::editberita/$1', ['filter' => 'session']);
-    $routes->post('removeberita/(:num)', 'Auth::removeberita/$1', ['filter' => 'session']);
+    // $routes->get('berita', 'Auth::berita', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('berita', 'Auth::berita', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('addberita', 'Auth::addberita', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editberita/(:num)', 'Auth::editberita/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removeberita/(:num)', 'Auth::removeberita/$1', ['filter' => 'group:superadmin,admin',]);
 
     // Artista
-    $routes->get('artista', 'Auth::artista', ['filter' => 'session']);
-    $routes->get('addartista', 'Auth::addartista', ['filter' => 'session']);
-    $routes->get('editartista/(:num)', 'Auth::editartista/$1', ['filter' => 'session']);
-    $routes->post('removeartista/(:num)', 'Auth::removeartista/$1', ['filter' => 'session']);
+    $routes->get('artista', 'Auth::artista', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('addartista', 'Auth::addartista', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editartista/(:num)', 'Auth::editartista/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removeartista/(:num)', 'Auth::removeartista/$1', ['filter' => 'group:superadmin,admin',]);
 
     // Seminar
-    $routes->get('seminar', 'Auth::seminar', ['filter' => 'session']);
-    $routes->get('addseminar', 'Auth::addseminar', ['filter' => 'session']);
-    $routes->get('editseminar/(:num)', 'Auth::editseminar/$1', ['filter' => 'session']);
-    $routes->post('removeseminar/(:num)', 'Auth::removeseminar/$1', ['filter' => 'session']);
+    $routes->get('seminar', 'Auth::seminar', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('addseminar', 'Auth::addseminar', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editseminar/(:num)', 'Auth::editseminar/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removeseminar/(:num)', 'Auth::removeseminar/$1', ['filter' => 'group:superadmin,admin',]);
 
     // Webbinar
-    $routes->get('webbinar', 'Auth::webbinar', ['filter' => 'session']);
-    $routes->get('addwebbinar', 'Auth::addwebbinar', ['filter' => 'session']);
-    $routes->get('editwebbinar/(:num)', 'Auth::editwebbinar/$1', ['filter' => 'session']);
+    $routes->get('webbinar', 'Auth::webbinar', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('addwebbinar', 'Auth::addwebbinar', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editwebbinar/(:num)', 'Auth::editwebbinar/$1', ['filter' => 'group:superadmin,admin',]);
 
     // Diklat
-    $routes->get('diklat', 'Auth::diklat', ['filter' => 'session']);
-    $routes->get('adddiklat', 'Auth::adddiklat', ['filter' => 'session']);
-    $routes->get('editdiklat/(:num)', 'Auth::editdiklat/$1', ['filter' => 'session']);
-    $routes->post('removediklat/(:num)', 'Auth::removediklat/$1', ['filter' => 'session']);
+    $routes->get('diklat', 'Auth::diklat', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('adddiklat', 'Auth::adddiklat', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editdiklat/(:num)', 'Auth::editdiklat/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removediklat/(:num)', 'Auth::removediklat/$1', ['filter' => 'group:superadmin,admin',]);
 
     // Jadwal
-    $routes->get('jadwal', 'Auth::jadwal', ['filter' => 'session']);
-    $routes->get('addjadwal', 'Auth::addjadwal', ['filter' => 'session']);
-    $routes->get('editjadwal/(:num)', 'Auth::editjadwal/$1', ['filter' => 'session']);
-    $routes->post('removejadwal/(:num)', 'Auth::removejadwal/$1', ['filter' => 'session']);
+    $routes->get('jadwal', 'Auth::jadwal', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('addjadwal', 'Auth::addjadwal', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editjadwal/(:num)', 'Auth::editjadwal/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removejadwal/(:num)', 'Auth::removejadwal/$1', ['filter' => 'group:superadmin,admin',]);
 
     // Foto
-    $routes->get('foto', 'Auth::foto', ['filter' => 'session']);
-    $routes->get('addfoto', 'Auth::addfoto', ['filter' => 'session']);
-    $routes->get('editfoto/(:num)', 'Auth::editfoto/$1', ['filter' => 'session']);
-    $routes->post('removefoto/(:num)', 'Auth::removefoto/$1', ['filter' => 'session']);
+    $routes->get('foto', 'Auth::foto', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('addfoto', 'Auth::addfoto', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editfoto/(:num)', 'Auth::editfoto/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removefoto/(:num)', 'Auth::removefoto/$1', ['filter' => 'group:superadmin,admin',]);
 
     // Video
-    $routes->get('video', 'Auth::video', ['filter' => 'session']);
-    $routes->get('addvideo', 'Auth::addvideo', ['filter' => 'session']);
-    $routes->get('editvideo/(:num)', 'Auth::editvideo/$1', ['filter' => 'session']);
-    $routes->post('removevideo/(:num)', 'Auth::removevideo/$1', ['filter' => 'session']);
+    $routes->get('video', 'Auth::video', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('addvideo', 'Auth::addvideo', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editvideo/(:num)', 'Auth::editvideo/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removevideo/(:num)', 'Auth::removevideo/$1', ['filter' => 'group:superadmin,admin',]);
 
     // Slideshow
-    $routes->get('slideshow', 'Auth::slideshow',['filter' => 'session']);
-    $routes->get('addslideshow', 'Auth::addslideshow', ['filter' => 'session']);
-    $routes->get('editslideshow/(:num)', 'Auth::editslideshow/$1', ['filter' => 'session']);
-    $routes->post('removeslideshow/(:num)', 'Auth::removeslideshow/$1', ['filter' => 'session']);
+    $routes->get('slideshow', 'Auth::slideshow',['filter' => 'group:superadmin,admin',]);
+    $routes->get('addslideshow', 'Auth::addslideshow', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editslideshow/(:num)', 'Auth::editslideshow/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removeslideshow/(:num)', 'Auth::removeslideshow/$1', ['filter' => 'group:superadmin,admin',]);
 
     // Status pengaduan dan permohonan
-    $routes->post('pengaduan/(:num)', 'Auth::pengaduan/$1', ['filter' => 'session']);
-    $routes->post('permohonan/(:num)', 'Auth::permohonan/$1', ['filter' => 'session']);
+    $routes->post('pengaduan/(:num)', 'Auth::pengaduan/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('permohonan/(:num)', 'Auth::permohonan/$1', ['filter' => 'group:superadmin,admin',]);
 
 });
 
 // Uploads
 $routes->group('upload', static function ($routes){
     service('auth')->routes($routes);
-    $routes->post('foto', 'Upload::foto', ['filter => session']);
-    $routes->post('fotoberita', 'Upload::fotoberita', ['filter => session']);
-    $routes->post('fotoseminar', 'Upload::fotoseminar', ['filter => session']);
-    $routes->post('fotodiklat', 'Upload::fotodiklat', ['filter => session']);
-    $routes->post('fotojadwal', 'Upload::fotojadwal', ['filter => session']);
-    $routes->post('fotogaleri', 'Upload::fotogaleri', ['filter => session']);
-    $routes->post('videogaleri', 'Upload::videogaleri', ['filter => session']);
-    $routes->post('fotoslideshow', 'Upload::fotoslideshow', ['filter => session']);
-    $routes->post('pdf', 'Upload::pdf', ['filter => session']);
+    $routes->post('foto', 'Upload::foto', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('fotoberita', 'Upload::fotoberita', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('fotoseminar', 'Upload::fotoseminar', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('fotodiklat', 'Upload::fotodiklat', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('fotojadwal', 'Upload::fotojadwal', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('fotogaleri', 'Upload::fotogaleri', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('videogaleri', 'Upload::videogaleri', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('fotoslideshow', 'Upload::fotoslideshow', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('pdf', 'Upload::pdf', ['filter' => 'group:superadmin,admin',]);
 });
 
 // Add
 $routes->group('add', static function ($routes){
     service('auth')->routes($routes);
-    $routes->post('users', 'Upload::addusers', ['filter => session']);
-    $routes->post('artista', 'Upload::addartista', ['filter => session']);
-    $routes->post('berita', 'Upload::addberita', ['filter => session']);
-    $routes->post('seminar', 'Upload::addseminar', ['filter => session']);
-    $routes->post('webbinar', 'Upload::addwebbinar', ['filter => session']);
-    $routes->post('diklat', 'Upload::adddiklat', ['filter => session']);
-    $routes->post('jadwal', 'Upload::addjadwal', ['filter => session']);
-    $routes->post('slideshow', 'Upload::addslideshow', ['filter => session']);
-    $routes->post('foto', 'Upload::addfoto', ['filter => session']);
-    $routes->post('fotogaleri', 'Upload::addfotogaleri', ['filter => session']);
-    $routes->post('videogaleri', 'Upload::addvideogaleri', ['filter => session']);
+    $routes->post('users', 'Upload::addusers', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
+    $routes->post('artista', 'Upload::addartista', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('berita', 'Upload::addberita', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('seminar', 'Upload::addseminar', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('webbinar', 'Upload::addwebbinar', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('diklat', 'Upload::adddiklat', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('jadwal', 'Upload::addjadwal', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('slideshow', 'Upload::addslideshow', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('foto', 'Upload::addfoto', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('fotogaleri', 'Upload::addfotogaleri', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('videogaleri', 'Upload::addvideogaleri', ['filter' => 'group:superadmin,admin',]);
 });
 
 // Update
 $routes->group('save', static function ($routes){
     service('auth')->routes($routes);
-    $routes->post('users/(:num)', 'Upload::editusers/$1', ['filter => session']);
-    $routes->post('artista/(:num)', 'Upload::artista/$1', ['filter => session']);
-    $routes->post('berita/(:num)', 'Upload::editberita/$1', ['filter => session']);
-    $routes->post('seminar/(:num)', 'Upload::editseminar/$1', ['filter => session']);
-    $routes->post('webbinar/(:num)', 'Upload::editwebbinar/$1', ['filter => session']);
-    $routes->post('diklat/(:num)', 'Upload::editdiklat/$1', ['filter => session']);
-    $routes->post('jadwal/(:num)', 'Upload::editjadwal/$1', ['filter => session']);
-    $routes->post('slideshow/(:num)', 'Upload::editslideshow/$1', ['filter => session']);
-    $routes->post('fotogaleri/(:num)', 'Upload::editfotogaleri/$1', ['filter => session']);
-    $routes->post('videogaleri/(:num)', 'Upload::editvideogaleri/$1', ['filter => session']);
+    $routes->post('users/(:num)', 'Upload::editusers/$1', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
+    $routes->post('artista/(:num)', 'Upload::artista/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('berita/(:num)', 'Upload::editberita/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('seminar/(:num)', 'Upload::editseminar/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('webbinar/(:num)', 'Upload::editwebbinar/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('diklat/(:num)', 'Upload::editdiklat/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('jadwal/(:num)', 'Upload::editjadwal/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('slideshow/(:num)', 'Upload::editslideshow/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('fotogaleri/(:num)', 'Upload::editfotogaleri/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('videogaleri/(:num)', 'Upload::editvideogaleri/$1', ['filter' => 'group:superadmin,admin',]);
 });
 
 //  Home

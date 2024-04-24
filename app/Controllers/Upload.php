@@ -14,17 +14,6 @@ use App\Models\GroupModel;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Shield\Entities\User;
-// use CodeIgniter\Events\Events;
-// use CodeIgniter\HTTP\RedirectResponse;
-// use CodeIgniter\HTTP\RequestInterface;
-// use CodeIgniter\HTTP\ResponseInterface;
-// use CodeIgniter\Shield\Authentication\Authenticators\Session;
-// use CodeIgniter\Shield\Entities\User;
-// use CodeIgniter\Shield\Exceptions\ValidationException;
-// use CodeIgniter\Shield\Models\UserModel;
-// use CodeIgniter\Shield\Traits\Viewable;
-// use CodeIgniter\Shield\Validation\ValidationRules;
-// use Psr\Log\LoggerInterface;
 
 
 class Upload extends BaseController
@@ -100,8 +89,9 @@ class Upload extends BaseController
         $input  = $this->request->getPost();
         $users  = auth()->getProvider();
         $group  = $GroupModel->where('user_id',$id)->first();
-
-        // dd($input);
+        $account    = auth()->getProvider()->find($id);
+        // dd($users->findById($id));
+        
         // Validation Rules
         $rules = [
             'username' => [
@@ -118,38 +108,43 @@ class Upload extends BaseController
                     'required'      => '{field} harus di isi',
                 ],
             ],
-            'password' => [
-                'label'  => 'Kata Sandi',
-                'rules'  => 'min_length[6]',
-                'errors' => [
-                    'min_length[6]'     => '{field} Minimal 6 Huruf atau Karakter',
-                ],
-            ],
-            'password_confirm' => [
-                'label'  => 'Konfirmasi Kata Sandi',
-                'rules'  => 'matches[password]',
-                'errors' => [
-                    'matches[password]' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
-                ],
-            ],
+            // 'password' => [
+            //     'label'  => 'Kata Sandi',
+            //     'rules'  => 'min_length[6]',
+            //     'errors' => [
+            //         'min_length[6]'     => '{field} Minimal 6 Huruf atau Karakter',
+            //     ],
+            // ],
+            // 'password_confirm' => [
+            //     'label'  => 'Konfirmasi Kata Sandi',
+            //     'rules'  => 'matches[password]',
+            //     'errors' => [
+            //         'matches[password]' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
+            //     ],
+            // ],
         ];
 
         if (!$this->validate($rules)) {
             return redirect()->to('dashboard/editusers/'.$id)->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        // $result = auth()->check([
+        //     'email'    => auth()->user()->email,
+        //     'password' => auth()->user()->password,
+        // ]);
+        $result = auth()->check([auth()->user()->password]);
+        
+        dd($result);
         $user = $users->findById($id);
         if(!empty($input['password'])){
             $password = $input['password'];
         }else{
             $password =  $user->password;
         }
-
-        dd($password);
         $user->fill([
             'username'  => $input['username'],
             'email'     => $input['email'],
-            'password'  => $user->$password,
+            'password'  => $input['password'],
         ]);
         $users->save($user);
 
@@ -159,7 +154,7 @@ class Upload extends BaseController
         ];
         $GroupModel->save($addgroup);
         
-        return redirect()->to('dashboard/editusers')->with('message', "Data Pengguna Berhasil Di Ubah!");
+        return redirect()->to('dashboard/editusers/'.$id)->with('message', "Data Pengguna Berhasil Di Ubah!");
         
     }
 

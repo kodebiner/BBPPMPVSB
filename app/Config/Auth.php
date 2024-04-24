@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Config;
 
+use App\Controllers\BaseController;
 use CodeIgniter\Shield\Config\Auth as ShieldAuth;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
@@ -74,13 +75,15 @@ class Auth extends ShieldAuth
      * to apply any logic you may need.
      */
     public array $redirects = [
-        // 'register'          => '/',
         'register'          => 'login',
         'login'             => 'dashboard',
         'logout'            => 'login',
         'force_reset'       => '/',
-        'permission_denied' => '/',
-        'group_denied'      => '/',
+        'group_denied'      => 'errors',
+        'permission_denied' => 'errors',
+        // 'group_denied'      => '/',
+        // 'register'          => '/',
+        // 'permission_denied' => '/',
     ];
 
     /**
