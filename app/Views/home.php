@@ -46,7 +46,7 @@
                         foreach ($workshops as $key => $workshop) {
                         ?>
                         <div>
-                            <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/berita/<?= $workshop['alias'] ?>">
+                            <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/informasi/seminarwebinar/<?= $workshop['alias'] ?>">
                                 <img src="<?= $workshop['images'] ?>" width="610" height="420" alt="<?= $workshop['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
                                 <div class="uk-position-bottom-left uk-tile-default">
                                     <div class="uk-overlay uk-padding-small uk-width-medium uk-margin-remove-first-child">
@@ -98,7 +98,7 @@
                 foreach ($workshops as $key => $workshop) {
                 ?>
                     <div>
-                        <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/berita/<?= $workshop['alias'] ?>">
+                        <a class="uk-cover-container uk-transition-toggle uk-display-block uk-link-toggle" href="/informasi/seminarwebinar/<?= $workshop['alias'] ?>">
                             <img src="<?= $workshop['images'] ?>" width="610" height="420" alt="<?= $workshop['title'] ?>" class="uk-transition-scale-up uk-transition-opaque">
                             <div class="uk-position-bottom-left uk-tile-default">
                                 <div class="uk-overlay uk-padding-small uk-width-medium uk-margin-remove-first-child">

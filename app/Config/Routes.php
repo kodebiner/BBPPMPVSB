@@ -132,6 +132,7 @@ $routes->group('/', static function ($routes) {
     $routes->get('migration', 'Home::migration');
     $routes->get('movedata', 'Home::movedata');
     $routes->get('reconfseminarwebinar', 'Home::reconfseminarwebinar');
+    $routes->get('reconfdata', 'Home::reconfdata');
 });
 
 // News
