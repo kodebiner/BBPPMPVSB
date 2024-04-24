@@ -2,14 +2,15 @@
 
 use CodeIgniter\Model;
 
-class UsersModel extends Model
+class GroupModel extends Model
 {
     protected $allowedFields = [
-        'username', 'status', 'status_message', 'active', 'last_active', 'created_at', 'updated_at', 'deleted_at','group',
+        'userid', 'group', 'created_at',
     ];
 
-    protected $table      = 'users';
+    protected $table      = 'auth_groups_users';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType     = 'array';
+    protected $createdField     = 'created_at';
 }

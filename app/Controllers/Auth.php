@@ -14,7 +14,11 @@ use App\Models\SlideshowModel;
 use App\Models\PengaduanModel;
 use App\Models\PermohonanModel;
 use App\Models\IdentitasModel;
-use CodeIgniter\Shield\Entities\User;
+use App\Models\GroupModel;
+
+// use CodeIgniter\Shield\Models\GroupModel;
+// use CodeIgniter\Shield\Entities\User;
+use Shield\Config\AuthGroups;
 
 class Auth extends BaseController
 {
@@ -54,29 +58,112 @@ class Auth extends BaseController
         return view('Views/admin/dashboard', $data);
     }
 
+    // Users View
     public function users()
     {
         // Calling Models
-        $usersmodel = new UsersModel();
-        $IdentitasModel     = new IdentitasModel();
+        $usersmodel         = new UsersModel();
+        // $IdentitasModel     = new IdentitasModel();
+        $GroupModel         = new GroupModel();
+
 
         // Get Data
         $user       = $usersmodel->find($this->data['uid']);
-        $users      = $users = auth()->getProvider()->findAll();
-        $identitas  = $IdentitasModel->findAll();
+        $users      = auth()->getProvider()->findAll();
+        // $identitas  = $IdentitasModel->findAll();
+        $groups     = $GroupModel->findAll();
 
-        dd($identitas);
+        // dd(auth()->getProvider()->find(1)->getGroups());
+        $account = [];
+        foreach($users as $acc){
+            foreach ($groups as $group){
+                if($acc->id === (int)$group['user_id']){
+                    $account [] = [
+                        'id'    => $acc->id,
+                        'name'  => $acc->username,
+                        'email' => $acc->email,
+                        'group' => $group['group'],
+                    ];
+                }
+            }
+        }
 
-        // dd($users);
+
         // Parsing data
         $data                       = $this->data;
         $data['title']              = "Dashboard Users";
         $data['user']               = $user;
-        $data['users']              = $users;
+        $data['users']              = $account;
+        $data['groups']             = $groups;
 
-        // Retrun View
+        // Return View
         return view('Views/admin/users', $data);
     }
+
+    public function addusers()
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+
+        // Get Data
+        $user = $usersmodel->find($this->data['uid']);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Tambah Users";
+        $data['user']       = $user;
+
+        return view('Views/admin/addusers', $data);
+    }
+
+    public function editusers($id)
+    {
+        // Calling Models
+        $usersmodel         = new UsersModel();
+        $GroupModel         = new GroupModel();
+
+        // Get Data
+        $user       = $usersmodel->find($this->data['uid']);
+        $users      = auth()->getProvider()->find($id);
+        $groups     = $GroupModel->findAll();
+        $group      = auth()->getProvider()->find($id)->getGroups();
+        
+        // dd($users->id);
+        // dd($group[0]);
+
+        $account = [
+            'id'    => $users->id,
+            'name'  => $user->username,
+            'group' => $group,
+        ];
+        dd($account);
+
+        // $account = [];
+        // foreach($users as $acc){
+        //     foreach ($groups as $group){
+        //         if($acc->id === (int)$id && (int)$id === (int)$group['user_id']){
+        //             $account [] = [
+        //                 'id'    => $acc->id,
+        //                 'name'  => $acc->username,
+        //                 'email' => $acc->email,
+        //                 'group' => $group['group'],
+        //             ];
+        //         }
+        //     }
+        // }
+
+        
+
+        // Parsing data
+        $data                       = $this->data;
+        $data['title']              = "Dashboard Ubah Data Pengguna";
+        $data['user']               = $user;
+        $data['users']              = $account;
+
+        return view('Views/admin/editusers', $data);
+
+    }
+
 
     // Berita Views
     public function berita()

@@ -11,10 +11,85 @@ use App\Models\PhotoModel;
 use App\Models\VideoModel;
 use App\Models\SlideshowModel;
 
+use App\Controllers\BaseController;
+use CodeIgniter\Shield\Entities\User;
+// use CodeIgniter\Events\Events;
+// use CodeIgniter\HTTP\RedirectResponse;
+// use CodeIgniter\HTTP\RequestInterface;
+// use CodeIgniter\HTTP\ResponseInterface;
+// use CodeIgniter\Shield\Authentication\Authenticators\Session;
+// use CodeIgniter\Shield\Entities\User;
+// use CodeIgniter\Shield\Exceptions\ValidationException;
+// use CodeIgniter\Shield\Models\UserModel;
+// use CodeIgniter\Shield\Traits\Viewable;
+// use CodeIgniter\Shield\Validation\ValidationRules;
+// use Psr\Log\LoggerInterface;
+
 
 class Upload extends BaseController
 {
     protected $data;
+
+    public function addusers(){
+        
+        $input = $this->request->getPost();
+        $users = auth()->getProvider();
+
+        // Validation Rules
+        $rules = [
+            'username' => [
+                'label'  => 'Nama',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'email' => [
+                'label'  => 'Email',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'password' => [
+                'label'  => 'Kata Sandi',
+                'rules'  => 'required|min_length[6]',
+                'errors' => [
+                    'required'          => '{field} harus di isi',
+                    'min_length[6]'     => '{field} Minimal 6 Huruf atau Karakter',
+                ],
+            ],
+            'password_confirm' => [
+                'label'  => 'Konfirmasi Kata Sandi',
+                'rules'  => 'required|matches[password]',
+                'errors' => [
+                    'matches[password]' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
+                    'required'          => '{field} harus di isi',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addusers')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+
+        $user = new User([
+            'username' => $input['username'],
+            'email'    => $input['email'],
+            'password' => $input['password'],
+        ]);
+        $users->save($user);
+
+        // To get the complete user object with ID, we need to get from the database
+        $user = $users->findById($users->getInsertID());
+
+        // Add to default group
+        $users->addToDefaultGroup($user);
+        
+        return redirect()->to('dashboard/users')->with('message', "Pengguna Baru Berhasil Di Tambahkan!");
+        
+    }
 
     public function foto()
     {

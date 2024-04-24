@@ -24,7 +24,7 @@
                             <tr id="rowberita<?=$news['id']?>">
                                 <td><?=$news['title']?></td>
                                 <td>
-                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editberita/<?=$news['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
+                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small" href="dashboard/editberita/<?=$news['id']?>"><span style="color: white;" uk-icon="icon: file-edit; ratio:1"></span></a>
                                     <a style="background-color: red; color: white;" onclick="removeArtista<?= $news['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
                                     <script>
                                         function removeArtista<?= $news['id']; ?>() {

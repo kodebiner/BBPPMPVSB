@@ -20,6 +20,8 @@ $routes->group('dashboard', static function ($routes) {
 
     // Users
     $routes->get('users', 'Auth::users', ['filter' => 'session']);
+    $routes->get('addusers', 'Auth::addusers', ['filter' => 'session']);
+    $routes->get('editusers/(:num)', 'Auth::editusers/$1', ['filter' => 'session']);
 
     // Berita
     $routes->get('berita', 'Auth::berita', ['filter' => 'session']);
@@ -97,6 +99,7 @@ $routes->group('upload', static function ($routes){
 // Add
 $routes->group('add', static function ($routes){
     service('auth')->routes($routes);
+    $routes->post('users', 'Upload::addusers', ['filter => session']);
     $routes->post('artista', 'Upload::addartista', ['filter => session']);
     $routes->post('berita', 'Upload::addberita', ['filter => session']);
     $routes->post('seminar', 'Upload::addseminar', ['filter => session']);
