@@ -115,6 +115,7 @@ $routes->group('add', static function ($routes){
 // Update
 $routes->group('save', static function ($routes){
     service('auth')->routes($routes);
+    $routes->post('users/(:num)', 'Upload::editusers/$1', ['filter => session']);
     $routes->post('artista/(:num)', 'Upload::artista/$1', ['filter => session']);
     $routes->post('berita/(:num)', 'Upload::editberita/$1', ['filter => session']);
     $routes->post('seminar/(:num)', 'Upload::editseminar/$1', ['filter => session']);

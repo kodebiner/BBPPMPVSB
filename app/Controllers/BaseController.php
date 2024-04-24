@@ -10,11 +10,6 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Tatter\Visits\Models\VisitModel;
 
-
-use CodeIgniter\Shield\Entities\User;
-
-use App\Models\UsersModel;
-
 /**
  * Class BaseController
  *

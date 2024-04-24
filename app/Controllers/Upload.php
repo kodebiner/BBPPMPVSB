@@ -10,6 +10,7 @@ use App\Models\SeminarModel;
 use App\Models\PhotoModel;
 use App\Models\VideoModel;
 use App\Models\SlideshowModel;
+use App\Models\GroupModel;
 
 use App\Controllers\BaseController;
 use CodeIgniter\Shield\Entities\User;
@@ -88,6 +89,77 @@ class Upload extends BaseController
         $users->addToDefaultGroup($user);
         
         return redirect()->to('dashboard/users')->with('message', "Pengguna Baru Berhasil Di Tambahkan!");
+        
+    }
+
+    public function editusers($id){
+        // Calling Model
+        $GroupModel = new GroupModel();
+
+        // Get Data
+        $input  = $this->request->getPost();
+        $users  = auth()->getProvider();
+        $group  = $GroupModel->where('user_id',$id)->first();
+
+        // dd($input);
+        // Validation Rules
+        $rules = [
+            'username' => [
+                'label'  => 'Nama',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'email' => [
+                'label'  => 'Email',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'password' => [
+                'label'  => 'Kata Sandi',
+                'rules'  => 'min_length[6]',
+                'errors' => [
+                    'min_length[6]'     => '{field} Minimal 6 Huruf atau Karakter',
+                ],
+            ],
+            'password_confirm' => [
+                'label'  => 'Konfirmasi Kata Sandi',
+                'rules'  => 'matches[password]',
+                'errors' => [
+                    'matches[password]' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/editusers/'.$id)->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $user = $users->findById($id);
+        if(!empty($input['password'])){
+            $password = $input['password'];
+        }else{
+            $password =  $user->password;
+        }
+
+        dd($password);
+        $user->fill([
+            'username'  => $input['username'],
+            'email'     => $input['email'],
+            'password'  => $user->$password,
+        ]);
+        $users->save($user);
+
+        $addgroup = [
+            'id'    => $group['id'],
+            'group' => $input['level'],
+        ];
+        $GroupModel->save($addgroup);
+        
+        return redirect()->to('dashboard/editusers')->with('message', "Data Pengguna Berhasil Di Ubah!");
         
     }
 

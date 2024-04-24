@@ -18,7 +18,7 @@ use App\Models\GroupModel;
 
 // use CodeIgniter\Shield\Models\GroupModel;
 // use CodeIgniter\Shield\Entities\User;
-use Shield\Config\AuthGroups;
+use CodeIgniter\Config\AuthGroups;
 
 class Auth extends BaseController
 {
@@ -70,7 +70,6 @@ class Auth extends BaseController
         // Get Data
         $user       = $usersmodel->find($this->data['uid']);
         $users      = auth()->getProvider()->findAll();
-        // $identitas  = $IdentitasModel->findAll();
         $groups     = $GroupModel->findAll();
 
         // dd(auth()->getProvider()->find(1)->getGroups());
@@ -125,40 +124,28 @@ class Auth extends BaseController
         // Get Data
         $user       = $usersmodel->find($this->data['uid']);
         $users      = auth()->getProvider()->find($id);
-        $groups     = $GroupModel->findAll();
         $group      = auth()->getProvider()->find($id)->getGroups();
-        
-        // dd($users->id);
-        // dd($group[0]);
 
         $account = [
-            'id'    => $users->id,
-            'name'  => $user->username,
-            'group' => $group,
+            'id'        => $users->id,
+            'name'      => $users->username,
+            'email'     => $users->email,
+            'group'     => $group[0],
+            'password'  => $users->password,
         ];
-        dd($account);
 
-        // $account = [];
-        // foreach($users as $acc){
-        //     foreach ($groups as $group){
-        //         if($acc->id === (int)$id && (int)$id === (int)$group['user_id']){
-        //             $account [] = [
-        //                 'id'    => $acc->id,
-        //                 'name'  => $acc->username,
-        //                 'email' => $acc->email,
-        //                 'group' => $group['group'],
-        //             ];
-        //         }
-        //     }
-        // }
-
-        
+        $level = [
+            'superusers',
+            'admin',
+            'user',
+        ];
 
         // Parsing data
         $data                       = $this->data;
         $data['title']              = "Dashboard Ubah Data Pengguna";
         $data['user']               = $user;
         $data['users']              = $account;
+        $data['level']              = $level;
 
         return view('Views/admin/editusers', $data);
 
