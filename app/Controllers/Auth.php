@@ -55,13 +55,49 @@ class Auth extends BaseController
         return view('Views/admin/dashboard', $data);
     }
 
+    // Akun Views
+    public function akun($id)
+    {
+        // Calling Models
+        $usersmodel         = new UsersModel();
+        // $GroupModel         = new GroupModel();
+
+        // Get Data
+        $user       = $usersmodel->find($this->data['uid']);
+        $users      = auth()->getProvider()->find($id);
+        $group      = auth()->getProvider()->find($id)->getGroups();
+
+        $account = [
+            'id'        => $users->id,
+            'name'      => $users->username,
+            'email'     => $users->email,
+            'group'     => $group[0],
+            'password'  => $users->password,
+        ];
+
+        $level = [
+            'superusers',
+            'admin',
+            'user',
+        ];
+
+        // Parsing data
+        $data                       = $this->data;
+        $data['title']              = "Dashboard Ubah Profil";
+        $data['user']               = $user;
+        $data['users']              = $account;
+        $data['level']              = $level;
+
+        // Return View
+        return view('Views/admin/editakun', $data);
+    }
+
     // Users View
     public function users()
     {
         // Calling Models
         $usersmodel         = new UsersModel();
         $GroupModel         = new GroupModel();
-
 
         // Get Data
         $user       = $usersmodel->find($this->data['uid']);
@@ -82,7 +118,6 @@ class Auth extends BaseController
                 }
             }
         }
-
 
         // Parsing data
         $data                       = $this->data;
@@ -144,7 +179,6 @@ class Auth extends BaseController
         $data['level']              = $level;
 
         return view('Views/admin/editusers', $data);
-
     }
 
 

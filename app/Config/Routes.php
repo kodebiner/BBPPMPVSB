@@ -15,11 +15,15 @@ $routes->post('login', '\App\Controllers\Login::loginAction');
 $routes->get('errors', '\App\Controllers\Auth::errors');
 
 
-
 // Dasboard
 $routes->group('dashboard', static function ($routes) {
     service('auth')->routes($routes);
+
+    // Dashboard
     $routes->get('', 'Auth::dashboard', ['filter' => 'group:superadmin,admin',]);
+    
+    // Akun
+    $routes->get('editakun/(:num)', 'Auth::akun/$1', ['filter' => 'group:superadmin,admin',]);
 
     // Users
     $routes->get('users', 'Auth::users', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
@@ -27,7 +31,6 @@ $routes->group('dashboard', static function ($routes) {
     $routes->get('editusers/(:num)', 'Auth::editusers/$1', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
 
     // Berita
-    // $routes->get('berita', 'Auth::berita', ['filter' => 'group:superadmin,admin',]);
     $routes->get('berita', 'Auth::berita', ['filter' => 'group:superadmin,admin',]);
     $routes->get('addberita', 'Auth::addberita', ['filter' => 'group:superadmin,admin',]);
     $routes->get('editberita/(:num)', 'Auth::editberita/$1', ['filter' => 'group:superadmin,admin',]);
@@ -119,6 +122,7 @@ $routes->group('add', static function ($routes){
 // Update
 $routes->group('save', static function ($routes){
     service('auth')->routes($routes);
+    $routes->post('akun/(:num)', 'Upload::akun/$1', ['filter' => 'group:superadmin,admin',]);
     $routes->post('users/(:num)', 'Upload::editusers/$1', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
     $routes->post('artista/(:num)', 'Upload::artista/$1', ['filter' => 'group:superadmin,admin',]);
     $routes->post('berita/(:num)', 'Upload::editberita/$1', ['filter' => 'group:superadmin,admin',]);

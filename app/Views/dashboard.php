@@ -126,7 +126,7 @@
                                 <a href="#"><span class="uk-margin-small-right" uk-icon="user"></span><?=$user['username']?></a>
                                 <div class="uk-navbar-dropdown">
                                     <ul class="uk-nav uk-navbar-dropdown-nav">
-                                        <li><a href="#">Pengaturan Profil</a></li>
+                                        <li><a href="dashboard/editakun/<?=$this->data['uid']?>">Pengaturan Profil</a></li>
                                         <li><a href="logout">Logout</a></li>
                                     </ul>
                                 </div>

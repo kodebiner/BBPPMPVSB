@@ -20,8 +20,108 @@ class Upload extends BaseController
 {
     protected $data;
 
-    public function addusers(){
-        
+    public function akun($id)
+    {
+        // Calling Model
+        $GroupModel = new GroupModel();
+
+        // Get Data
+        $input  = $this->request->getPost();
+        $users  = auth()->getProvider();
+        $group  = $GroupModel->where('user_id',$id)->first();
+        // $account    = auth()->getProvider()->find($id);
+
+        // Validation Rules
+        $rules = [
+            'username' => [
+                'label'  => 'Nama',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'email' => [
+                'label'  => 'Email',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'level' => [
+                'label'  => 'Level Akun',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/editusers/'.$id)->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+       
+
+        if(!empty($input['password'])){
+
+            $rules = [
+                'password' => [
+                    'label'  => 'Kata Sandi',
+                    'rules'  => 'min_length[6]',
+                    'errors' => [
+                        'min_length[6]'     => '{field} Minimal 6 Huruf atau Karakter',
+                    ],
+                ],
+                'password_confirm' => [
+                    'label'  => 'Konfirmasi Kata Sandi',
+                    'rules'  => 'matches[password]',
+                    'errors' => [
+                        'matches[password]' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
+                    ],
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                return redirect()->to('dashboard/editakun/'.$id)->withInput()->with('errors', $this->validator->getErrors());
+            }
+
+            $result = auth()->check([
+                'email'    => auth()->user()->email,
+                // 'password' => auth()->user()->password,
+                'password' => $input['current_pass'],
+            ]);
+
+            if( !$result->isOK() ) {
+                // Send back the error message
+                // return redirect()->to('dashboard/editakun/'.$id)->withInput()->with('errors', $this->validator->getErrors());
+                $error = lang('Auth.errorOldPassword');
+            }
+            
+            $user = $users->findById($id);
+            $user->fill([
+                'password'  => $input['password'],
+            ]);
+            $users->save($user);
+        }
+
+        $user = $users->findById($id);
+        $user->fill([
+            'username'  => $input['username'],
+            'email'     => $input['email'],
+        ]);
+        $users->save($user);
+
+        $addgroup = [
+            'id'    => $group['id'],
+            'group' => $input['level'],
+        ];
+        $GroupModel->save($addgroup);
+
+        return redirect()->to('dashboard/editakun/'.$id)->with('message', "Data Akun Berhasil Di Perbaharui!");
+    }
+
+    public function addusers()
+    {
         $input = $this->request->getPost();
         $users = auth()->getProvider();
 
@@ -63,7 +163,6 @@ class Upload extends BaseController
             return redirect()->to('dashboard/addusers')->withInput()->with('errors', $this->validator->getErrors());
         }
 
-
         $user = new User([
             'username' => $input['username'],
             'email'    => $input['email'],
@@ -81,7 +180,8 @@ class Upload extends BaseController
         
     }
 
-    public function editusers($id){
+    public function editusers($id)
+    {
         // Calling Model
         $GroupModel = new GroupModel();
 
@@ -90,7 +190,6 @@ class Upload extends BaseController
         $users  = auth()->getProvider();
         $group  = $GroupModel->where('user_id',$id)->first();
         $account    = auth()->getProvider()->find($id);
-        // dd($users->findById($id));
         
         // Validation Rules
         $rules = [
@@ -108,20 +207,6 @@ class Upload extends BaseController
                     'required'      => '{field} harus di isi',
                 ],
             ],
-            // 'password' => [
-            //     'label'  => 'Kata Sandi',
-            //     'rules'  => 'min_length[6]',
-            //     'errors' => [
-            //         'min_length[6]'     => '{field} Minimal 6 Huruf atau Karakter',
-            //     ],
-            // ],
-            // 'password_confirm' => [
-            //     'label'  => 'Konfirmasi Kata Sandi',
-            //     'rules'  => 'matches[password]',
-            //     'errors' => [
-            //         'matches[password]' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
-            //     ],
-            // ],
         ];
 
         if (!$this->validate($rules)) {
@@ -132,19 +217,40 @@ class Upload extends BaseController
         //     'email'    => auth()->user()->email,
         //     'password' => auth()->user()->password,
         // ]);
-        $result = auth()->check([auth()->user()->password]);
         
-        dd($result);
-        $user = $users->findById($id);
         if(!empty($input['password'])){
-            $password = $input['password'];
-        }else{
-            $password =  $user->password;
+
+            $rules = [
+                'password' => [
+                    'label'  => 'Kata Sandi',
+                    'rules'  => 'min_length[6]',
+                    'errors' => [
+                        'min_length[6]'     => '{field} Minimal 6 Huruf atau Karakter',
+                    ],
+                ],
+                'password_confirm' => [
+                    'label'  => 'Konfirmasi Kata Sandi',
+                    'rules'  => 'matches[password]',
+                    'errors' => [
+                        'matches[password]' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
+                    ],
+                ],
+            ];
+
+            if (!$this->validate($rules)) {
+                return redirect()->to('dashboard/editusers/'.$id)->withInput()->with('errors', $this->validator->getErrors());
+            }
+            $user = $users->findById($id);
+            $user->fill([
+                'password'  => $input['password'],
+            ]);
+            $users->save($user);
         }
+
+        $user = $users->findById($id);
         $user->fill([
             'username'  => $input['username'],
             'email'     => $input['email'],
-            'password'  => $input['password'],
         ]);
         $users->save($user);
 
