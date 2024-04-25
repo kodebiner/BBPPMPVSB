@@ -20,7 +20,7 @@ class Upload extends BaseController
 {
     protected $data;
 
-    public function akun($id)
+    public function akun()
     {
         // Calling Model
         $GroupModel = new GroupModel();
@@ -28,7 +28,7 @@ class Upload extends BaseController
         // Get Data
         $input  = $this->request->getPost();
         $users  = auth()->getProvider();
-        $group  = $GroupModel->where('user_id',$id)->first();
+        $group  = $GroupModel->where('user_id',$this->data['uid'])->first();
         // $account    = auth()->getProvider()->find($id);
 
         // Validation Rules
@@ -57,7 +57,7 @@ class Upload extends BaseController
         ];
 
         if (!$this->validate($rules)) {
-            return redirect()->to('dashboard/editusers/'.$id)->withInput()->with('errors', $this->validator->getErrors());
+            return redirect()->to('dashboard/editusers/')->withInput()->with('errors', $this->validator->getErrors());
         }       
 
         if(!empty($input['password'])){
@@ -80,7 +80,7 @@ class Upload extends BaseController
             ];
 
             if (!$this->validate($rules)) {
-                return redirect()->to('dashboard/editakun/'.$id)->withInput()->with('errors', $this->validator->getErrors());
+                return redirect()->to('dashboard/editakun/')->withInput()->with('errors', $this->validator->getErrors());
             }
 
             $result = auth()->check([
@@ -92,18 +92,18 @@ class Upload extends BaseController
                 $errors = [
                     'password'    => 'Kata Sandi Lama Tidak Sesuai',
                 ];
-                return redirect()->to('dashboard/editakun/'.$id)->withInput()->with('errors', $errors);
+                return redirect()->to('dashboard/editakun/')->withInput()->with('errors', $errors);
                 return false;
             }
             
-            $user = $users->findById($id);
+            $user = $users->findById($this->data['uid']);
             $user->fill([
                 'password'  => $input['password'],
             ]);
             $users->save($user);
         }
 
-        $user = $users->findById($id);
+        $user = $users->findById($this->data['uid']);
         $user->fill([
             'username'  => $input['username'],
             'email'     => $input['email'],
@@ -116,7 +116,7 @@ class Upload extends BaseController
         ];
         $GroupModel->save($addgroup);
 
-        return redirect()->to('dashboard/editakun/'.$id)->with('message', "Data Akun Berhasil Di Perbaharui!");
+        return redirect()->to('dashboard/editakun/')->with('message', "Data Akun Berhasil Di Perbaharui!");
     }
 
     public function addusers()
@@ -628,26 +628,26 @@ class Upload extends BaseController
         $input = $this->request->getPost();
 
         // Validation Rules
-        $rules = [
-            'file' => [
-                'label'  => 'File Majalah Artista',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'      => '{field} harus di upload',
-                ],
-            ],
-            'photo' => [
-                'label'  => 'Foto Majalah Artista',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'      => '{field} harus di upload',
-                ],
-            ],
-        ];
+        // $rules = [
+        //     'file' => [
+        //         'label'  => 'File Majalah Artista',
+        //         'rules'  => 'required',
+        //         'errors' => [
+        //             'required'      => '{field} harus di upload',
+        //         ],
+        //     ],
+        //     'photo' => [
+        //         'label'  => 'Foto Majalah Artista',
+        //         'rules'  => 'required',
+        //         'errors' => [
+        //             'required'      => '{field} harus di upload',
+        //         ],
+        //     ],
+        // ];
 
-        if (!$this->validate($rules)) {
-            return redirect()->to('dashboard/editartista/'.$id)->withInput()->with('errors', $this->validator->getErrors());
-        }
+        // if (!$this->validate($rules)) {
+        //     return redirect()->to('dashboard/editartista/'.$id)->withInput()->with('errors', $this->validator->getErrors());
+        // }
 
         $artista = [
             'id'   => $id,

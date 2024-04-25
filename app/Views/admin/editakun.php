@@ -9,7 +9,7 @@
 <div class="uk-card uk-card-default uk-margin-large-right">
     <?= view('Views/Auth/_message_block') ?>
 
-    <form action="save/akun/<?=$users['id']?>" method="post">
+    <form action="save/akun" method="post">
         <div class="uk-card-body">
 
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Nama</label>

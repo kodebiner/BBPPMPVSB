@@ -56,7 +56,7 @@ class Auth extends BaseController
     }
 
     // Akun Views
-    public function akun($id)
+    public function akun()
     {
         // Calling Models
         $usersmodel         = new UsersModel();
@@ -64,8 +64,8 @@ class Auth extends BaseController
 
         // Get Data
         $user       = $usersmodel->find($this->data['uid']);
-        $users      = auth()->getProvider()->find($id);
-        $group      = auth()->getProvider()->find($id)->getGroups();
+        $users      = auth()->getProvider()->find($this->data['uid']);
+        $group      = auth()->getProvider()->find($this->data['uid'])->getGroups();
 
         $account = [
             'id'        => $users->id,
@@ -253,6 +253,11 @@ class Auth extends BaseController
         // Get Data
         $berita = $BeritaModel->find($id);
 
+        // unlink image
+        if(!empty($berita['images'])){
+            unlink(FCPATH . $berita['images']);
+        }
+
         $BeritaModel->delete($berita);
 
         die(json_encode(array($berita)));
@@ -326,6 +331,11 @@ class Auth extends BaseController
 
         // Get Data
         $seminar = $SeminarModel->find($id);
+
+        // unlink image
+        if(!empty($seminar['images'])){
+            unlink(FCPATH . $seminar['images']);
+        }
 
         $SeminarModel->delete($seminar);
 
@@ -462,6 +472,11 @@ class Auth extends BaseController
         // Get Data
         $diklat = $DiklatModel->find($id);
 
+        // unlink image
+        if(!empty($diklat['images'])){
+            unlink(FCPATH . $diklat['images']);
+        }
+
         $DiklatModel->delete($diklat);
 
         die(json_encode(array($diklat)));
@@ -535,6 +550,11 @@ class Auth extends BaseController
 
         // Get Data
         $jadwal = $ScheduleModel->find($id);
+
+        // unlink image
+        if(!empty($jadwal['images'])){
+            unlink(FCPATH . $jadwal['images']);
+        }
 
         $ScheduleModel->delete($jadwal);
 

@@ -23,11 +23,11 @@
     <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <meta name="author" content="PT. Kodebiner Teknologi Indonesia">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/css/uikit.min.css" />
+    <link rel="stylesheet" href="css/uikit.min.css" />
     
     <!-- UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/js/uikit-icons.min.js"></script>
+    <script src="js/uikit.min.js"></script>
+    <script src="js/uikit-icons.min.js"></script>
     
     <!-- Tiny MCE Js  -->
     <script src="https://cdn.tiny.cloud/1/l80j1589vk3emf9jbxbfk7a8o9i5yzgzxjbdlo5fr71v26f6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
@@ -126,7 +126,7 @@
                                 <a href="#"><span class="uk-margin-small-right" uk-icon="user"></span><?=$user['username']?></a>
                                 <div class="uk-navbar-dropdown">
                                     <ul class="uk-nav uk-navbar-dropdown-nav">
-                                        <li><a href="dashboard/editakun/<?=$this->data['uid']?>">Pengaturan Profil</a></li>
+                                        <li><a href="dashboard/editakun">Pengaturan Profil</a></li>
                                         <li><a href="logout">Logout</a></li>
                                     </ul>
                                 </div>
@@ -147,7 +147,8 @@
     <div id="offcanvas-overlay" uk-offcanvas="overlay: true">
         <div class="uk-offcanvas-bar" style="background-color: #6489ae">
             <button class="uk-offcanvas-close" type="button" uk-close></button>
-            <h3 class="uk-text-uppercase"><span style="padding-right:10px; padding-top: 3px; display:inline-block;"><img src="/favicon/favicon-32x32.png"></img></span>bbppmpvsb</h3>
+            <!-- <h3 class="uk-text-uppercase"><span style="padding-right:10px; padding-top: 3px; display:inline-block;"><img src="/favicon/favicon-32x32.png"></img></span>bbppmpvsb</h3> -->
+            <img src="img/logofix.png" width="200" height="auto" class="rounded" alt="...">
             <hr class="uk-divider-icon">
             <ul class="uk-iconnav uk-iconnav-vertical uk-nav-default" uk-nav>
                 <li class="<?= (($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === '')) ? 'uk-active' : '' ?>"><a href="/dashboard"><span class="uk-margin-right" uk-icon="home"></span>Beranda</a></li>

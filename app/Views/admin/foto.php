@@ -2,11 +2,11 @@
 
 <?= $this->section('content') ?>
 
-    <div class="uk-card uk-card-small uk-card-body uk-margin-xlarge-right" style="background-color: rgba(60, 105, 151, .8);">
+    <div class="uk-card uk-card-small uk-card-body uk-margin-large-right" style="background-color: rgba(60, 105, 151, .8);">
         <h3 class="uk-card-title uk-light" style="color: white;">&nbsp;&nbsp;Foto</h3>
     </div>
 
-    <div class="uk-card uk-card-default uk-margin-xlarge-right">
+    <div class="uk-card uk-card-default uk-margin-large-right">
         <div class="uk-width-1-1" style="margin-left: 45px;">
             <a style="background-color: rgba(60, 105, 151, .8); color:white" class="uk-button uk-botton-small uk-margin-top uk-light" href="dashboard/addfoto"><span uk-icon="icon: plus; ratio:0.8"></span>&nbsp;&nbsp;Foto</a>
         </div>

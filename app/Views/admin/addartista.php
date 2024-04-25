@@ -96,6 +96,8 @@
             },
             error: function () {
                 console.log('error', arguments);
+                var error = arguments[0].xhr.response.message.upload;
+                alert(error);
             },
             complete: function () {
                 // console.log('complete', arguments);

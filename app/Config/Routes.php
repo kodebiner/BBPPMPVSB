@@ -23,7 +23,7 @@ $routes->group('dashboard', static function ($routes) {
     $routes->get('', 'Auth::dashboard', ['filter' => 'group:superadmin,admin',]);
     
     // Akun
-    $routes->get('editakun/(:num)', 'Auth::akun/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editakun', 'Auth::akun', ['filter' => 'group:superadmin,admin',]);
 
     // Users
     $routes->get('users', 'Auth::users', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
@@ -124,7 +124,7 @@ $routes->group('add', static function ($routes){
 // Update
 $routes->group('save', static function ($routes){
     service('auth')->routes($routes);
-    $routes->post('akun/(:num)', 'Upload::akun/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('akun', 'Upload::akun', ['filter' => 'group:superadmin,admin',]);
     $routes->post('users/(:num)', 'Upload::editusers/$1', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
     $routes->post('artista/(:num)', 'Upload::artista/$1', ['filter' => 'group:superadmin,admin',]);
     $routes->post('berita/(:num)', 'Upload::editberita/$1', ['filter' => 'group:superadmin,admin',]);
