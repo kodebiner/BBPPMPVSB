@@ -95,12 +95,14 @@ $routes->group('upload', static function ($routes){
     $routes->post('foto', 'Upload::foto', ['filter' => 'group:superadmin,admin',]);
     $routes->post('removefoto', 'Upload::removefoto', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotoberita', 'Upload::fotoberita', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removefotoberita', 'Upload::removefotoberita', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotoseminar', 'Upload::fotoseminar', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotodiklat', 'Upload::fotodiklat', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotojadwal', 'Upload::fotojadwal', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotogaleri', 'Upload::fotogaleri', ['filter' => 'group:superadmin,admin',]);
     $routes->post('videogaleri', 'Upload::videogaleri', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotoslideshow', 'Upload::fotoslideshow', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removeslideshow', 'Upload::removeslideshow', ['filter' => 'group:superadmin,admin',]);
     $routes->post('pdf', 'Upload::pdf', ['filter' => 'group:superadmin,admin',]);
     $routes->post('removefile', 'Upload::removepdf', ['filter' => 'group:superadmin,admin',]);
 });

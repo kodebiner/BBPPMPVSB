@@ -11,22 +11,6 @@
         <form action="add/artista" method="post">
             <div class="uk-card-body">
                 <!-- Upload File -->
-                <!-- <div class="uk-child-width-1-1@m" uk-grid>
-                    <div id="containerpdf">
-                    </div>
-                </div>
-                <progress id="js-progressbarpdf" class="uk-progress" value="0" max="100" hidden></progress>
-
-                <h5 class="uk-margin-small-top">Upload File</h5>
-                <div class="js-upload uk-placeholder uk-text-center" style="height: 20px;">
-                    <span uk-icon="icon: cloud-upload"></span>
-                    <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
-                    <div uk-form-custom>
-                        <input type="file" multiple>
-                        <input type="hidden" id="file" name="file" value="">
-                        <span class="uk-link">Pilih satu</span>
-                    </div>
-                </div> -->
                 <h5 class="uk-margin-small-top">Upload File</h5>
                 <div class="uk-margin" id="file-container-createartista">
                     <div id="file-containerartista" class="uk-form-controls">
@@ -48,6 +32,7 @@
                 <h5 class="uk-margin-small-top">Upload Foto</h5>
                 <div class="uk-margin" id="image-container-createartista">
                     <div id="image-containerartista" class="uk-form-controls">
+                        <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
                         <input id="foto" name="foto" hidden />
                         <div id="js-upload-fotoartista" class="js-upload uk-placeholder uk-text-center">
                             <span uk-icon="icon: cloud-upload"></span>
@@ -57,7 +42,6 @@
                                 <span class="uk-link uk-preserve-color">pilih satu</span>
                             </div>
                         </div>
-                        <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
                     </div>
                 </div>
                 <!-- End Upload Foto -->
@@ -100,44 +84,6 @@
                 alert(error);
             },
             complete: function () {
-                // console.log('complete', arguments);
-
-                // var filename = arguments[0].response;
-                // console.log(filename);
-
-                // if (document.getElementById('cardpdf')) {
-                //     document.getElementById('cardpdf').remove();
-                // };
-
-                // var containerpdf = document.getElementById('containerpdf');
-
-                // var cardpdf = document.createElement('div');
-                // cardpdf.setAttribute('id','cardpdf');
-                // cardpdf.setAttribute("class",'uk-card uk-card-default');
-
-                // var bodypdf = document.createElement('div');
-                // bodypdf.setAttribute('class','uk-card-body uk-text-center');
-
-                // var h5pdf = document.createElement('h5');
-                // h5pdf.setAttribute('id','uppdf');
-
-                // var pdffile = document.createElement('a');
-                // pdffile.setAttribute('id','filepdf');
-                // pdffile.setAttribute('href','artista/artikel/'+filename);
-
-                // var iconpdf = document.createElement('span');
-                // iconpdf.setAttribute('uk-icon','file-text');
-
-                // var pdftext = document.createTextNode(filename);
-
-                // containerpdf.appendChild(cardpdf);
-                // cardpdf.appendChild(bodypdf);
-                // bodypdf.appendChild(h5pdf);
-                // h5pdf.appendChild(pdffile);
-                // pdffile.appendChild(iconpdf);
-                // pdffile.appendChild(pdftext);
-
-                // document.getElementById("file").value = filename;
                 console.log('complete', arguments);
 
                 var pdfname = arguments[0].response;

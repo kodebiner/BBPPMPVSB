@@ -335,6 +335,16 @@ class Upload extends BaseController
         }
     }
 
+    public function removefotoberita()
+    {
+        // Removing File
+        $input = $this->request->getPost('foto');
+        unlink(FCPATH . 'images/' . $input);
+
+        // Return Message
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
+
     public function fotoseminar()
     {
         $image      = \Config\Services::image();
@@ -623,35 +633,52 @@ class Upload extends BaseController
     // Update Artista
     public function artista($id)
     {
-        $ArtistaModel = new ArtistaModel();
+        $ArtistaModel   = new ArtistaModel();
+        $artista        = $ArtistaModel->find($id);
 
         $input = $this->request->getPost();
 
         // Validation Rules
-        // $rules = [
-        //     'file' => [
-        //         'label'  => 'File Majalah Artista',
-        //         'rules'  => 'required',
-        //         'errors' => [
-        //             'required'      => '{field} harus di upload',
-        //         ],
-        //     ],
-        //     'photo' => [
-        //         'label'  => 'Foto Majalah Artista',
-        //         'rules'  => 'required',
-        //         'errors' => [
-        //             'required'      => '{field} harus di upload',
-        //         ],
-        //     ],
-        // ];
+        $rules = [
+            'file' => [
+                'label'  => 'File Majalah Artista',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di upload',
+                ],
+            ],
+            'foto' => [
+                'label'  => 'Foto Majalah Artista',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di upload',
+                ],
+            ],
+        ];
 
-        // if (!$this->validate($rules)) {
-        //     return redirect()->to('dashboard/editartista/'.$id)->withInput()->with('errors', $this->validator->getErrors());
-        // }
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/editartista/'.$id)->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        if (!empty($input['file'])) {
+            if (!empty($artista['file'])) {
+                if ($input['file'] != $artista['file']) {
+                    unlink(FCPATH . '/artista/artikel/' . $artista['file']);
+                }
+            }
+        }
+
+        if (!empty($input['foto'])) {
+            if (!empty($artista['photo'])) {
+                if ($input['foto'] != $artista['photo']) {
+                    unlink(FCPATH . '/artista/foto/' . $artista['photo']);
+                }
+            }
+        }
 
         $artista = [
-            'id'   => $id,
-            'file' => $input['file'],
+            'id'    => $id,
+            'file'  => $input['file'],
             'photo' => $input['foto'],
         ];
 
@@ -670,6 +697,35 @@ class Upload extends BaseController
         $input  = $this->request->getPost();
         $user   = $UserModel->find($this->data['uid']);
 
+        // Validation Rules
+        $rules = [
+            'judul' => [
+                'label'  => 'Judul Berita',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'pendahuluan' => [
+                'label'  => 'Pendahuluan Berita',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'foto' => [
+                'label'  => 'Foto Berita',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di upload',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addberita')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
@@ -680,7 +736,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => "images/".$input['foto'],
             'description'   => $input['ringkasan'],
         ];
 
@@ -699,6 +755,16 @@ class Upload extends BaseController
         // Get Data
         $input  = $this->request->getPost();
         $user   = $UserModel->find($this->data['uid']);
+        $photos = $this->request->getPost('foto');
+
+        $fotoberita = $BeritaModel->find($id);
+
+        if ($photos === $fotoberita['images']) {
+            $xfoto = $fotoberita['images'];
+        } else {
+            unlink(FCPATH . $fotoberita['images']);
+            $xfoto = "images/".$this->request->getPost('foto');
+        }
 
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
@@ -711,7 +777,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => $xfoto,
             'description'   => $input['ringkasan'],
         ];
 
@@ -731,6 +797,35 @@ class Upload extends BaseController
         $input  = $this->request->getPost();
         $user   = $UserModel->find($this->data['uid']);
 
+        // Validation Rules
+        $rules = [
+            'judul' => [
+                'label'  => 'Judul Seminar',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'pendahuluan' => [
+                'label'  => 'Pendahuluan Seminar',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'foto' => [
+                'label'  => 'Foto Seminar',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di upload',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addseminar')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
@@ -741,7 +836,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => "images/".$input['foto'],
             'description'   => $input['ringkasan'],
             'type'          => 0,
         ];
@@ -761,6 +856,16 @@ class Upload extends BaseController
         // Get Data
         $input  = $this->request->getPost();
         $user   = $UserModel->find($this->data['uid']);
+        $photos = $this->request->getPost('foto');
+
+        $fotoseminar = $SeminarModel->find($id);
+
+        if ($photos === $fotoseminar['images']) {
+            $xfoto = $fotoseminar['images'];
+        } else {
+            unlink(FCPATH . $fotoseminar['images']);
+            $xfoto = "images/".$this->request->getPost('foto');
+        }
 
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
@@ -773,7 +878,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => $xfoto,
             'description'   => $input['ringkasan'],
             'type'          => 0,
         ];
@@ -783,7 +888,7 @@ class Upload extends BaseController
         return redirect()->to('dashboard/seminar')->with('message', "Seminar Berhasil Di Ubah!");
     }
 
-    // Add Seminar
+    // Add Webinar
     public function addwebbinar()
     {
         // Calling Models
@@ -794,6 +899,35 @@ class Upload extends BaseController
         $input  = $this->request->getPost();
         $user   = $UserModel->find($this->data['uid']);
 
+        // Validation Rules
+        $rules = [
+            'judul' => [
+                'label'  => 'Judul Webinar',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'pendahuluan' => [
+                'label'  => 'Pendahuluan Webinar',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'foto' => [
+                'label'  => 'Foto Webinar',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di upload',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addwebbinar')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
@@ -804,7 +938,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => "images/".$input['foto'],
             'description'   => $input['ringkasan'],
             'type'          => 1,
         ];
@@ -814,7 +948,7 @@ class Upload extends BaseController
         return redirect()->to('dashboard/webbinar')->with('message', "Webinar Berhasil Di Tambahkan!");
     }
 
-    // Edit Seminar
+    // Edit Webinar
     public function editwebbinar($id){
 
         // Calling Models
@@ -824,6 +958,16 @@ class Upload extends BaseController
         // Get Data
         $input  = $this->request->getPost();
         $user   = $UserModel->find($this->data['uid']);
+        $photos = $this->request->getPost('foto');
+
+        $fotowebinar = $SeminarModel->find($id);
+
+        if ($photos === $fotowebinar['images']) {
+            $xfoto = $fotowebinar['images'];
+        } else {
+            unlink(FCPATH . $fotowebinar['images']);
+            $xfoto = "images/".$this->request->getPost('foto');
+        }
 
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
@@ -836,7 +980,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => $xfoto,
             'description'   => $input['ringkasan'],
             'type'          => 1,
         ];
@@ -857,6 +1001,35 @@ class Upload extends BaseController
         $input  = $this->request->getPost();
         $user   = $UserModel->find($this->data['uid']);
 
+        // Validation Rules
+        $rules = [
+            'judul' => [
+                'label'  => 'Judul Seminar',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'pendahuluan' => [
+                'label'  => 'Pendahuluan Seminar',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'foto' => [
+                'label'  => 'Foto Seminar',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di upload',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addjadwal')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
@@ -867,7 +1040,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => "images/".$input['foto'],
             'description'   => $input['ringkasan'],
         ];
 
@@ -881,11 +1054,21 @@ class Upload extends BaseController
 
         // Calling Models
         $UserModel      = new UsersModel();
-        $ScheduleModel   = new ScheduleModel();
+        $ScheduleModel  = new ScheduleModel();
 
         // Get Data
         $input  = $this->request->getPost();
         $user   = $UserModel->find($this->data['uid']);
+        $photos = $this->request->getPost('foto');
+
+        $fotojadwal = $ScheduleModel->find($id);
+
+        if ($photos === $fotojadwal['images']) {
+            $xfoto = $fotojadwal['images'];
+        } else {
+            unlink(FCPATH . $fotojadwal['images']);
+            $xfoto = "images/".$this->request->getPost('foto');
+        }
 
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
@@ -898,7 +1081,7 @@ class Upload extends BaseController
             'alias'         => $aliases,
             'introtext'     => $input['pendahuluan'],
             'fulltext'      => $input['isi'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => $xfoto,
             'description'   => $input['ringkasan'],
         ];
 
@@ -918,13 +1101,35 @@ class Upload extends BaseController
         $input  = $this->request->getPost();
         $user   = $UserModel->find($this->data['uid']);
 
+        // Validation Rules
+        $rules = [
+            'judul' => [
+                'label'  => 'Judul Diklat',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'foto' => [
+                'label'  => 'Foto Diklat',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di upload',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/adddiklat')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
         // News Data 
         $diklat = [
             'title'         => $input['judul'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => "images/".$input['foto'],
         ];
 
         // insert News
@@ -940,12 +1145,22 @@ class Upload extends BaseController
 
         // Get Data
         $input  = $this->request->getPost();
+        $photos = $this->request->getPost('foto');
+
+        $fotodiklat = $DiklatModel->find($id);
+
+        if ($photos === $fotodiklat['images']) {
+            $xfoto = $fotodiklat['images'];
+        } else {
+            unlink(FCPATH . $fotodiklat['images']);
+            $xfoto = "images/".$this->request->getPost('foto');
+        }
 
         // News Data 
         $diklat = [
             'id'            => $id,
             'title'         => $input['judul'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => $xfoto,
         ];
 
         // insert News
@@ -962,10 +1177,32 @@ class Upload extends BaseController
         // Get Data
         $input  = $this->request->getPost();
 
+        // Validation Rules
+        $rules = [
+            'judul' => [
+                'label'  => 'Judul Foto pada Galeri',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'foto' => [
+                'label'  => 'Foto pada Galeri',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di upload',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addfoto')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         // News Data 
         $foto = [
             'title'         => $input['judul'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => "images/".$input['foto'],
         ];
 
         // insert News
@@ -981,12 +1218,22 @@ class Upload extends BaseController
 
         // Get Data
         $input  = $this->request->getPost();
+        $photos = $this->request->getPost('foto');
+
+        $fotogaleri = $PhotoModel->find($id);
+
+        if ($photos === $fotogaleri['images']) {
+            $xfoto = $fotogaleri['images'];
+        } else {
+            unlink(FCPATH . $fotogaleri['images']);
+            $xfoto = "images/".$this->request->getPost('foto');
+        }
 
         // News Data 
         $foto = [
             'id'            => $id,
             'title'         => $input['judul'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => $xfoto,
         ];
 
         // insert News
@@ -1002,6 +1249,35 @@ class Upload extends BaseController
 
         // Video Data
         $input  = $this->request->getPost();
+
+        // Validation Rules
+        $rules = [
+            'judul' => [
+                'label'  => 'Judul Video',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'link' => [
+                'label'  => 'Link Video',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'foto' => [
+                'label'  => 'Thumbnail Video',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di upload',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addvideo')->withInput()->with('errors', $this->validator->getErrors());
+        }
 
         $url = $input['link'];
 
@@ -1027,7 +1303,7 @@ class Upload extends BaseController
         // News Data 
         $video = [
             'title'         => $input['judul'],
-            'images'        => $input['gambar'],
+            'images'        => $input['foto'],
             'link'          => $idlink,
         ];
 
@@ -1064,11 +1340,22 @@ class Upload extends BaseController
 
         $idlink = YoutubeEmbedUrl($url);
 
+        $photos = $this->request->getPost('foto');
+
+        $thumbnail = $VideoModel->find($id);
+
+        if ($photos === $thumbnail['images']) {
+            $xfoto = $thumbnail['images'];
+        } else {
+            unlink(FCPATH . $thumbnail['images']);
+            $xfoto = "images/".$this->request->getPost('foto');
+        }
+
         // Video Data 
         $video = [
             'id'            => $id,
             'title'         => $input['judul'],
-            'images'        => "images/".$input['gambar'],
+            'images'        => $xfoto,
             'link'          => $idlink,
         ];
 
@@ -1085,6 +1372,21 @@ class Upload extends BaseController
 
         // Get Data
         $input  = $this->request->getPost();
+
+        // Validation Rules
+        $rules = [
+            'foto' => [
+                'label'  => 'Slideshow',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di upload',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addslideshow')->withInput()->with('errors', $this->validator->getErrors());
+        }
         
         if(isset($input['status'])){
             $status = 1;
@@ -1094,7 +1396,7 @@ class Upload extends BaseController
 
         // News Data 
         $slide = [
-            'file'        => "img/slideshow/".$input['gambar'],
+            'file'        => $input['foto'],
             'status'      => $status,
         ];
 
@@ -1104,13 +1406,23 @@ class Upload extends BaseController
     }
 
     // Edit Slideshow
-    public function editslideshow($id){
-
+    public function editslideshow($id)
+    {
         // Calling Models
         $SlideshowModel     = new SlideshowModel();
 
         // Get Data
         $input  = $this->request->getPost();
+        $photos = $this->request->getPost('foto');
+
+        $fotoslideshow = $SlideshowModel->find($id);
+
+        if ($photos === $fotoslideshow['file']) {
+            $xfoto = $fotoslideshow['file'];
+        } else {
+            unlink(FCPATH . "img/slideshow/" . $fotoslideshow['file']);
+            $xfoto = $input['foto'];
+        }
 
         if(isset($input['status'])){
             $status = 1;
@@ -1121,7 +1433,7 @@ class Upload extends BaseController
         // News Data 
         $foto = [
             'id'            => $id,
-            'file'          => "img/slideshow/".$input['gambar'],
+            'file'          => $xfoto,
             'status'        => $status,
         ];
 
@@ -1130,6 +1442,14 @@ class Upload extends BaseController
         return redirect()->to('dashboard/slideshow')->with('message', "Slide Show Berhasil Di Ubah!");
     }
 
-    
+    public function removeslideshow()
+    {
+        // Removing File
+        $input = $this->request->getPost('foto');
+        unlink(FCPATH . 'img/slideshow/' . $input);
+
+        // Return Message
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
 }
 ?>

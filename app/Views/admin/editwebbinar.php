@@ -45,7 +45,7 @@
                     <div class="uk-card uk-card-default">
                         <div class="uk-card-media-top uk-text-center">
                             <div uk-lightbox>
-                                <a class="uk-inline" id="imagecontainer" href="<?=$news['images']?>" data-caption="<?=$news['images']?>">
+                                <a class="uk-inline" id="fileimagecontainer" href="<?=$news['images']?>" data-caption="<?=$news['images']?>">
                                     <img id="fileimage" class="uk-margin-top uk-margin-bottom" src="<?=$news['images']?>" width="300" height="150" alt="">
                                 </a>
                             </div>
@@ -54,17 +54,21 @@
                 </div>
             </div>
 
-            <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold">Upload Gambar</label>
-            <div id="js-upload-foto" class="js-upload uk-placeholder uk-text-center" style="height: 20px;">
-                <span uk-icon="icon: cloud-upload"></span>
-                <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
-                <div uk-form-custom>
-                    <input type="file" multiple>
-                    <input type="hidden" id="foto" name="gambar" value="<?=$news['images']?>">
-                    <span class="uk-link">Pilih satu</span>
+            <h5 class="uk-margin-small-top">Upload Foto Baru</h5>
+            <div class="uk-margin" id="image-container-create">
+                <div id="image-container" class="uk-form-controls">
+                    <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
+                    <input id="foto" name="foto" hidden value="<?=$news['images']?>"/>
+                    <div id="js-upload-foto" class="js-upload uk-placeholder uk-text-center">
+                        <span uk-icon="icon: cloud-upload"></span>
+                        <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
+                        <div uk-form-custom>
+                            <input type="file">
+                            <span class="uk-link uk-preserve-color">pilih satu</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
             <!-- End Upload Foto -->
 
             <!-- Upload Foto Script -->
@@ -74,7 +78,7 @@
 
                 UIkit.upload('#js-upload-foto', {
 
-                    url: 'upload/fotoseminar',
+                    url: 'upload/fotoberita',
                     multiple: true,
                     name: 'uploads',
                     param: {
@@ -102,13 +106,22 @@
                         console.log('complete', arguments);
 
                         var filename = arguments[0].response;
-                        console.log(filename);
 
-                        if (document.getElementById('fileimage')) {
-                            document.getElementById('fileimage').remove();
+                        if (document.getElementById('imagecontainer')) {
+                            document.getElementById('imagecontainer').remove();
                         };
 
-                        var containerimage = document.getElementById('imagecontainer');
+                        document.getElementById('foto').value = filename;
+
+                        var imgContainer = document.getElementById('image-container-create');
+
+                        var displayContainer = document.createElement('div');
+                        displayContainer.setAttribute('id', 'imagecontainer');
+                        displayContainer.setAttribute('class', 'uk-inline uk-width-1-1');
+
+                        var displayImg = document.createElement('div');
+                        displayImg.setAttribute('class', 'uk-placeholder uk-text-center');
+                        displayImg.setAttribute('uk-lightbox', '');
 
                         var linkimg = document.createElement('a');
                         linkimg.setAttribute('id','imagecontainer');
@@ -116,19 +129,32 @@
                         linkimg.setAttribute('href','images/'+filename);
                         linkimg.setAttribute('data-caption', filename);
 
-
                         var imagetag = document.createElement('img');
                         imagetag.setAttribute('id','fileimage');
                         imagetag.setAttribute('class','uk-margin-top uk-margin-bottom');
                         imagetag.setAttribute('src','images/'+filename);
-                        imagetag.setAttribute('width','300');
-                        imagetag.setAttribute('heigth','150');
+                        imagetag.setAttribute('width','120');
+                        imagetag.setAttribute('heigth','180');
                         imagetag.setAttribute('alt', filename);
 
-                        containerimage.appendChild(linkimg);
-                        linkimg.appendChild(imagetag);
+                        var closeContainer = document.createElement('div');
+                        closeContainer.setAttribute('class', 'uk-position-small uk-position-right');
 
-                        document.getElementById("foto").value = filename;
+                        var closeButton = document.createElement('a');
+                        closeButton.setAttribute('class', 'tm-img-remove uk-border-circle');
+                        closeButton.setAttribute('onClick', 'removeFoto()');
+                        closeButton.setAttribute('uk-icon', 'close');
+
+                        var linktext = document.createTextNode(filename);
+
+                        closeContainer.appendChild(closeButton);
+                        displayContainer.appendChild(displayImg);
+                        displayContainer.appendChild(closeContainer);
+                        displayImg.appendChild(linkimg);
+                        linkimg.appendChild(imagetag);
+                        imgContainer.appendChild(displayContainer);
+
+                        document.getElementById('js-upload-foto').setAttribute('hidden', '');
                     },
 
                     loadStart: function (e) {
@@ -162,9 +188,35 @@
 
                         alert('Upload Selesai');
                     }
-
                 });
 
+                function removeFoto() {
+                    $.ajax({
+                        type: 'post',
+                        url: 'upload/removefotoberita',
+                        data: {
+                            'foto': document.getElementById('foto').value
+                        },
+                        dataType: 'json',
+
+                        error: function() {
+                            console.log('error', arguments);
+                        },
+
+                        success: function() {
+                            console.log('success', arguments);
+
+                            var pesan = arguments[0][1];
+
+                            document.getElementById('imagecontainer').remove();
+                            document.getElementById('foto').value = '';
+
+                            alert(pesan);
+
+                            document.getElementById('js-upload-foto').removeAttribute('hidden', '');
+                        }
+                    });
+                };
             </script>
             <!-- End Upload Foto Sampul Script -->
 
