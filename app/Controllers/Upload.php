@@ -65,16 +65,16 @@ class Upload extends BaseController
             $rules = [
                 'password' => [
                     'label'  => 'Kata Sandi',
-                    'rules'  => 'min_length[6]',
+                    'rules'  => 'required|min_length[6]',
                     'errors' => [
-                        'min_length[6]'     => '{field} Minimal 6 Huruf atau Karakter',
+                        'min_length'    => '{field} Minimal 6 Huruf atau Karakter',
                     ],
                 ],
                 'password_confirm' => [
                     'label'  => 'Konfirmasi Kata Sandi',
                     'rules'  => 'matches[password]',
                     'errors' => [
-                        'matches[password]' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
+                        'matches' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
                     ],
                 ],
             ];
@@ -144,16 +144,16 @@ class Upload extends BaseController
                 'label'  => 'Kata Sandi',
                 'rules'  => 'required|min_length[6]',
                 'errors' => [
-                    'required'          => '{field} harus di isi',
-                    'min_length[6]'     => '{field} Minimal 6 Huruf atau Karakter',
+                    'required'      => '{field} harus di isi',
+                    'min_length'    => '{field} Minimal 6 Huruf atau Karakter',
                 ],
             ],
             'password_confirm' => [
                 'label'  => 'Konfirmasi Kata Sandi',
                 'rules'  => 'required|matches[password]',
                 'errors' => [
-                    'matches[password]' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
-                    'required'          => '{field} harus di isi',
+                    'matches'   => '{field} Konfirmasi Kata Sandi Tidak Cocok',
+                    'required'  => '{field} harus di isi',
                 ],
             ],
         ];
@@ -201,7 +201,7 @@ class Upload extends BaseController
                 'label'  => 'Email',
                 'rules'  => 'required',
                 'errors' => [
-                    'required'      => '{field} harus di isi',
+                    'required'  => '{field} harus di isi',
                 ],
             ],
         ];
@@ -215,16 +215,16 @@ class Upload extends BaseController
             $rules = [
                 'password' => [
                     'label'  => 'Kata Sandi',
-                    'rules'  => 'min_length[6]',
+                    'rules'  => 'required|min_length[6]',
                     'errors' => [
-                        'min_length[6]'     => '{field} Minimal 6 Huruf atau Karakter',
+                        'min_length'     => '{field} Minimal 6 Huruf atau Karakter',
                     ],
                 ],
                 'password_confirm' => [
                     'label'  => 'Konfirmasi Kata Sandi',
-                    'rules'  => 'matches[password]',
+                    'rules'  => 'required|matches[password]',
                     'errors' => [
-                        'matches[password]' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
+                        'matches' => '{field} Konfirmasi Kata Sandi Tidak Cocok',
                     ],
                 ],
             ];

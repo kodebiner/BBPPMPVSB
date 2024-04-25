@@ -4,10 +4,13 @@
 
 <?= $this->section('main') ?>
 
-    <div class="container d-flex justify-content-center p-5">
-        <div class="card col-12 col-md-5 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title mb-5"><?= lang('Auth.login') ?></h5>
+<div class="container d-flex justify-content-center p-5 position-absolute top-50 start-50 translate-middle">
+    <div class="card col-12 col-md-5 shadow-sm">
+        <div class="card-body">
+            <!-- <h5 class="card-title mb-4 text-center mt-4">LOGIN <br>BBPPMPVSB</h5> -->
+            <div class="text-center mt-4 mb-5">
+                <img src="img/logofix.png" width="200" height="auto" class="rounded" alt="...">
+            </div>
 
                 <?php if (session('error') !== null) : ?>
                     <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
@@ -57,13 +60,13 @@
                         <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.login') ?></button>
                     </div>
 
-                    <?php if (setting('Auth.allowMagicLinkLogins')) : ?>
-                        <p class="text-center"><?= lang('Auth.forgotPassword') ?> <a href="<?= url_to('magic-link') ?>"><?= lang('Auth.useMagicLink') ?></a></p>
-                    <?php endif ?>
+                    <!-- </?php if (setting('Auth.allowMagicLinkLogins')) : ?>
+                        <p class="text-center"></?= lang('Auth.forgotPassword') ?> <a href="</?= url_to('magic-link') ?>"></?= lang('Auth.useMagicLink') ?></a></p>
+                    </?php endif ?> -->
 
-                    <?php if (setting('Auth.allowRegistration')) : ?>
-                        <p class="text-center"><?= lang('Auth.needAccount') ?> <a href="<?= url_to('register') ?>"><?= lang('Auth.register') ?></a></p>
-                    <?php endif ?>
+                    <!-- </?php if (setting('Auth.allowRegistration')) : ?>
+                        <p class="text-center"></?= lang('Auth.needAccount') ?> <a href="</?= url_to('register') ?>"></?= lang('Auth.register') ?></a></p>
+                    </?php endif ?> -->
 
                 </form>
             </div>
