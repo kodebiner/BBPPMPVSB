@@ -58,9 +58,7 @@ class Upload extends BaseController
 
         if (!$this->validate($rules)) {
             return redirect()->to('dashboard/editusers/'.$id)->withInput()->with('errors', $this->validator->getErrors());
-        }
-
-       
+        }       
 
         if(!empty($input['password'])){
 
@@ -87,14 +85,15 @@ class Upload extends BaseController
 
             $result = auth()->check([
                 'email'    => auth()->user()->email,
-                // 'password' => auth()->user()->password,
                 'password' => $input['current_pass'],
             ]);
 
             if( !$result->isOK() ) {
-                // Send back the error message
-                // return redirect()->to('dashboard/editakun/'.$id)->withInput()->with('errors', $this->validator->getErrors());
-                $error = lang('Auth.errorOldPassword');
+                $errors = [
+                    'password'    => 'Kata Sandi Lama Tidak Sesuai',
+                ];
+                return redirect()->to('dashboard/editakun/'.$id)->withInput()->with('errors', $errors);
+                return false;
             }
             
             $user = $users->findById($id);
@@ -170,10 +169,8 @@ class Upload extends BaseController
         ]);
         $users->save($user);
 
-        // To get the complete user object with ID, we need to get from the database
         $user = $users->findById($users->getInsertID());
 
-        // Add to default group
         $users->addToDefaultGroup($user);
         
         return redirect()->to('dashboard/users')->with('message', "Pengguna Baru Berhasil Di Tambahkan!");
@@ -212,11 +209,6 @@ class Upload extends BaseController
         if (!$this->validate($rules)) {
             return redirect()->to('dashboard/editusers/'.$id)->withInput()->with('errors', $this->validator->getErrors());
         }
-
-        // $result = auth()->check([
-        //     'email'    => auth()->user()->email,
-        //     'password' => auth()->user()->password,
-        // ]);
         
         if(!empty($input['password'])){
 
@@ -240,6 +232,7 @@ class Upload extends BaseController
             if (!$this->validate($rules)) {
                 return redirect()->to('dashboard/editusers/'.$id)->withInput()->with('errors', $this->validator->getErrors());
             }
+
             $user = $users->findById($id);
             $user->fill([
                 'password'  => $input['password'],
