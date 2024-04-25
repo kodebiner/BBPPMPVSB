@@ -291,6 +291,16 @@ class Upload extends BaseController
         }
     }
 
+    public function removefoto()
+    {
+        // Removing File
+        $input = $this->request->getPost('foto');
+        unlink(FCPATH . 'artista/foto/' . $input);
+
+        // Return Message
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
+
     public function fotoberita()
     {
         $image      = \Config\Services::image();
@@ -531,7 +541,6 @@ class Upload extends BaseController
 
     public function pdf()
     {
-        
         $validation = \Config\Services::validation();
         $input      = $this->request->getFile('uploads');
 
@@ -561,6 +570,16 @@ class Upload extends BaseController
             // Returning Message
             die(json_encode($returnFile));
         }
+    }
+
+    public function removepdf()
+    {
+        // Removing File
+        $input = $this->request->getPost('file');
+        unlink(FCPATH . 'artista/artikel/' . $input);
+
+        // Return Message
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
     }
 
     // Add Artista

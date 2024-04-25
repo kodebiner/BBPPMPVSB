@@ -11,7 +11,7 @@
         <form action="add/artista" method="post">
             <div class="uk-card-body">
                 <!-- Upload File -->
-                <div class="uk-child-width-1-1@m" uk-grid>
+                <!-- <div class="uk-child-width-1-1@m" uk-grid>
                     <div id="containerpdf">
                     </div>
                 </div>
@@ -20,38 +20,46 @@
                 <h5 class="uk-margin-small-top">Upload File</h5>
                 <div class="js-upload uk-placeholder uk-text-center" style="height: 20px;">
                     <span uk-icon="icon: cloud-upload"></span>
-                    <span class="uk-text-middle">Tarik file kemari atau</span>
+                    <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
                     <div uk-form-custom>
                         <input type="file" multiple>
                         <input type="hidden" id="file" name="file" value="">
                         <span class="uk-link">Pilih satu</span>
                     </div>
+                </div> -->
+                <h5 class="uk-margin-small-top">Upload File</h5>
+                <div class="uk-margin" id="file-container-createartista">
+                    <div id="file-containerartista" class="uk-form-controls">
+                        <input id="file" name="file" hidden />
+                        <div id="js-upload-fileartista" class="js-upload-fileartista uk-placeholder uk-text-center">
+                            <span uk-icon="icon: cloud-upload"></span>
+                            <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
+                            <div uk-form-custom>
+                                <input type="file" multiple>
+                                <span class="uk-link uk-preserve-color">pilih satu</span>
+                            </div>
+                        </div>
+                        <progress id="js-upload-createfile" class="uk-progress" value="0" max="100" hidden></progress>
+                    </div>
                 </div>
                 <!-- End Of Upload File -->
 
                 <!-- Upload Foto -->
-                <div class="uk-child-width-1-1@m" uk-grid>
-                    <div>
-                        <div class="uk-card uk-card-default">
-                            <div class="uk-card-media-top uk-text-center">
-                                <div id="lightbox" uk-lightbox>
-                                </div>
+                <h5 class="uk-margin-small-top">Upload Foto</h5>
+                <div class="uk-margin" id="image-container-createartista">
+                    <div id="image-containerartista" class="uk-form-controls">
+                        <input id="foto" name="foto" hidden />
+                        <div id="js-upload-fotoartista" class="js-upload uk-placeholder uk-text-center">
+                            <span uk-icon="icon: cloud-upload"></span>
+                            <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
+                            <div uk-form-custom>
+                                <input type="file">
+                                <span class="uk-link uk-preserve-color">pilih satu</span>
                             </div>
                         </div>
+                        <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
                     </div>
                 </div>
-
-                <h5 class="uk-margin-small-top">Upload Foto</h5>
-                <div id="js-upload-foto" class="js-upload uk-placeholder uk-text-center" style="height: 20px;">
-                    <span uk-icon="icon: cloud-upload"></span>
-                    <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
-                    <div uk-form-custom>
-                        <input type="file" multiple>
-                        <input type="hidden" id="foto" name="foto" value="">
-                        <span class="uk-link">Pilih satu</span>
-                    </div>
-                </div>
-                <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
                 <!-- End Upload Foto -->
 
             </div>
@@ -66,11 +74,8 @@
 
     <!-- Upload File Pdf -->
     <script>
-
-        var barpdf = document.getElementById('js-progressbarpdf');
-
-        UIkit.upload('.js-upload', {
-
+        var barpdf = document.getElementById('js-upload-createfoto');
+        UIkit.upload('.js-upload-fileartista', {
             url: 'upload/pdf',
             multiple: true,
             name: 'uploads',
@@ -79,7 +84,6 @@
             },
             method: 'POST',
             type: 'json',
-
 
             beforeSend: function () {
                 console.log('beforeSend', arguments);
@@ -94,50 +98,96 @@
                 console.log('error', arguments);
             },
             complete: function () {
+                // console.log('complete', arguments);
+
+                // var filename = arguments[0].response;
+                // console.log(filename);
+
+                // if (document.getElementById('cardpdf')) {
+                //     document.getElementById('cardpdf').remove();
+                // };
+
+                // var containerpdf = document.getElementById('containerpdf');
+
+                // var cardpdf = document.createElement('div');
+                // cardpdf.setAttribute('id','cardpdf');
+                // cardpdf.setAttribute("class",'uk-card uk-card-default');
+
+                // var bodypdf = document.createElement('div');
+                // bodypdf.setAttribute('class','uk-card-body uk-text-center');
+
+                // var h5pdf = document.createElement('h5');
+                // h5pdf.setAttribute('id','uppdf');
+
+                // var pdffile = document.createElement('a');
+                // pdffile.setAttribute('id','filepdf');
+                // pdffile.setAttribute('href','artista/artikel/'+filename);
+
+                // var iconpdf = document.createElement('span');
+                // iconpdf.setAttribute('uk-icon','file-text');
+
+                // var pdftext = document.createTextNode(filename);
+
+                // containerpdf.appendChild(cardpdf);
+                // cardpdf.appendChild(bodypdf);
+                // bodypdf.appendChild(h5pdf);
+                // h5pdf.appendChild(pdffile);
+                // pdffile.appendChild(iconpdf);
+                // pdffile.appendChild(pdftext);
+
+                // document.getElementById("file").value = filename;
                 console.log('complete', arguments);
 
-                var filename = arguments[0].response;
-                console.log(filename);
+                var pdfname = arguments[0].response;
 
-                if (document.getElementById('cardpdf')) {
-                    document.getElementById('cardpdf').remove();
+                if (document.getElementById('filecontainer')) {
+                    document.getElementById('filecontainer').remove();
                 };
 
-                var containerpdf = document.getElementById('containerpdf');
+                document.getElementById('file').value = pdfname;
 
-                var cardpdf = document.createElement('div');
-                cardpdf.setAttribute('id','cardpdf');
-                cardpdf.setAttribute("class",'uk-card uk-card-default');
+                var FileContainer = document.getElementById('file-container-createartista');
 
-                var bodypdf = document.createElement('div');
-                bodypdf.setAttribute('class','uk-card-body uk-text-center');
+                var displayContainer = document.createElement('div');
+                displayContainer.setAttribute('id', 'filecontainer');
+                displayContainer.setAttribute('class', 'uk-inline uk-width-1-1');
 
-                var h5pdf = document.createElement('h5');
-                h5pdf.setAttribute('id','uppdf');
+                var displayFile = document.createElement('div');
+                displayFile.setAttribute('class', 'uk-placeholder uk-text-center');
 
-                var pdffile = document.createElement('a');
-                pdffile.setAttribute('id','filepdf');
-                pdffile.setAttribute('href','artista/artikel/'+filename);
+                var textfont = document.createElement('h6');
 
-                var iconpdf = document.createElement('span');
-                iconpdf.setAttribute('uk-icon','file-text');
+                var linkrev = document.createElement('span')
+                linkrev.setAttribute('uk-icon', 'file-pdf');
 
-                var pdftext = document.createTextNode(filename);
+                var link = document.createElement('a');
+                link.setAttribute('href', 'artista/artikel/' + pdfname);
+                link.setAttribute('target', '_blank');
 
-                containerpdf.appendChild(cardpdf);
-                cardpdf.appendChild(bodypdf);
-                bodypdf.appendChild(h5pdf);
-                h5pdf.appendChild(pdffile);
-                pdffile.appendChild(iconpdf);
-                pdffile.appendChild(pdftext);
+                var closeContainer = document.createElement('div');
+                closeContainer.setAttribute('class', 'uk-position-small uk-position-right');
 
-                document.getElementById("file").value = filename;
+                var closeButton = document.createElement('a');
+                closeButton.setAttribute('class', 'tm-img-remove uk-border-circle');
+                closeButton.setAttribute('onClick', 'removeFileArtista()');
+                closeButton.setAttribute('uk-icon', 'close');
 
+                var linktext = document.createTextNode(pdfname);
+
+                closeContainer.appendChild(closeButton);
+                displayContainer.appendChild(displayFile);
+                displayContainer.appendChild(closeContainer);
+                displayFile.appendChild(textfont);
+                textfont.appendChild(link);
+                link.appendChild(linkrev);
+                link.appendChild(linktext);
+                FileContainer.appendChild(displayContainer);
+
+                document.getElementById('js-upload-fileartista').setAttribute('hidden', '');
             },
 
             loadStart: function (e) {
                 console.log('loadStart', arguments);
-
                 barpdf.removeAttribute('hidden');
                 barpdf.max = e.total;
                 barpdf.value = e.loaded;
@@ -145,40 +195,59 @@
 
             progress: function (e) {
                 console.log('progress', arguments);
-
                 barpdf.max = e.total;
                 barpdf.value = e.loaded;
             },
 
             loadEnd: function (e) {
                 console.log('loadEnd', arguments);
-
                 barpdf.max = e.total;
                 barpdf.value = e.loaded;
             },
 
             completeAll: function () {
                 console.log('completeAll', arguments);
-
                 setTimeout(function () {
                     barpdf.setAttribute('hidden', 'hidden');
                 }, 1000);
-
                 alert('Upload Selesai');
             }
-
         });
 
+        function removeFileArtista() {
+            $.ajax({
+                type: 'post',
+                url: 'upload/removefile',
+                data: {
+                    'file': document.getElementById('file').value
+                },
+                dataType: 'json',
+
+                error: function() {
+                    console.log('error', arguments);
+                },
+
+                success: function() {
+                    console.log('success', arguments);
+
+                    var pesan = arguments[0][1];
+
+                    document.getElementById('filecontainer').remove();
+                    document.getElementById('file').value = '';
+
+                    alert(pesan);
+
+                    document.getElementById('js-upload-fileartista').removeAttribute('hidden', '');
+                }
+            });
+        };
     </script>
     <!-- End Upload File Pdf -->
 
     <!-- Upload Foto Script -->
     <script>
-
         var barfoto = document.getElementById('js-upload-createfoto');
-
-        UIkit.upload('#js-upload-foto', {
-
+        UIkit.upload('#js-upload-fotoartista', {
             url: 'upload/foto',
             multiple: true,
             name: 'uploads',
@@ -204,21 +273,28 @@
                 console.log('complete', arguments);
 
                 var filename = arguments[0].response;
-                console.log(filename);
 
                 if (document.getElementById('imagecontainer')) {
                     document.getElementById('imagecontainer').remove();
                 };
 
-                // var containerimage = document.getElementById('imagecontainer');
-                var lightbox = document.getElementById('lightbox');
+                document.getElementById('foto').value = filename;
+
+                var imgContainer = document.getElementById('image-container-createartista');
+
+                var displayContainer = document.createElement('div');
+                displayContainer.setAttribute('id', 'imagecontainer');
+                displayContainer.setAttribute('class', 'uk-inline uk-width-1-1');
+
+                var displayImg = document.createElement('div');
+                displayImg.setAttribute('class', 'uk-placeholder uk-text-center');
+                displayImg.setAttribute('uk-lightbox', '');
 
                 var linkimg = document.createElement('a');
                 linkimg.setAttribute('id','imagecontainer');
                 linkimg.setAttribute('class','uk-inline');
                 linkimg.setAttribute('href','artista/foto/'+filename);
                 linkimg.setAttribute('data-caption', filename);
-
 
                 var imagetag = document.createElement('img');
                 imagetag.setAttribute('id','fileimage');
@@ -228,17 +304,28 @@
                 imagetag.setAttribute('heigth','180');
                 imagetag.setAttribute('alt', filename);
 
-                lightbox.appendChild(linkimg);
-                // containerimage.appendChild(linkimg);
-                linkimg.appendChild(imagetag);
+                var closeContainer = document.createElement('div');
+                closeContainer.setAttribute('class', 'uk-position-small uk-position-right');
 
-                document.getElementById("foto").value = filename;
-                // document.getElementById('js-upload-createfoto').setAttribute('hidden');
+                var closeButton = document.createElement('a');
+                closeButton.setAttribute('class', 'tm-img-remove uk-border-circle');
+                closeButton.setAttribute('onClick', 'removeFotoArtista()');
+                closeButton.setAttribute('uk-icon', 'close');
+
+                var linktext = document.createTextNode(filename);
+
+                closeContainer.appendChild(closeButton);
+                displayContainer.appendChild(displayImg);
+                displayContainer.appendChild(closeContainer);
+                displayImg.appendChild(linkimg);
+                linkimg.appendChild(imagetag);
+                imgContainer.appendChild(displayContainer);
+
+                document.getElementById('js-upload-fotoartista').setAttribute('hidden', '');
             },
 
             loadStart: function (e) {
                 console.log('loadStart', arguments);
-
                 barfoto.removeAttribute('hidden');
                 barfoto.max = e.total;
                 barfoto.value = e.loaded;
@@ -246,31 +333,51 @@
 
             progress: function (e) {
                 console.log('progress', arguments);
-
                 barfoto.max = e.total;
                 barfoto.value = e.loaded;
             },
 
             loadEnd: function (e) {
                 console.log('loadEnd', arguments);
-
                 barfoto.max = e.total;
                 barfoto.value = e.loaded;
             },
 
             completeAll: function () {
                 console.log('completeAll', arguments);
-
                 setTimeout(function () {
                     barfoto.setAttribute('hidden', 'hidden');
                 }, 1000);
-
                 alert('Upload Selesai');
             }
-
         });
 
+        function removeFotoArtista() {
+            $.ajax({
+                type: 'post',
+                url: 'upload/removefoto',
+                data: {
+                    'foto': document.getElementById('foto').value
+                },
+                dataType: 'json',
+
+                error: function() {
+                    console.log('error', arguments);
+                },
+
+                success: function() {
+                    console.log('success', arguments);
+
+                    var pesan = arguments[0][1];
+
+                    document.getElementById('imagecontainer').remove();
+                    document.getElementById('foto').value = '';
+
+                    alert(pesan);
+
+                    document.getElementById('js-upload-fotoartista').removeAttribute('hidden', '');
+                }
+            });
+        };
     </script>
-
-
 <?= $this->endSection() ?>

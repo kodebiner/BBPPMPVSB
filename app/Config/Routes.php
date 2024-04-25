@@ -93,6 +93,7 @@ $routes->group('dashboard', static function ($routes) {
 $routes->group('upload', static function ($routes){
     service('auth')->routes($routes);
     $routes->post('foto', 'Upload::foto', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removefoto', 'Upload::removefoto', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotoberita', 'Upload::fotoberita', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotoseminar', 'Upload::fotoseminar', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotodiklat', 'Upload::fotodiklat', ['filter' => 'group:superadmin,admin',]);
@@ -101,6 +102,7 @@ $routes->group('upload', static function ($routes){
     $routes->post('videogaleri', 'Upload::videogaleri', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotoslideshow', 'Upload::fotoslideshow', ['filter' => 'group:superadmin,admin',]);
     $routes->post('pdf', 'Upload::pdf', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removefile', 'Upload::removepdf', ['filter' => 'group:superadmin,admin',]);
 });
 
 // Add
