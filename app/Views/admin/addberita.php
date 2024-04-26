@@ -199,19 +199,69 @@
             <!-- End Upload Foto Sampul Script -->
 
             <script>
+                    const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
+                    const xhr = new XMLHttpRequest();
+                    xhr.withCredentials = false;
+                    xhr.open('POST', 'upload/tinymce');
+
+                    xhr.upload.onprogress = (e) => {
+                        progress(e.loaded / e.total * 100);
+                    };
+
+                    xhr.onload = () => {
+                        if (xhr.status === 403) {
+                        reject({ message: 'HTTP Error: ' + xhr.status, remove: true });
+                        return;
+                        }
+
+                        if (xhr.status < 200 || xhr.status >= 300) {
+                        reject('HTTP Error: ' + xhr.status);
+                        return;
+                        }
+
+                        const json = JSON.parse(xhr.responseText);
+
+                        if (!json || typeof json.location != 'string') {
+                        reject('Invalid JSON: ' + xhr.responseText);
+                        return;
+                        }
+
+                        resolve(json.location);
+                    };
+
+                    xhr.onerror = () => {
+                        reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+                    };
+
+                    const formData = new FormData();
+                    formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                    xhr.send(formData);
+                    });
+
                     tinymce.init({
                     selector: 'textarea#file-picker',
                     plugins: 'image code',
                     toolbar: 'undo redo | link image | code',
+
                     /* enable title field in the Image dialog*/
                     image_title: true,
+                    images_upload_handler: example_image_upload_handler,
+
                     /* enable automatic uploads of images represented by blob or data URIs*/
-                    automatic_uploads: true,
+                    // automatic_uploads: true,
+                    // images_upload_url: 'postAcceptor.php'
+                    // images_upload_url: 'upload/fotoberita',
+                    // images_upload_base_path: '/bbppmpvsb.local/images',
+
+
                     /*
                         URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url)
                         images_upload_url: 'postAcceptor.php',
                         here we add custom filepicker only to Image dialog
+                        
                     */
+
                     file_picker_types: 'image',
                     /* and here's our custom image picker*/
                     file_picker_callback: function (cb, value, meta) {

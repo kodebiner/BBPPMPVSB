@@ -92,6 +92,7 @@ $routes->group('dashboard', static function ($routes) {
 // Uploads
 $routes->group('upload', static function ($routes){
     service('auth')->routes($routes);
+    $routes->post('tinymce', 'Upload::fototinymce', ['filter' => 'group:superadmin,admin',]);
     $routes->post('foto', 'Upload::foto', ['filter' => 'group:superadmin,admin',]);
     $routes->post('removefoto', 'Upload::removefoto', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotoberita', 'Upload::fotoberita', ['filter' => 'group:superadmin,admin',]);
