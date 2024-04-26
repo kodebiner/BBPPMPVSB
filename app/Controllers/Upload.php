@@ -337,12 +337,13 @@ class Upload extends BaseController
 
     public function fototinymce()
     {
-        error_reporting(E_ERROR | E_WARNING | E_PARSE);
+        // error_reporting(E_ERROR | E_WARNING | E_PARSE);
         /***************************************************
          * Only these origins are allowed to upload images *
          ***************************************************/
         // $accepted_origins = array("http://localhost", "http://192.168.1.1", "http://127.0.0.1:8000", "http://127.0.0.1");
-        $accepted_origins = array("http:///bbppmpvsb.local", "http://192.168.1.1", "http://127.0.0.1:8000", "http://127.0.0.1");
+        // $accepted_origins = array("http:///bbppmpvsb.local", "http://192.168.1.1", "http://127.0.0.1:8000", "http://127.0.0.1");
+        $accepted_origins = array("http://bbppmpvsb.local",);
 
         /*********************************************
          * Change this line to set the upload folder *
@@ -361,7 +362,7 @@ class Upload extends BaseController
                 }
             }
         } elseif ($method == 'POST') {
-            $imageFolder = "images/";
+            $imageFolder = "/images/";
             reset($_FILES);
             $temp = current($_FILES);
             if (is_uploaded_file($temp['tmp_name'])) {
@@ -402,7 +403,7 @@ class Upload extends BaseController
                 // Respond to the successful upload with JSON.
                 // Use a location key to specify the path to the saved image resource.
                 // { location : '/your/uploaded/image/file'}
-                echo json_encode(array('location' => 'http://' . $_SERVER['SERVER_NAME'] . 'images/' . $filetowrite));
+                echo json_encode(array('location' => 'http://' . $_SERVER['SERVER_NAME'] . $filetowrite));
             } else {
                 // Notify editor that the upload failed
                 header("HTTP/1.1 500 Server Error");
@@ -411,6 +412,39 @@ class Upload extends BaseController
             // Notify editor that the upload failed
             header("HTTP/1.1 500 Server Error");
         }
+
+        // $url = array(
+        //     "http://localhost"
+        // );
+
+        // reset($_FILES);
+        // $temp = current($_FILES);
+
+        // if (is_uploaded_file($temp['tmp_name'])) {
+        //     if (preg_match("/([^\w\s\d\-_~,;:\[\]\(\).])|([\.]{2,})/", $temp['name'])) {
+        //         header("HTTP/1.1 400 Invalid file name,Bad request");
+        //         return;
+        //     }
+            
+        //     // Validating File extensions
+        //     if (! in_array(strtolower(pathinfo($temp['name'], PATHINFO_EXTENSION)), array(
+        //         "gif",
+        //         "jpg",
+        //         "png"
+        //     ))) {
+        //         header("HTTP/1.1 400 Not an Image");
+        //         return;
+        //     }
+            
+        //     $fileName = $temp['name'];
+        //     move_uploaded_file($temp['tmp_name'], $fileName);
+            
+        //     // Return JSON response with the uploaded file path.
+        //     echo json_encode(array(
+        //         'location' => 'http://bbppmpvsb.local/images/' . $fileName
+        //     ));
+        // 
+        // }
     }
 
     public function removefotoberita()
