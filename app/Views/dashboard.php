@@ -99,7 +99,7 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: rgb(60, 105, 151);
+    background-color: #244882;
     color: white;
     text-align: center;
     z-index: 2;
@@ -107,7 +107,7 @@
 </style>
 <body style="margin-bottom: 100px;">
     <div uk-sticky="start: 150; animation: uk-animation-slide-top; sel-target: #navbar; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent">
-        <nav id="navbar" class="uk-navbar-container uk-light" style="background-color: rgb(60, 105, 151)">
+        <nav id="navbar" class="uk-navbar-container uk-light" style="background-color: #244882">
             <!-- <div class="uk-container uk-margin-medium-left"> -->
             <div class="uk-container uk-width-1-1">
                 <div uk-navbar>
@@ -123,7 +123,7 @@
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav">
                             <li>
-                                <a href="#"><span class="uk-margin-small-right" uk-icon="user"></span><?=$user['username']?></a>
+                                <a href="#" style="color:white"><span class="uk-margin-small-right" uk-icon="user"></span><?=$user['username']?></a>
                                 <div class="uk-navbar-dropdown">
                                     <ul class="uk-nav uk-navbar-dropdown-nav">
                                         <li><a href="dashboard/editakun">Pengaturan Profil</a></li>
@@ -145,7 +145,7 @@
 
     <!-- <div id="offcanvas-overlay" uk-offcanvas="mode: push"> -->
     <div id="offcanvas-overlay" uk-offcanvas="overlay: true">
-        <div class="uk-offcanvas-bar" style="background-color: #6489ae">
+        <div class="uk-offcanvas-bar" style="background-color: rgb(37, 150, 190)">
             <button class="uk-offcanvas-close" type="button" uk-close></button>
             <!-- <h3 class="uk-text-uppercase"><span style="padding-right:10px; padding-top: 3px; display:inline-block;"><img src="/favicon/favicon-32x32.png"></img></span>bbppmpvsb</h3> -->
             <img src="img/logofix.png" width="200" height="auto" class="rounded" alt="...">

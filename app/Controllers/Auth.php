@@ -852,6 +852,16 @@ class Auth extends BaseController
         // Get Data
         $slideshow = $SlideshowModel->find($id);
 
+        
+        // $str 		= 'images/1713862437_77920d3d5873d5cda0f4.jpg';
+        // $pattern 	= '/images/i';
+        // $string  	= preg_replace($pattern, '', $str);
+        // echo $string."</br>";
+
+        // $result = preg_replace('|/|', "", $string);
+        // echo $result;
+
+
         $SlideshowModel->delete($slideshow);
 
         die(json_encode(array($slideshow)));

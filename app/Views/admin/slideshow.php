@@ -41,8 +41,12 @@
                                     <?=$status?>
                                 </td>
                                 <td>
-                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editslideshow/<?=$slide['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
-                                    <a style="background-color: red; color: white;" onclick="removeSlide<?= $slide['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
+                                    <div>
+                                        <div class="uk-button-group">
+                                            <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small" href="dashboard/editslideshow/<?=$slide['id']?>"><span uk-icon="icon: file-edit; ratio:1"></span></a>
+                                            <a style="background-color: red; color: white;" onclick="removeSlide<?= $slide['id']; ?>()" class="uk-button uk-botton-small uk-light uk-margin-left"><span uk-icon="icon: trash; ratio:1"></span></a>
+                                        </div>
+                                    </div>
                                     <script>
                                         function removeSlide<?= $slide['id']; ?>() {
                                             let text = "Anda yakin ingin menghapus slide <?=$slide['file']?> ini?";

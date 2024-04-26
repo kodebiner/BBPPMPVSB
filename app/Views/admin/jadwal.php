@@ -46,8 +46,12 @@
                                     </div>
                                 </td> -->
                                 <td>
-                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editjadwal/<?=$news['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
-                                    <a style="background-color: red; color: white;" onclick="removeArtista<?= $news['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
+                                    <div>
+                                        <div class="uk-button-group">
+                                            <button style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editjadwal/<?=$news['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></button>
+                                            <a style="background-color: red; color: white;" onclick="removeArtista<?= $news['id']; ?>()" class="uk-button uk-botton-small uk-margin-small-left uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
+                                        </div>
+                                    </div>
                                     <script>
                                         function removeArtista<?= $news['id']; ?>() {
                                             let text = "Anda yakin ingin menghapus jadwal <?=$news['title']?> ini?";
