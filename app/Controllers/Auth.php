@@ -101,7 +101,7 @@ class Auth extends BaseController
 
         // Get Data
         $user       = $usersmodel->find($this->data['uid']);
-        $users      = auth()->getProvider()->paginate(20, 'news');
+        $users      = auth()->getProvider()->where('id !=',$this->data['uid'])->paginate(20, 'news');
         $groups     = $GroupModel->findAll();
 
         // dd(auth()->getProvider()->find(1)->getGroups());
@@ -629,6 +629,15 @@ class Auth extends BaseController
         // Get Data
         $artista = $ArtistaModel->find($id);
 
+        // Unlink artista
+        if(!empty($artista['photo'])){
+            unlink(FCPATH ."/artista/foto/". $artista['photo']);
+        }
+
+        if(!empty($artista['file'])){
+            unlink(FCPATH ."/artista/foto/". $artista['file']);
+        }
+
         $ArtistaModel->delete($artista);
 
         die(json_encode(array($artista)));
@@ -716,6 +725,11 @@ class Auth extends BaseController
         // Get Data
         $photo = $PhotoModel->find($id);
 
+        // unlink foto
+        if(!empty($photo['images'])){
+            unlink(FCPATH . $photo['images']);
+        }
+
         $PhotoModel->delete($photo);
 
         die(json_encode(array($photo)));
@@ -785,6 +799,11 @@ class Auth extends BaseController
         // Get Data
         $video = $VideoModel->find($id);
 
+        // Unlink Video
+        if(!empty($video['images'])){
+            unlink(FCPATH . $video['images']);
+        }
+
         $VideoModel->delete($video);
 
         die(json_encode(array($video)));
@@ -853,12 +872,15 @@ class Auth extends BaseController
         // Get Data
         $slideshow = $SlideshowModel->find($id);
 
-        
+        // Unlink Slideshow
+        if(!empty($slideshow['images'])){
+            unlink(FCPATH . "/img/slideshow".$slideshow['images']);
+        }
+
         // $str 		= 'images/1713862437_77920d3d5873d5cda0f4.jpg';
         // $pattern 	= '/images/i';
         // $string  	= preg_replace($pattern, '', $str);
         // echo $string."</br>";
-
         // $result = preg_replace('|/|', "", $string);
         // echo $result;
 
