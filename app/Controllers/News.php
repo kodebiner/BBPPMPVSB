@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\UsersModel;
+use App\Models\UserModel;
 use App\Models\BeritaModel;
 
 class News extends BaseController
@@ -41,7 +41,7 @@ class News extends BaseController
     public function article($alias)
     {
         // Calling Models
-        $UserModel              = new UsersModel();
+        $UserModel              = new UserModel();
         $BeritaModel            = new BeritaModel();
 
         // Populating Data

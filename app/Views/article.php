@@ -34,7 +34,7 @@
                         <div id="updated_at"></div>
                     </div>
                     <div class="match-content uk-flex-middle">
-                        <div><?= $user['username'] ?></div>
+                        <div><?= $user['name'] ?></div>
                     </div>
                 </div>
             </div>
