@@ -101,7 +101,7 @@ class Auth extends BaseController
 
         // Get Data
         $user       = $usersmodel->find($this->data['uid']);
-        $users      = auth()->getProvider()->findAll();
+        $users      = auth()->getProvider()->paginate(20, 'news');
         $groups     = $GroupModel->findAll();
 
         // dd(auth()->getProvider()->find(1)->getGroups());
@@ -125,6 +125,7 @@ class Auth extends BaseController
         $data['user']               = $user;
         $data['users']              = $account;
         $data['groups']             = $groups;
+        $data['pager']              = auth()->getProvider()->pager;
 
         // Return View
         return view('Views/admin/users', $data);

@@ -18,7 +18,7 @@
                         <th>nama</th>
                         <th>Email</th>
                         <th>Akun</th>
-                        <th>Kelola Akun</th>
+                        <th class="uk-text-center">Kelola Akun</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,22 +27,23 @@
                             <td><?= $user['name']?></td>
                             <td><?= $user['email']?></td>
                             <td><?= $user['group'] ?></td>
-                            <td>
+                            <td class="uk-child-width-auto uk-flex-center uk-flex-middle uk-grid-row-small uk-grid-column-small uk-text-center" uk-grid>
                                 <div>
-                                    <div class="uk-button-group">
-                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editusers/<?= $user['id'] ?>"><span uk-icon="icon: file-edit; ratio:1"></span></a>
-                                    <a style="background-color: red; color: white;" onclick="removeArtista" class="uk-button uk-botton-small uk-light uk-margin-small-left"><span uk-icon="trash"></span></a>
-                                    </div>
+                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-icon-button" href="dashboard/editusers/<?= $user['id'] ?>" uk-icon="icon: file-edit"></a>
+                                </div>
+                                <div>
+                                    <a style="background-color: red; color: white;" onclick="removeArtista" class="uk-icon-button" uk-icon="trash"></a>
                                 </div>
                             </td>
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
+            
             <!-- Pagination -->
-            <!-- <div class="uk-container uk-container-xlarge uk-margin-top">
-                    </?= $pager->links('news', 'uikit_full') ?>
-                </div> -->
+            <div class="uk-container uk-container-xlarge uk-margin-top">
+                <?= $pager->links('news', 'uikit_full') ?>
+            </div>
             <!-- Pagination End -->
         </div>
     </div>

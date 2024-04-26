@@ -18,7 +18,7 @@
                         <tr>
                             <th>Judul</th>
                             <th>Gambar</th>
-                            <th>Kelola Foto</th>
+                            <th class="uk-text-center">Kelola Foto</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,37 +30,42 @@
                                         <a href="<?=$foto['images']?>"><img width="50" height="50" src="<?=$foto['images']?>" alt="<?=$foto['images']?>"></a>
                                     </div>
                                 </td>
-                                <td>
-                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editfoto/<?=$foto['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
-                                    <a style="background-color: red; color: white;" onclick="removeFoto<?= $foto['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
-                                    <script>
-                                        function removeFoto<?= $foto['id']; ?>() {
-                                            let text = "Anda yakin ingin menghapus Foto <?=$foto['title']?> ini?";
-                                            if (confirm(text) == true) {
-                                                $.ajax({
-                                                    url: "dashboard/removefoto/<?= $foto['id'] ?>",
-                                                    method: "POST",
-                                                    data: {
-                                                        foto: <?= $foto['id'] ?>,
-                                                    },
-                                                    dataType: "json",
-                                                    error: function() {
-                                                        console.log('error', arguments);
-                                                    },
-                                                    success: function() {
-                                                        console.log('success', arguments);
-                                                        alert('Foto berhasil di hapus');
-                                                        $("#rowfoto<?=$foto['id']?>").remove();
-                                                    },
-                                                })
-                                            }
-                                        }
-                                    </script>
+                                <td class="uk-child-width-auto uk-flex-center uk-flex-middle uk-grid-row-small uk-grid-column-small uk-text-center" uk-grid>
+                                    <div>
+                                        <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-icon-button" href="dashboard/editfoto/<?=$foto['id']?>" uk-icon="icon: file-edit; ratio:1"></a>
+                                    </div>
+                                    <div>
+                                        <a style="background-color: red; color: white;" onclick="removeFoto<?= $foto['id']; ?>()" class="uk-icon-button" uk-icon="icon: trash; ratio:1"></a>
+                                    </div>
                                 </td>
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
+                
+                <script>
+                    function removeFoto<?= $foto['id']; ?>() {
+                        let text = "Anda yakin ingin menghapus Foto <?=$foto['title']?> ini?";
+                        if (confirm(text) == true) {
+                            $.ajax({
+                                url: "dashboard/removefoto/<?= $foto['id'] ?>",
+                                method: "POST",
+                                data: {
+                                    foto: <?= $foto['id'] ?>,
+                                },
+                                dataType: "json",
+                                error: function() {
+                                    console.log('error', arguments);
+                                },
+                                success: function() {
+                                    console.log('success', arguments);
+                                    alert('Foto berhasil di hapus');
+                                    $("#rowfoto<?=$foto['id']?>").remove();
+                                },
+                            })
+                        }
+                    }
+                </script>
 
                 <!-- Pagination -->
                 <div class="uk-container uk-container-xlarge uk-margin-top">

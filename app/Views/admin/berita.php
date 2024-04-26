@@ -16,44 +16,49 @@
                     <thead>
                         <tr>
                             <th>Judul Berita</th>
-                            <th>Kelola Berita</th>
+                            <th class="uk-text-center">Kelola Berita</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($berita as $news) { ?>
                             <tr id="rowberita<?=$news['id']?>">
                                 <td><?=$news['title']?></td>
-                                <td>
-                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small" href="dashboard/editberita/<?=$news['id']?>"><span style="color: white;" uk-icon="icon: file-edit; ratio:1"></span></a>
-                                    <a style="background-color: red; color: white;" onclick="removeArtista<?= $news['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
-                                    <script>
-                                        function removeArtista<?= $news['id']; ?>() {
-                                            let text = "Anda yakin ingin menghapus berita <?=$news['title']?> ini?";
-                                            if (confirm(text) == true) {
-                                                $.ajax({
-                                                    url: "dashboard/removeberita/<?= $news['id'] ?>",
-                                                    method: "POST",
-                                                    data: {
-                                                        artista: <?= $news['id'] ?>,
-                                                    },
-                                                    dataType: "json",
-                                                    error: function() {
-                                                        console.log('error', arguments);
-                                                    },
-                                                    success: function() {
-                                                        console.log('success', arguments);
-                                                        alert('data berhasil di hapus');
-                                                        $("#rowberita<?=$news['id']?>").remove();
-                                                    },
-                                                })
-                                            }
-                                        }
-                                    </script>
+                                <td class="uk-child-width-auto uk-flex-center uk-flex-middle uk-grid-row-small uk-grid-column-small uk-text-center" uk-grid>
+                                    <div>
+                                        <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-icon-button" href="dashboard/editberita/<?=$news['id']?>" uk-icon="icon: file-edit; ratio:1"></a>
+                                    </div>
+                                    <div>
+                                        <a style="background-color: red; color: white;" onclick="removeArtista<?= $news['id']; ?>()" class="uk-icon-button" uk-icon="icon: trash; ratio:1"></a>
+                                    </div>
                                 </td>
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
+                
+                <script>
+                    function removeArtista<?= $news['id']; ?>() {
+                        let text = "Anda yakin ingin menghapus berita <?=$news['title']?> ini?";
+                        if (confirm(text) == true) {
+                            $.ajax({
+                                url: "dashboard/removeberita/<?= $news['id'] ?>",
+                                method: "POST",
+                                data: {
+                                    artista: <?= $news['id'] ?>,
+                                },
+                                dataType: "json",
+                                error: function() {
+                                    console.log('error', arguments);
+                                },
+                                success: function() {
+                                    console.log('success', arguments);
+                                    alert('data berhasil di hapus');
+                                    $("#rowberita<?=$news['id']?>").remove();
+                                },
+                            })
+                        }
+                    }
+                </script>
 
                 <!-- Pagination -->
                 <div class="uk-container uk-container-xlarge uk-margin-top">

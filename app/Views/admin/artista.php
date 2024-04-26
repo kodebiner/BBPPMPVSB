@@ -16,7 +16,7 @@
                         <tr>
                             <th>File</th>
                             <th>Foto</th>
-                            <th class="uk-width-medium">Kelola Majalah Artista</th>
+                            <th class="uk-text-center">Kelola Majalah Artista</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,37 +28,42 @@
                                         <a href="artista/foto/<?=$art['photo']?>"><img width="50" height="50" src="artista/foto/<?=$art['photo']?>" alt="<?=$art['photo']?>"></a>
                                     </div>
                                 </td>
-                                <td>
-                                    <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editartista/<?=$art['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></a>
-                                    <a style="background-color: red; color: white;" onclick="removeArtista<?= $art['id']; ?>()" class="uk-button uk-botton-small uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
-                                    <script>
-                                        function removeArtista<?= $art['id']; ?>() {
-                                            let text = "Anda yakin ingin menghapus data Artista ini?";
-                                            if (confirm(text) == true) {
-                                                $.ajax({
-                                                    url: "dashboard/removeartista/<?= $art['id'] ?>",
-                                                    method: "POST",
-                                                    data: {
-                                                        artista: <?= $art['id'] ?>,
-                                                    },
-                                                    dataType: "json",
-                                                    error: function() {
-                                                        console.log('error', arguments);
-                                                    },
-                                                    success: function() {
-                                                        console.log('success', arguments);
-                                                        alert('data berhasil di hapus');
-                                                        $("#artrow<?=$art['id']?>").remove();
-                                                    },
-                                                })
-                                            }
-                                        }
-                                    </script>
+                                <td class="uk-child-width-auto uk-flex-center uk-flex-middle uk-grid-row-small uk-grid-column-small uk-text-center" uk-grid>
+                                    <div>
+                                        <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-icon-button" href="dashboard/editartista/<?=$art['id']?>" uk-icon="icon: file-edit; ratio:1"></a>
+                                    </div>
+                                    <div>
+                                        <a style="background-color: red; color: white;" onclick="removeArtista<?= $art['id']; ?>()" class="uk-icon-button" uk-icon="icon: trash; ratio:1"></a>
+                                    </div>
                                 </td>
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
+                
+                <script>
+                    function removeArtista<?= $art['id']; ?>() {
+                        let text = "Anda yakin ingin menghapus data Artista ini?";
+                        if (confirm(text) == true) {
+                            $.ajax({
+                                url: "dashboard/removeartista/<?= $art['id'] ?>",
+                                method: "POST",
+                                data: {
+                                    artista: <?= $art['id'] ?>,
+                                },
+                                dataType: "json",
+                                error: function() {
+                                    console.log('error', arguments);
+                                },
+                                success: function() {
+                                    console.log('success', arguments);
+                                    alert('data berhasil di hapus');
+                                    $("#artrow<?=$art['id']?>").remove();
+                                },
+                            })
+                        }
+                    }
+                </script>
 
                 <!-- Pagination -->
                 <div class="uk-container uk-container-xlarge uk-margin-top">

@@ -21,7 +21,7 @@
                             <th>Isi</th>
                             <th>Ringkasan</th>
                             <th>Gambar</th> -->
-                            <th>Kelola Jadwal</th>
+                            <th class="uk-text-center">Kelola Jadwal</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,41 +45,42 @@
                                         <a href="</?=$news['images']?>"><img width="50" height="50" src="</?=$news['images']?>" alt="</?=$news['images']?>"></a>
                                     </div>
                                 </td> -->
-                                <td>
+                                <td class="uk-child-width-auto uk-flex-center uk-flex-middle uk-grid-row-small uk-grid-column-small uk-text-center" uk-grid>
                                     <div>
-                                        <div class="uk-button-group">
-                                            <button style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-button uk-botton-small uk-light" href="dashboard/editjadwal/<?=$news['id']?>" uk-toggle><span uk-icon="icon: file-edit; ratio:1"></span></button>
-                                            <a style="background-color: red; color: white;" onclick="removeArtista<?= $news['id']; ?>()" class="uk-button uk-botton-small uk-margin-small-left uk-light"><span uk-icon="icon: trash; ratio:1"></span></a>
-                                        </div>
+                                        <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-icon-button" href="dashboard/editjadwal/<?=$news['id']?>" uk-icon="icon: file-edit; ratio:1"></a>
                                     </div>
-                                    <script>
-                                        function removeArtista<?= $news['id']; ?>() {
-                                            let text = "Anda yakin ingin menghapus jadwal <?=$news['title']?> ini?";
-                                            if (confirm(text) == true) {
-                                                $.ajax({
-                                                    url: "dashboard/removejadwal/<?= $news['id'] ?>",
-                                                    method: "POST",
-                                                    data: {
-                                                        artista: <?= $news['id'] ?>,
-                                                    },
-                                                    dataType: "json",
-                                                    error: function() {
-                                                        console.log('error', arguments);
-                                                    },
-                                                    success: function() {
-                                                        console.log('success', arguments);
-                                                        alert('jadwal berhasil di hapus');
-                                                        $("#rowberita<?=$news['id']?>").remove();
-                                                    },
-                                                })
-                                            }
-                                        }
-                                    </script>
+                                    <div>
+                                        <a style="background-color: red; color: white;" onclick="removeArtista<?= $news['id']; ?>()" class="uk-icon-button" uk-icon="icon: trash; ratio:1"></a>
+                                    </div>
                                 </td>
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
+                
+                <script>
+                    function removeArtista<?= $news['id']; ?>() {
+                        let text = "Anda yakin ingin menghapus jadwal <?=$news['title']?> ini?";
+                        if (confirm(text) == true) {
+                            $.ajax({
+                                url: "dashboard/removejadwal/<?= $news['id'] ?>",
+                                method: "POST",
+                                data: {
+                                    artista: <?= $news['id'] ?>,
+                                },
+                                dataType: "json",
+                                error: function() {
+                                    console.log('error', arguments);
+                                },
+                                success: function() {
+                                    console.log('success', arguments);
+                                    alert('jadwal berhasil di hapus');
+                                    $("#rowberita<?=$news['id']?>").remove();
+                                },
+                            })
+                        }
+                    }
+                </script>
 
                 <!-- Pagination -->
                 <div class="uk-container uk-container-xlarge uk-margin-top">
