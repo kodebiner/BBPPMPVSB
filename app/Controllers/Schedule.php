@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\UserModel;
+use App\Models\UsersModel;
 use App\Models\ScheduleModel;
 
 class Schedule extends BaseController
@@ -42,12 +42,17 @@ class Schedule extends BaseController
     public function article($alias)
     {
         // Calling Models
-        $UserModel              = new UserModel();
+        $UsersModel              = new UsersModel();
         $ScheduleModel           = new ScheduleModel();
 
         // Populating Data
         $article                = $ScheduleModel->where('alias', $alias)->first();
-        $user                   = $UserModel->where('id', $article['created_by'])->first();
+        $user                   = $UsersModel->find($article['created_by']);
+        if (empty($user)) {
+            $creator = 'Tim BBPPMPV Seni & Budaya';
+        } else {
+            $creator = $user['username'];
+        }
 
         // Parsing Data To View
         $data                   = $this->data;
@@ -56,7 +61,7 @@ class Schedule extends BaseController
         $data['article']        = $article;
         $data['caturi']         = 'jadwal-kegiatan';
         $data['cattitle']       = 'Jadwal Kegiatan';
-        $data['user']           = $user;
+        $data['user']           = $creator;
 
         // Return Data To View
         return view('article', $data);

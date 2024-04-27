@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\UserModel;
+use App\Models\UsersModel;
 use App\Models\SeminarModel;
 
 class Seminar extends BaseController
@@ -41,12 +41,17 @@ class Seminar extends BaseController
     public function article($alias)
     {
         // Calling Models
-        $UserModel              = new UserModel();
+        $UsersModel              = new UsersModel();
         $SeminarModel           = new SeminarModel();
 
         // Populating Data
         $article                = $SeminarModel->where('alias', $alias)->first();
-        $user                   = $UserModel->where('id', $article['userid'])->first();
+        $user                   = $UsersModel->find($article['userid']);
+        if (empty($user)) {
+            $creator = 'Tim BBPPMPV Seni & Budaya';
+        } else {
+            $creator = $user['username'];
+        }
 
         // Parsing Data To View
         $data                   = $this->data;
@@ -55,7 +60,7 @@ class Seminar extends BaseController
         $data['article']        = $article;
         $data['caturi']         = 'informasi/seminarwebinar';
         $data['cattitle']       = 'Seminar & Webinar';
-        $data['user']           = $user;
+        $data['user']           = $creator;
 
         // Return Data To View
         return view('article', $data);

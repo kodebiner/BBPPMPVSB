@@ -36,7 +36,7 @@
                                 </h4>
                             </div>
                             <div>
-                                <div class="uk-text-meta uk-text-justify"><?= $newses[0]['introtext'] ?></div>
+                                <div class="uk-text-meta uk-text-justify"><p><?= $newses[0]['introtext'] ?></p></div>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                     <a class="uk-link-heading" href="/<?= $caturi ?>/<?= $newses[1]['alias'] ?>">
                         <div><?= $newses[1]['title'] ?></div>
                     </a>
-                    <div class="uk-text-meta uk-text-justify"><?= $newses[1]['introtext'] ?></div>
+                    <div class="uk-text-meta uk-text-justify"><p><?= $newses[1]['introtext'] ?></p></div>
                 </div>
                 <?php } ?>
             </div>
@@ -76,7 +76,7 @@
                                     <a class="uk-link-heading" href="/<?= $caturi ?>/<?= $news['alias'] ?>"><?= $news['title'] ?></a>
                                 </h5>
                             </div>
-                            <div class="uk-text-meta uk-text-justify"><?= $news['introtext'] ?></div>
+                            <div class="uk-text-meta uk-text-justify"><p><?= $news['introtext'] ?></p></div>
                         </div>
                     </div>
                 <?php
@@ -106,7 +106,7 @@
                                     <h4 class="uk-margin-top uk-margin-remove-bottom">
                                         <a class="uk-link-heading" href="/<?= $caturi ?>/<?= $newses[7]['alias'] ?>"><?= $newses[7]['title'] ?></a>
                                     </h4>
-                                    <div class="uk-panel uk-text-left uk-dropcap uk-column-1-2 uk-margin-medium-top"><?= $newses[7]['introtext'] ?></div>
+                                    <div class="uk-panel uk-text-left uk-dropcap uk-column-1-2 uk-margin-medium-top"><p><?= $newses[7]['introtext'] ?></p></div>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +125,7 @@
                                             <a class="uk-link-heading" href="/<?= $caturi ?>/<?= $news['alias'] ?>"><?= $news['title'] ?></a>
                                         </h6>
                                     </div>
-                                    <div class="uk-panel uk-margin-top uk-text-meta"><?= $news['introtext'] ?></div>
+                                    <div class="uk-panel uk-margin-top uk-text-meta"><p><?= $news['introtext'] ?></p></div>
                                 </div>
                             <?php
                                 }
@@ -156,7 +156,7 @@
                                     <a class="uk-link-heading" href="/<?= $caturi ?>/<?= $news['alias'] ?>"><?= $news['title'] ?></a>
                                 </h5>
                             </div>
-                            <div class="uk-text-meta uk-text-justify"><?= $news['introtext'] ?></div>
+                            <div class="uk-text-meta uk-text-justify"><p><?= $news['introtext'] ?></p></div>
                         </div>
                     </div>
                 <?php
@@ -185,7 +185,7 @@
                                     <h4 class="uk-margin-top uk-margin-remove-bottom">
                                         <a class="uk-link-heading" href="/<?= $caturi ?>/<?= $newses[7]['alias'] ?>"><?= $newses[7]['title'] ?></a>
                                     </h4>
-                                    <div class="uk-panel uk-text-left uk-dropcap uk-margin-medium-top uk-text-meta"><?= $newses[7]['introtext'] ?></div>
+                                    <div class="uk-panel uk-text-left uk-dropcap uk-margin-medium-top uk-text-meta"><p><?= $newses[7]['introtext'] ?></p></div>
                                 </div>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                                             <a class="uk-link-heading" href="/<?= $caturi ?>/<?= $news['alias'] ?>"><?= $news['title'] ?></a>
                                         </h5>
                                     </div>
-                                    <div class="uk-panel uk-margin-top uk-text-meta"><?= $news['introtext'] ?></div>
+                                    <div class="uk-panel uk-margin-top uk-text-meta"><p><?= $news['introtext'] ?></p></div>
                                 </div>
                             <?php
                                 }

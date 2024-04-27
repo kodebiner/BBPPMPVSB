@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use App\Models\ContentModel;
 use App\Models\CategoriesModel;
-use App\Models\UserModel;
+use App\Models\UsersModel;
 use App\Models\DiklatModel;
 
 class Diklat extends BaseController
@@ -76,12 +76,12 @@ class Diklat extends BaseController
     //     // Calling Models
     //     $CategoriesModel        = new CategoriesModel();
     //     $ContentModel           = new ContentModel();
-    //     $UserModel              = new UserModel();
+    //     $UsersModel              = new UsersModel();
 
     //     // Populating Data
     //     $article                = $ContentModel->where('alias', $alias)->first();
     //     $category               = $CategoriesModel->where('id', $article['catid'])->first();
-    //     $user                   = $UserModel->where('id', $article['created_by'])->first();
+    //     $user                   = $UsersModel->where('id', $article['created_by'])->first();
 
     //     // Parsing Data To View
     //     $data                   = $this->data;
@@ -102,12 +102,17 @@ class Diklat extends BaseController
         // Calling Models
         $CategoriesModel        = new CategoriesModel();
         $ContentModel           = new ContentModel();
-        $UserModel              = new UserModel();
+        $UsersModel             = new UsersModel();
 
         // Populating Data
         $article                = $ContentModel->where('alias', $alias)->first();
         $category               = $CategoriesModel->where('id', $article['catid'])->first();
-        $user                   = $UserModel->where('id', $article['created_by'])->first();
+        $user                   = $UsersModel->find($article['created_by']);
+        if (empty($user)) {
+            $creator = 'Tim BBPPMPV Seni & Budaya';
+        } else {
+            $creator = $user['username'];
+        }
 
         // Parsing Data To View
         $data                   = $this->data;
@@ -117,7 +122,7 @@ class Diklat extends BaseController
         $data['category']       = $category;
         $data['caturi']         = 'diklat/pendaftaran';
         $data['cattitle']       = 'Informasi Diklat';
-        $data['user']           = $user;
+        $data['user']           = $creator;
 
         // Return Data To View
         return view('article', $data);

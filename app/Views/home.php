@@ -76,7 +76,7 @@
                                         </div>
                                         <div class="uk-overlay uk-overlay-primary uk-position-bottom uk-light">
                                             <h3 class="uk-margin-remove uk-text-bold uk-margin-remove"><?= $news['title'] ?></h3>
-                                            <div class="uk-text-bold"><?= $news['introtext'] ?></div>
+                                            <div class="uk-text-bold"><p><?= $news['introtext'] ?></p></div>
                                         </div>
                                     </div>
                                 </a>
