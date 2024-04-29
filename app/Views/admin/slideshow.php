@@ -49,33 +49,33 @@
                                     </div>
                                 </td>
                             </tr>
+                
+                            <script>
+                                function removeSlide<?= $slide['id']; ?>() {
+                                    let text = "Anda yakin ingin menghapus slide <?=$slide['file']?> ini?";
+                                    if (confirm(text) == true) {
+                                        $.ajax({
+                                            url: "dashboard/removeslideshow/<?= $slide['id'] ?>",
+                                            method: "POST",
+                                            data: {
+                                                artista: <?= $slide['id'] ?>,
+                                            },
+                                            dataType: "json",
+                                            error: function() {
+                                                console.log('error', arguments);
+                                            },
+                                            success: function() {
+                                                console.log('success', arguments);
+                                                alert('Slideshow berhasil di hapus');
+                                                $("#rowslide<?=$slide['id']?>").remove();
+                                            },
+                                        })
+                                    }
+                                }
+                            </script>
                         <?php } ?>
                     </tbody>
                 </table>
-                
-                <script>
-                    function removeSlide<?= $slide['id']; ?>() {
-                        let text = "Anda yakin ingin menghapus slide <?=$slide['file']?> ini?";
-                        if (confirm(text) == true) {
-                            $.ajax({
-                                url: "dashboard/removeslideshow/<?= $slide['id'] ?>",
-                                method: "POST",
-                                data: {
-                                    artista: <?= $slide['id'] ?>,
-                                },
-                                dataType: "json",
-                                error: function() {
-                                    console.log('error', arguments);
-                                },
-                                success: function() {
-                                    console.log('success', arguments);
-                                    alert('Slideshow berhasil di hapus');
-                                    $("#rowslide<?=$slide['id']?>").remove();
-                                },
-                            })
-                        }
-                    }
-                </script>
 
                 <!-- Pagination -->
                 <div class="uk-container uk-container-xlarge uk-margin-top">

@@ -17,7 +17,7 @@
                         <tr>
                             <!-- <th>Penulis</th> -->
                             <th>Judul Seminar</th>
-                            <!-- <th>Pendahulan</th>
+                            <!-- <th>Pendahuluan</th>
                             <th>Isi</th>
                             <th>Ringkasan</th>
                             <th>Gambar</th> -->
@@ -54,33 +54,33 @@
                                     </div>
                                 </td>
                             </tr>
+                
+                            <script>
+                                function removeArtista<?= $news['id']; ?>() {
+                                    let text = "Anda yakin ingin menghapus seminar <?=$news['title']?> ini?";
+                                    if (confirm(text) == true) {
+                                        $.ajax({
+                                            url: "dashboard/removeseminar/<?= $news['id'] ?>",
+                                            method: "POST",
+                                            data: {
+                                                artista: <?= $news['id'] ?>,
+                                            },
+                                            dataType: "json",
+                                            error: function() {
+                                                console.log('error', arguments);
+                                            },
+                                            success: function() {
+                                                console.log('success', arguments);
+                                                alert('data berhasil di hapus');
+                                                $("#rowberita<?=$news['id']?>").remove();
+                                            },
+                                        })
+                                    }
+                                }
+                            </script>
                         <?php } ?>
                     </tbody>
                 </table>
-                
-                <script>
-                    function removeArtista<?= $news['id']; ?>() {
-                        let text = "Anda yakin ingin menghapus seminar <?=$news['title']?> ini?";
-                        if (confirm(text) == true) {
-                            $.ajax({
-                                url: "dashboard/removeseminar/<?= $news['id'] ?>",
-                                method: "POST",
-                                data: {
-                                    artista: <?= $news['id'] ?>,
-                                },
-                                dataType: "json",
-                                error: function() {
-                                    console.log('error', arguments);
-                                },
-                                success: function() {
-                                    console.log('success', arguments);
-                                    alert('data berhasil di hapus');
-                                    $("#rowberita<?=$news['id']?>").remove();
-                                },
-                            })
-                        }
-                    }
-                </script>
 
                 <!-- Pagination -->
                 <div class="uk-container uk-container-xlarge uk-margin-top">

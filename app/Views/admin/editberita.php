@@ -25,10 +25,10 @@
                 </div>
             </div>
 
-            <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Pendahulan</label>
+            <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Pendahuluan</label>
             <div class="uk-margin">
                 <div class="uk-form-controls">
-                    <textarea class="uk-textarea uk-box-shadow-small uk-border-rounded" rows="5" name="pendahulan" placeholder="Masukkan Pendahulan..." aria-label="Textarea"><?=$news['description']?></textarea>
+                    <textarea class="uk-textarea uk-box-shadow-small uk-border-rounded" rows="5" name="pendahuluan" placeholder="Masukkan Pendahuluan..." aria-label="Textarea"><?=$news['description']?></textarea>
                 </div>
             </div>
 

@@ -39,33 +39,33 @@
                                     </div>
                                 </td>
                             </tr>
+                
+                            <script>
+                                function removeFoto<?= $foto['id']; ?>() {
+                                    let text = "Anda yakin ingin menghapus Foto <?=$foto['title']?> ini?";
+                                    if (confirm(text) == true) {
+                                        $.ajax({
+                                            url: "dashboard/removefoto/<?= $foto['id'] ?>",
+                                            method: "POST",
+                                            data: {
+                                                foto: <?= $foto['id'] ?>,
+                                            },
+                                            dataType: "json",
+                                            error: function() {
+                                                console.log('error', arguments);
+                                            },
+                                            success: function() {
+                                                console.log('success', arguments);
+                                                alert('Foto berhasil di hapus');
+                                                $("#rowfoto<?=$foto['id']?>").remove();
+                                            },
+                                        })
+                                    }
+                                }
+                            </script>
                         <?php } ?>
                     </tbody>
                 </table>
-                
-                <script>
-                    function removeFoto<?= $foto['id']; ?>() {
-                        let text = "Anda yakin ingin menghapus Foto <?=$foto['title']?> ini?";
-                        if (confirm(text) == true) {
-                            $.ajax({
-                                url: "dashboard/removefoto/<?= $foto['id'] ?>",
-                                method: "POST",
-                                data: {
-                                    foto: <?= $foto['id'] ?>,
-                                },
-                                dataType: "json",
-                                error: function() {
-                                    console.log('error', arguments);
-                                },
-                                success: function() {
-                                    console.log('success', arguments);
-                                    alert('Foto berhasil di hapus');
-                                    $("#rowfoto<?=$foto['id']?>").remove();
-                                },
-                            })
-                        }
-                    }
-                </script>
 
                 <!-- Pagination -->
                 <div class="uk-container uk-container-xlarge uk-margin-top">

@@ -37,33 +37,33 @@
                                     </div>
                                 </td>
                             </tr>
+                
+                            <script>
+                                function removeArtista<?= $art['id']; ?>() {
+                                    let text = "Anda yakin ingin menghapus data Artista ini?";
+                                    if (confirm(text) == true) {
+                                        $.ajax({
+                                            url: "dashboard/removeartista/<?= $art['id'] ?>",
+                                            method: "POST",
+                                            data: {
+                                                artista: <?= $art['id'] ?>,
+                                            },
+                                            dataType: "json",
+                                            error: function() {
+                                                console.log('error', arguments);
+                                            },
+                                            success: function() {
+                                                console.log('success', arguments);
+                                                alert('data berhasil di hapus');
+                                                $("#artrow<?=$art['id']?>").remove();
+                                            },
+                                        })
+                                    }
+                                }
+                            </script>
                         <?php } ?>
                     </tbody>
                 </table>
-                
-                <script>
-                    function removeArtista<?= $art['id']; ?>() {
-                        let text = "Anda yakin ingin menghapus data Artista ini?";
-                        if (confirm(text) == true) {
-                            $.ajax({
-                                url: "dashboard/removeartista/<?= $art['id'] ?>",
-                                method: "POST",
-                                data: {
-                                    artista: <?= $art['id'] ?>,
-                                },
-                                dataType: "json",
-                                error: function() {
-                                    console.log('error', arguments);
-                                },
-                                success: function() {
-                                    console.log('success', arguments);
-                                    alert('data berhasil di hapus');
-                                    $("#artrow<?=$art['id']?>").remove();
-                                },
-                            })
-                        }
-                    }
-                </script>
 
                 <!-- Pagination -->
                 <div class="uk-container uk-container-xlarge uk-margin-top">
