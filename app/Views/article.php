@@ -29,12 +29,32 @@
                 <div class="uk-panel uk-text-lead uk-margin-large uk-text-center">
                     <div><p><?= $article['introtext'] ?></p></div>
                 </div>
-                <div class="uk-grid-match uk-grid-divider uk-child-width-1-3 uk-flex-center uk-text-meta uk-text-center uk-margin" uk-grid uk-height-match="target: > .match-content">
+                <div class="uk-grid-match uk-grid-divider uk-child-width-auto uk-flex-center uk-text-meta uk-text-center uk-margin" uk-grid uk-height-match="target: > .match-content">
                     <div class="match-content uk-flex-middle">
                         <div id="updated_at"></div>
                     </div>
                     <div class="match-content uk-flex-middle">
                         <div><?= $user ?></div>
+                    </div>
+                    <div class="match-content uk-flex-middle">
+                        <div>Dilihat Sebanyak : <?= $visitors ?></div>
+                    </div>
+                </div>
+                <div class="uk-grid-match uk-child-width-auto uk-flex-center uk-text-meta uk-text-center uk-margin" uk-grid uk-height-match="target: > .match-media">
+                    <div>
+                        <a class="uk-icon-button" data-href="<?=$url?>" uk-icon="facebook" href="https://www.facebook.com/sharer/sharer.php?u=<?=$urlencode?>&amp;src=sdkpreparse" target="_blank"></a>
+                    </div>
+                    <div>
+                        <a class="uk-icon-button" data-href="<?=$url?>" uk-icon="whatsapp" href="https://wa.me/?text=<?= $urlencode ?>" target="_blank"></a>
+                    </div>
+                    <div>
+                        <a class="uk-icon-button" data-href="<?=$url?>" uk-icon="telegram" href="https://telegram.me/share/url?url=<?= $urlencode ?>&text=<?= $article['title'] ?>" target="_blank"></a>
+                    </div>
+                    <div>
+                        <a class="uk-icon-button" data-href="<?=$url?>" uk-icon="x" href="http://twitter.com/share?text=<?= $article['title'] ?>&url=<?= $urlencode ?>" target="_blank"></a>
+                    </div>
+                    <div>
+                        <a class="uk-icon-button" data-href="<?=$url?>" uk-icon="linkedin" href="https://www.linkedin.com/feed/?shareActive=true&text=<?= $article['title'] ?> <?= $urlencode ?>" target="_blank"></a>
                     </div>
                 </div>
             </div>

@@ -10,6 +10,13 @@
         <?= view('Views/Auth/_message_block') ?>
         <form action="save/artista/<?=$artista['id']?>" method="post">
             <div class="uk-card-body">
+                <!-- Input Title -->
+                <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Judul</label>
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <input class="uk-input uk-box-shadow-small uk-border-rounded" id="form-stacked-text" name="judul" value="<?=$artista['title']?>" type="text" placeholder="Masukkan Judul...">
+                    </div>
+                </div>
                 <!-- Upload File -->
                 <h5 class="uk-margin-small-top">File Artista</h5>
                 <div class="uk-child-width-1-1@m" uk-grid>

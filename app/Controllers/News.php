@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Models\UsersModel;
 use App\Models\BeritaModel;
+use Tatter\Visits\Models\VisitModel;
 
 class News extends BaseController
 {
@@ -43,6 +44,7 @@ class News extends BaseController
         // Calling Models
         $UsersModel             = new UsersModel();
         $BeritaModel            = new BeritaModel();
+        $VisitModel             = new VisitModel();
 
         // Populating Data
         $article                = $BeritaModel->where('alias', $alias)->first();
@@ -52,6 +54,15 @@ class News extends BaseController
         } else {
             $creator = $user['username'];
         }
+        $visitors       = $VisitModel->where('path', '/berita/'.$alias)->find();
+        $viewvisit      = [];
+        foreach ($visitors as $visit) {
+            $viewvisit[]    = $visit->views;
+        }
+
+        // URL Encode
+        $url        = base_url().'berita/'.$alias;
+        $urlencode  = urlencode($url);
 
         // Parsing Data To View
         $data                   = $this->data;
@@ -61,6 +72,9 @@ class News extends BaseController
         $data['caturi']         = 'berita';
         $data['cattitle']       = 'Berita';
         $data['user']           = $creator;
+        $data['visitors']       = array_sum($viewvisit);
+        $data['url']            = $url;
+        $data['urlencode']      = $urlencode;
 
         // Return Data To View
         return view('article', $data);

@@ -9929,7 +9929,7 @@ joomla-field-media .field-media-preview {
 
 html {
     font-family: "Nunito Sans", sans-serif;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 300;
     line-height: 1.6;
     -webkit-text-size-adjust: 100%;
@@ -14454,7 +14454,7 @@ ul.uk-nav-sub {
     column-gap: .25em;
     box-sizing: border-box;
     min-height: 100px;
-    font-size: 16px;
+    font-size: 20px;
     font-family: inherit;
     text-decoration: none
 }
@@ -16584,7 +16584,7 @@ video) {
 }
 
 .uk-background-primary {
-    background-color: #E98120
+    background-color: #3C6997;
 }
 
 .uk-background-secondary {

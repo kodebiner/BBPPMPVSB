@@ -717,6 +717,13 @@ class Upload extends BaseController
 
         // Validation Rules
         $rules = [
+            'judul' => [
+                'label'  => 'Judul Artista',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
             'file' => [
                 'label'  => 'File Majalah Artista',
                 'rules'  => 'required',
@@ -737,9 +744,14 @@ class Upload extends BaseController
             return redirect()->to('dashboard/addartista')->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        // Alias
+        $aliases = preg_replace('/\s+/', '-', $input['judul']);
+
         $artista = [
-            'file' => $input['file'],
-            'photo' => $input['foto'],
+            'title'     => $input['judul'],
+            'alias'     => $aliases,
+            'file'      => $input['file'],
+            'photo'     => $input['foto'],
         ];
         $ArtistaModel->insert($artista);
 
@@ -756,6 +768,13 @@ class Upload extends BaseController
 
         // Validation Rules
         $rules = [
+            'judul' => [
+                'label'  => 'Judul Artista',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
             'file' => [
                 'label'  => 'File Majalah Artista',
                 'rules'  => 'required',
@@ -792,8 +811,13 @@ class Upload extends BaseController
             }
         }
 
+        // Alias
+        $aliases = preg_replace('/\s+/', '-', $input['judul']);
+
         $artista = [
             'id'    => $id,
+            'title' => $input['judul'],
+            'alias' => $aliases,
             'file'  => $input['file'],
             'photo' => $input['foto'],
         ];

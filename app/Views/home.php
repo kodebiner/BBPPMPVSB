@@ -226,7 +226,7 @@
                                                     <div class="uk-height-small@m uk-flex uk-flex-middle">
                                                         <img src="<?= $diklat['images'] ?>" alt="<?= $diklat['title'] ?>">
                                                     </div>
-                                                    <div class="uk-h5 uk-text-justify uk-margin-top uk-margin-remove-bottom uk-text-bold" style="color: #fff;"><?= $diklat['title'] ?></div>
+                                                    <div class="uk-h5 uk-margin-top uk-margin-remove-bottom uk-text-bold uk-text-uppercase" style="color: #fff;"><?= $diklat['title'] ?></div>
                                                 </a>
                                             </div>
                                         </div>

@@ -5,6 +5,7 @@ use App\Models\ContentModel;
 use App\Models\CategoriesModel;
 use App\Models\UsersModel;
 use App\Models\DiklatModel;
+use Tatter\Visits\Models\VisitModel;
 
 class Diklat extends BaseController
 {
@@ -103,6 +104,7 @@ class Diklat extends BaseController
         $CategoriesModel        = new CategoriesModel();
         $ContentModel           = new ContentModel();
         $UsersModel             = new UsersModel();
+        $VisitModel             = new VisitModel();
 
         // Populating Data
         $article                = $ContentModel->where('alias', $alias)->first();
@@ -113,6 +115,15 @@ class Diklat extends BaseController
         } else {
             $creator = $user['username'];
         }
+        $visitors       = $VisitModel->where('path', '/informasi/diklat/'.$alias)->find();
+        $viewvisit      = [];
+        foreach ($visitors as $visit) {
+            $viewvisit[]    = $visit->views;
+        }
+
+        // URL Encode
+        $url        = base_url().'informasi/diklat/'.$alias;
+        $urlencode  = urlencode($url);
 
         // Parsing Data To View
         $data                   = $this->data;
@@ -120,9 +131,12 @@ class Diklat extends BaseController
         $data['description']    = $article['description'];
         $data['article']        = $article;
         $data['category']       = $category;
-        $data['caturi']         = 'diklat/pendaftaran';
+        $data['caturi']         = 'informasi/diklat';
         $data['cattitle']       = 'Informasi Diklat';
         $data['user']           = $creator;
+        $data['visitors']       = array_sum($viewvisit);
+        $data['url']            = $url;
+        $data['urlencode']      = $urlencode;
 
         // Return Data To View
         return view('article', $data);
