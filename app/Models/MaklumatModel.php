@@ -2,13 +2,13 @@
 
 use CodeIgniter\Model;
 
-class PengaduanModel extends Model
+class MaklumatModel extends Model
 {
     protected $allowedFields = [
-        'userid', 'name', 'email', 'phone', 'note', 'status', 'created_at',
+        'text',
     ];
 
-    protected $table      = 'pengaduan';
+    protected $table      = 'maklumat';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType     = 'array';

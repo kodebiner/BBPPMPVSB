@@ -2,13 +2,13 @@
 
 use CodeIgniter\Model;
 
-class PengaduanModel extends Model
+class FotoDiklatModel extends Model
 {
     protected $allowedFields = [
-        'userid', 'name', 'email', 'phone', 'note', 'status', 'created_at',
+        'diklatid', 'file',
     ];
 
-    protected $table      = 'pengaduan';
+    protected $table      = 'fotodiklat';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType     = 'array';

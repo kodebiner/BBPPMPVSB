@@ -18,6 +18,11 @@
                 </div>
             </div>
 
+            <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold">Deskripsi</label>
+            <div class="uk-margin">
+                <textarea name="description" id="file-picker" placeholder="Masukkan Deskrispi.."></textarea>
+            </div>
+
             <!-- Upload Foto -->
             <h5 class="uk-margin-small-top">Upload Foto</h5>
             <div class="uk-margin" id="image-container-create">

@@ -5,6 +5,7 @@ use App\Models\ContentModel;
 use App\Models\CategoriesModel;
 use App\Models\UserModel;
 use App\Models\PhotoModel;
+use App\Models\FotoGaleriModel;
 use App\Models\VideoModel;
 
 class Gallery extends BaseController
@@ -18,14 +19,6 @@ class Gallery extends BaseController
 
         // Calling Models
         $PhotoModel           = new PhotoModel();
-
-        // Search Engine
-        // Populating Data
-        // if (isset($input['search']) && !empty($input['search'])) {
-        //     $galleries     = $ContentModel->where('catid', '18')->orderBy('publish_up', 'DESC')->like('title', $input['search'])->find();
-        // } else {
-        //     $galleries     = $ContentModel->where('catid', '18')->orderBy('publish_up', 'DESC')->paginate(24, 'gallery');
-        // }
 
         $galleriesdata     = $PhotoModel->orderBy('updated_at', 'DESC')->find();
         $galleries = [];
@@ -132,5 +125,28 @@ class Gallery extends BaseController
 
         // Return Data To View
         return view('playvideo', $data);
+    }
+
+    public function fotogaleri($id)//: string
+    {
+        // Calling Models
+        $PhotoModel             = new PhotoModel();
+        $FotoGaleriModel        = new FotoGaleriModel();
+
+        // Populating Data
+        $photos                 = $PhotoModel->find($id);
+        $galleriesdata          = $FotoGaleriModel->where('photoid', $id)->find();
+
+        // Parsing Data To View
+        $data                   = $this->data;
+        $data['title']          = $photos['title'];
+        $data['description']    = "Foto terkait " . $photos['title'];
+        $data['galleries']      = $galleriesdata;
+        $data['photos']         = $photos;
+        $data['caturi']         = 'galeri/foto';
+        $data['cattitle']       = 'Galeri Foto';
+
+        // Return Data To View
+        return view('photo', $data);
     }
 }

@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div class="uk-width-3-4">
-                    <div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider="autoplay; true:">
+                    <div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slider="autoplay: true;">
                         <ul class="uk-slider-items uk-child-width-1-1 uk-grid">
                             <?php
                             foreach ($newses as $key => $news) {

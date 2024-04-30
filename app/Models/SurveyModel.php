@@ -2,13 +2,13 @@
 
 use CodeIgniter\Model;
 
-class PengaduanModel extends Model
+class SurveyModel extends Model
 {
     protected $allowedFields = [
-        'userid', 'name', 'email', 'phone', 'note', 'status', 'created_at',
+        'file',
     ];
 
-    protected $table      = 'pengaduan';
+    protected $table      = 'survey';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType     = 'array';

@@ -1270,6 +1270,7 @@ class Upload extends BaseController
         // News Data 
         $diklat = [
             'title'         => $input['judul'],
+            'text'          => $input['description'],
             'images'        => "images/".$input['foto'],
         ];
 

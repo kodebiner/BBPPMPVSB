@@ -5,6 +5,7 @@ use App\Models\ContentModel;
 use App\Models\CategoriesModel;
 use App\Models\UsersModel;
 use App\Models\DiklatModel;
+use App\Models\FotoDiklatModel;
 use Tatter\Visits\Models\VisitModel;
 
 class Diklat extends BaseController
@@ -63,7 +64,7 @@ class Diklat extends BaseController
         $data['title']          = "Informasi Diklat";
         $data['description']    = "Informasi Diklat terkait BBPPMPVSB";
         $data['newses']         = $newses;
-        $data['caturi']         = 'diklat/pendaftaran';
+        $data['caturi']         = 'informasi/diklat';
         $data['cattitle']       = 'Informasi Diklat';
         $data['count']          = count($newses);
         $data['pager']          = $DiklatModel->pager;
@@ -98,47 +99,39 @@ class Diklat extends BaseController
     //     return view('article', $data);
     // }
 
-    public function diklatregistration($alias)
+    public function diklatregistration($id)
     {
         // Calling Models
-        $CategoriesModel        = new CategoriesModel();
-        $ContentModel           = new ContentModel();
-        $UsersModel             = new UsersModel();
+        $DiklatModel            = new DiklatModel();
+        $FotoDiklatModel        = new FotoDiklatModel();
         $VisitModel             = new VisitModel();
 
         // Populating Data
-        $article                = $ContentModel->where('alias', $alias)->first();
-        $category               = $CategoriesModel->where('id', $article['catid'])->first();
-        $user                   = $UsersModel->find($article['created_by']);
-        if (empty($user)) {
-            $creator = 'Tim BBPPMPV Seni & Budaya';
-        } else {
-            $creator = $user['username'];
-        }
-        $visitors       = $VisitModel->where('path', '/informasi/diklat/'.$alias)->find();
+        $article        = $DiklatModel->find($id);
+        $photos         = $FotoDiklatModel->where('diklatid', $id)->find();
+        $visitors       = $VisitModel->where('path', '/informasi/diklat/'.$id)->find();
         $viewvisit      = [];
         foreach ($visitors as $visit) {
             $viewvisit[]    = $visit->views;
         }
 
         // URL Encode
-        $url        = base_url().'informasi/diklat/'.$alias;
+        $url        = base_url().'informasi/diklat/'.$id;
         $urlencode  = urlencode($url);
 
         // Parsing Data To View
         $data                   = $this->data;
         $data['title']          = $article['title'];
-        $data['description']    = $article['description'];
+        $data['description']    = $article['title'];
         $data['article']        = $article;
-        $data['category']       = $category;
+        $data['photos']         = $photos;
         $data['caturi']         = 'informasi/diklat';
         $data['cattitle']       = 'Informasi Diklat';
-        $data['user']           = $creator;
         $data['visitors']       = array_sum($viewvisit);
         $data['url']            = $url;
         $data['urlencode']      = $urlencode;
 
         // Return Data To View
-        return view('article', $data);
+        return view('diklat', $data);
     }
 }

@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class DiklatModel extends Model
 {
     protected $allowedFields = [
-        'title', 'images', 'created_at', 'updated_at', 'deleted_at',
+        'title', 'text', 'images', 'created_at', 'updated_at', 'deleted_at',
     ];
 
     protected $table      = 'diklat';

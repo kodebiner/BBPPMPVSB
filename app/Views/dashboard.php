@@ -30,7 +30,7 @@
     <script src="js/uikit-icons.min.js"></script>
     
     <!-- Tiny MCE Js  -->
-    <script src="https://cdn.tiny.cloud/1/l80j1589vk3emf9jbxbfk7a8o9i5yzgzxjbdlo5fr71v26f6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/fbtmdxwnanfjdicy4oh9uxzzp0idhv1sdbyxml3t9lgz0v6r/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <style>

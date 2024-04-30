@@ -164,6 +164,7 @@ $routes->group('jadwal-kegiatan', static function ($routes) {
 // Gallery
 $routes->group('galeri', static function ($routes) {
     $routes->get('foto', 'Gallery::indexphoto');
+    $routes->get('foto/(:num)', 'Gallery::fotogaleri/$1');
     $routes->get('video', 'Gallery::indexvideo');
     $routes->get('video/(:num)', 'Gallery::playvideo/$1');
 });

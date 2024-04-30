@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class PermohonanModel extends Model
 {
     protected $allowedFields = [
-        'name', 'phone', 'address', 'jobs', 'note', 'status', 'created_at',
+        'userid', 'name', 'email', 'phone', 'address', 'jobs', 'note', 'status', 'created_at',
     ];
 
     protected $table      = 'permohonan';

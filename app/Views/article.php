@@ -40,7 +40,8 @@
                         <div>Dilihat Sebanyak : <?= $visitors ?></div>
                     </div>
                 </div>
-                <div class="uk-grid-match uk-child-width-auto uk-flex-center uk-text-meta uk-text-center uk-margin" uk-grid uk-height-match="target: > .match-media">
+                <div class="uk-text-center">Bagikan :</div>
+                <div class="uk-grid-match uk-child-width-auto uk-flex-center uk-text-meta uk-text-center uk-margin uk-grid-small uk-margin-small-top" uk-grid uk-height-match="target: > .match-media">
                     <div>
                         <a class="uk-icon-button" data-href="<?=$url?>" uk-icon="facebook" href="https://www.facebook.com/sharer/sharer.php?u=<?=$urlencode?>&amp;src=sdkpreparse" target="_blank"></a>
                     </div>

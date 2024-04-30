@@ -7,6 +7,7 @@ use App\Models\ArtistaModel;
 use App\Models\BeritaModel;
 use App\Models\SeminarModel;
 use App\Models\DiklatModel;
+use App\Models\FotoDiklatModel;
 use App\Models\ScheduleModel;
 use App\Models\PhotoModel;
 use App\Models\VideoModel;
@@ -408,13 +409,13 @@ class Auth extends BaseController
     public function diklat()
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
-        $DiklatModel   = new DiklatModel();
+        $usersmodel         = new UsersModel();
+        $DiklatModel        = new DiklatModel();
 
         // Get Data
-        $user = $usersmodel->find($this->data['uid']);
-        $diklat = $DiklatModel->orderBy('updated_at', 'DESC')->paginate(20, 'news');
-        $users = $usersmodel->findAll();
+        $user       = $usersmodel->find($this->data['uid']);
+        $diklat     = $DiklatModel->orderBy('updated_at', 'DESC')->paginate(20, 'news');
+        $users      = $usersmodel->findAll();
         array_multisort($diklat, SORT_DESC);
 
         // Parsing Data
@@ -432,10 +433,12 @@ class Auth extends BaseController
     public function adddiklat()
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
+        $usersmodel         = new UsersModel();
+        $FotoDiklatModel    = new FotoDiklatModel();
 
         // Get Data
-        $user = $usersmodel->find($this->data['uid']);
+        $user       = $usersmodel->find($this->data['uid']);
+        $photos     = $usersmodel->find($this->data['uid']);
 
         // Parsing Data
         $data               = $this->data;
