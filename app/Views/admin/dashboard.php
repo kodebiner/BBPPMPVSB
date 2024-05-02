@@ -20,6 +20,7 @@
                             <th>Email</th>
                             <th>No.Telefon</th>
                             <th>Pengaduan</th>
+                            <th>Penanggung Jawab</th>
                             <th class="uk-text-center">Detail</th>
                         </tr>
                     </thead>
@@ -36,7 +37,14 @@
                                 <td><?=$aduan['email']?></td>
                                 <td><?=$aduan['phone']?></td>
                                 <td class="uk-text-truncate"><?=$aduan['note']?></td>
-                                <td class="uk-text-center"><a onclick="statusAduan<?=$aduan['id']; ?>()" href="#modal-aduan<?=$aduan['id']?>" uk-toggle><span uk-icon="eye"></span></a></td>
+                                <td id="pj<?= $aduan['id'] ?>">
+                                    <?php foreach ($users as $name) {
+                                        if ($name['id'] === $aduan['userid']) {
+                                            echo $name['username'];
+                                        }
+                                    } ?>
+                                </td>
+                                <td class="uk-text-center"><a href="#modal-aduan<?=$aduan['id']?>" uk-toggle><span uk-icon="eye"></span></a></td>
                             </tr>
                             <script>
                                 function statusAduan<?= $aduan['id']; ?>() {
@@ -55,6 +63,38 @@
                                             $("#rowaduan<?=$aduan['id']?>").removeAttr("class");
                                         },
                                     })
+
+                                    var elementaduan = document.getElementById("buttonaduan<?= $aduan['id'] ?>");
+                                    elementaduan.remove();
+
+                                    var bodyaduan       = document.getElementById('bodyaduan<?= $aduan['id'] ?>');
+
+                                    var aduangrid       = document.createElement('div');
+                                    aduangrid.setAttribute('uk-grid', '');
+                                    aduangrid.setAttribute('class', 'uk-margin-small-top');
+
+                                    var divgrid1        = document.createElement('div');
+                                    divgrid1.setAttribute('class', 'uk-width-1-4@m')
+
+                                    var divgrid2        = document.createElement('div');
+                                    divgrid2.setAttribute('class', 'uk-width-expand@m')
+
+                                    var divcontent      = document.createElement('div');
+                                    divcontent.setAttribute('class', 'uk-text-bolder')
+                                    divcontent.innerHTML    = "Penanggung Jawab"
+
+                                    var divuser         = document.createElement('div');
+                                    divuser.setAttribute('class', '');
+                                    divuser.innerHTML   = '<?= $user['username'] ?>';
+                                    
+                                    divgrid1.appendChild(divcontent);
+                                    divgrid2.appendChild(divuser);
+                                    aduangrid.appendChild(divgrid1);
+                                    aduangrid.appendChild(divgrid2);
+                                    bodyaduan.appendChild(aduangrid);
+
+                                    var namepj          = document.getElementById('pj<?= $aduan['id'] ?>');
+                                    namepj.innerHTML    = '<?= $user['username'] ?>';
                                 }
                             </script>
                         <?php } ?>
@@ -89,6 +129,7 @@
                             <th>Pekerjaan</th>
                             <th>No.Telefon</th>
                             <th>Permohonan</th>
+                            <th>Penanggung Jawab</th>
                             <th class="uk-text-center">Detail</th>
                         </tr>
                     </thead>
@@ -106,7 +147,14 @@
                                 <td><?=$mohon['jobs']?></td>
                                 <td><?=$mohon['phone']?></td>
                                 <td class="uk-text-truncate"><?=$mohon['note']?></td>
-                                <td class="uk-text-center"><a href="#modal-permohonan<?=$mohon['id']?>" onclick="permohonan<?=$mohon['id']; ?>()" uk-toggle><span uk-icon="eye"></span></a></td>
+                                <td id="pjmohon<?= $mohon['id'] ?>">
+                                    <?php foreach ($users as $name) {
+                                        if ($name['id'] === $mohon['userid']) {
+                                            echo $name['username'];
+                                        }
+                                    } ?>
+                                </td>
+                                <td class="uk-text-center"><a href="#modal-permohonan<?=$mohon['id']?>" uk-toggle><span uk-icon="eye"></span></a></td>
                             </tr>
                             <script>
                                 function permohonan<?= $mohon['id']; ?>() {
@@ -125,6 +173,38 @@
                                             $("#rowpermohonan<?=$mohon['id']?>").removeAttr("class");
                                         },
                                     })
+
+                                    var elementmohon = document.getElementById("buttonmohon<?= $mohon['id'] ?>");
+                                    elementmohon.remove();
+
+                                    var bodymohon       = document.getElementById('bodymohon<?= $mohon['id'] ?>');
+
+                                    var mohongrid       = document.createElement('div');
+                                    mohongrid.setAttribute('uk-grid', '');
+                                    mohongrid.setAttribute('class', 'uk-margin-small-top');
+
+                                    var gridmohon1        = document.createElement('div');
+                                    gridmohon1.setAttribute('class', 'uk-width-1-4@m')
+
+                                    var gridmohon2        = document.createElement('div');
+                                    gridmohon2.setAttribute('class', 'uk-width-expand@m')
+
+                                    var mohoncontent      = document.createElement('div');
+                                    mohoncontent.setAttribute('class', 'uk-text-bolder')
+                                    mohoncontent.innerHTML    = "Penanggung Jawab"
+
+                                    var mohonuser         = document.createElement('div');
+                                    mohonuser.setAttribute('class', '');
+                                    mohonuser.innerHTML   = '<?= $user['username'] ?>';
+                                    
+                                    gridmohon1.appendChild(mohoncontent);
+                                    gridmohon2.appendChild(mohonuser);
+                                    mohongrid.appendChild(gridmohon1);
+                                    mohongrid.appendChild(gridmohon2);
+                                    bodymohon.appendChild(mohongrid);
+
+                                    var pjmohon          = document.getElementById('pjmohon<?= $mohon['id'] ?>');
+                                    pjmohon.innerHTML    = '<?= $user['username'] ?>';
                                 }
                             </script>
                         <?php } ?>
@@ -149,7 +229,7 @@
                 <div class="uk-modal-header" style="background-color: red;">
                     <h2 class="uk-card-title uk-text-bolder" style="color: white;">Detail Pengaduan</h2>
                 </div>
-                <div class="uk-modal-body">
+                <div class="uk-modal-body" id="bodyaduan<?= $aduan['id'] ?>">
                     <div uk-grid>
                         <div class="uk-width-1-4@m">
                             <div class="uk-text-bolder">Nama</div>
@@ -182,7 +262,30 @@
                             <div class=""><?=$aduan['note']?></div>
                         </div>
                     </div>
+                    <?php if ($aduan['status'] == '1') { ?>
+                        <div class="uk-margin-small-top" uk-grid>
+                            <div class="uk-width-1-4@m">
+                                <div class="uk-text-bolder">Penanggung Jawab</div>
+                            </div>
+                            <div class="uk-width-expand@m">
+                                <div class="">
+                                    <?php foreach ($users as $name) {
+                                        if ($name['id'] === $aduan['userid']) {
+                                            echo $name['username'];
+                                        }
+                                    } ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
+                <?php if ($aduan['status'] == '0') { ?>
+                    <div class="uk-modal-footer">
+                        <div class="uk-text-right">
+                            <button class="uk-button uk-button-primary" onclick="statusAduan<?=$aduan['id']; ?>()" id="buttonaduan<?= $aduan['id'] ?>">Tindak Lanjuti</button>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     <?php } ?>
@@ -196,7 +299,7 @@
                 <div class="uk-modal-header" style="background-color: #1e87f0;">
                     <h2 class="uk-card-title uk-text-bolder" style="color: white;">Detail Permohonan</h2>
                 </div>
-                <div class="uk-modal-body">
+                <div class="uk-modal-body" id="bodymohon<?= $mohon['id'] ?>">
                     <div uk-grid>
                         <div class="uk-width-1-4@m">
                             <div class="uk-text-bolder">Nama</div>
@@ -229,7 +332,30 @@
                             <div class=""><?=$mohon['note']?></div>
                         </div>
                     </div>
+                    <?php if ($mohon['status'] == '1') { ?>
+                        <div class="uk-margin-small-top" uk-grid>
+                            <div class="uk-width-1-4@m">
+                                <div class="uk-text-bolder">Penanggung Jawab</div>
+                            </div>
+                            <div class="uk-width-expand@m">
+                                <div class="">
+                                    <?php foreach ($users as $name) {
+                                        if ($name['id'] === $mohon['userid']) {
+                                            echo $name['username'];
+                                        }
+                                    } ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
+                <?php if ($mohon['status'] == '0') { ?>
+                    <div class="uk-modal-footer">
+                        <div class="uk-text-right">
+                            <button class="uk-button uk-button-primary" onclick="permohonan<?=$mohon['id']; ?>()" id="buttonmohon<?= $mohon['id'] ?>">Tindak Lanjuti</button>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     <?php } ?>

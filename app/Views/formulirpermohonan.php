@@ -39,6 +39,13 @@
             </div>
 
             <div class="uk-margin">
+                <label class="uk-form-label" for="email">Email</label>
+                <div class="uk-form-controls">
+                    <input type="email" name="email" id="email" placeholder="contoh : andriana.kusuma@gmail.com" class="uk-input <?php if (session('errors.email')) : ?>tm-form-invalid<?php endif ?>" />
+                </div>
+            </div>
+
+            <div class="uk-margin">
                 <label class="uk-form-label" for="jobs">Pekerjaan</label>
                 <div class="uk-form-controls">
                     <input name="jobs" id="jobs" placeholder="contoh : Wiraswata" class="uk-input <?php if (session('errors.jobs')) : ?>tm-form-invalid<?php endif ?>" />

@@ -52,8 +52,15 @@ class Layanan extends BaseController
                     'required'      => '{field} wajib diisi',
                 ],
             ],
-            'address' => [
+            'email' => [
                 'label'  => 'Email',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} wajib diisi',
+                ],
+            ],
+            'address' => [
+                'label'  => 'Alamat',
                 'rules'  => 'required',
                 'errors' => [
                     'required'      => '{field} wajib diisi',
@@ -89,6 +96,7 @@ class Layanan extends BaseController
         $date               = date('Y-m-d H:i:s');
         $permohonan = [
             'name'          => $input['name'],
+            'email'         => $input['email'],
             'address'       => $input['address'],
             'phone'         => $input['phone'],
             'note'          => $input['note'],

@@ -42,6 +42,7 @@ class Auth extends BaseController
 
         // Get Data
         $user       = $usersmodel->find($this->data['uid']);
+        $users      = $usersmodel->findAll();
         $pengaduan  = $PengaduanModel->orderBy('status','ASC')->paginate(5,'pengaduan');
         $permohonan = $PermohonanModel->orderBy('status','ASC')->paginate(5,'permohonan');
 
@@ -49,6 +50,7 @@ class Auth extends BaseController
         $data                       = $this->data;
         $data['title']              = "Dashboard";
         $data['user']               = $user;
+        $data['users']              = $users;
         $data['permohonan']         = $permohonan;
         $data['pengaduan']          = $pengaduan;
         $data['pager']              = $PengaduanModel->pager;
@@ -907,6 +909,7 @@ class Auth extends BaseController
         $status = [
             'id'        => $aduan['id'],
             'status'    => "1",
+            'userid'    => $this->data['uid'],
         ];
 
         $PengaduanModel->save($status);
@@ -926,6 +929,7 @@ class Auth extends BaseController
         $status = [
             'id'        => $permohonan['id'],
             'status'    => "1",
+            'userid'    => $this->data['uid'],
         ];
 
         $PermohonanModel->save($status);
