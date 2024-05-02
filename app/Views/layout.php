@@ -73,7 +73,7 @@
                                     <li class="<?= ($uri->getSegment(1) === 'berita') ? 'uk-active':''?> ">
                                         <a href="berita">Berita</a>
                                     </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirpermohonan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirpermohonan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='maklumat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='survey')?'uk-active':'' ?>">
                                         <a href="">Layanan</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
@@ -83,11 +83,11 @@
                                                 <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
                                                     <a href="layanan/standarpelayanan">Standar Pelayanan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirlayanan')?'uk-active':'' ?>">
-                                                    <a href="layanan/formulirlayanan">Maklumat Layanan</a>
+                                                <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='maklumat')?'uk-active':'' ?>">
+                                                    <a href="layanan/maklumat">Maklumat Layanan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirlayanan')?'uk-active':'' ?>">
-                                                    <a href="layanan/formulirlayanan">Hasil Survey</a>
+                                                <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='survey')?'uk-active':'' ?>">
+                                                    <a href="layanan/survey">Hasil Survey</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -280,7 +280,7 @@
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'berita') ? 'uk-active' : '' ?>">
                                             <a href="berita">Berita</a>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'formulirpermohonan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'formulirpermohonan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='maklumat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='survey')?'uk-active':'' ?>">
                                             <a href="">Layanan <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
                                                 <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirpermohonan')?'uk-active':'' ?>">
@@ -289,11 +289,11 @@
                                                 <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
                                                     <a href="layanan/standarpelayanan">Standar Pelayanan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'formulirlayanan')?'uk-active':'' ?>">
-                                                    <a href="layanan/formulirlayanan">Maklumat Layanan</a>
+                                                <li class="<?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'maklumat')?'uk-active':'' ?>">
+                                                    <a href="layanan/maklumat">Maklumat Layanan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'formulirlayanan')?'uk-active':'' ?>">
-                                                    <a href="layanan/formulirlayanan">Hasil Survey</a>
+                                                <li class="<?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'survey')?'uk-active':'' ?>">
+                                                    <a href="layanan/survey">Hasil Survey</a>
                                                 </li>
                                             </ul>
                                         </li>

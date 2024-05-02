@@ -10,6 +10,8 @@ use App\Models\SeminarModel;
 use App\Models\PhotoModel;
 use App\Models\VideoModel;
 use App\Models\SlideshowModel;
+use App\Models\SurveyModel;
+use App\Models\MaklumatModel;
 use App\Models\GroupModel;
 
 use App\Controllers\BaseController;
@@ -1592,6 +1594,105 @@ class Upload extends BaseController
 
         // Return Message
         die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
+
+    // Add Maklumat
+    public function addmaklumat()
+    {
+        // Calling Models
+        $MaklumatModel      = new MaklumatModel();
+
+        // Get Data
+        $input              = $this->request->getPost();
+        $maklumat           = $MaklumatModel->first();
+
+        // News Data
+        if (empty($maklumat)) {
+            $content = [
+                'text'          => $input['konten'],
+            ];
+        } else {
+            $content = [
+                'id'            => $maklumat['id'],
+                'text'          => $input['konten'],
+            ];
+        }
+
+        // insert News
+        $MaklumatModel->save($content);
+        return redirect()->to('dashboard/maklumat')->with('message', "Maklumat Pelayanan Berhasil Di Tambahkan!");
+    }
+
+    // Upload File Hasil Survey
+    public function pdfsurvey()
+    {
+        $validation = \Config\Services::validation();
+        $input      = $this->request->getFile('uploads');
+
+        // Validation Rules
+        $rules = [
+            'uploads'   => 'uploaded[uploads]|mime_in[uploads,application/pdf]',
+        ];
+
+        // Get Extention
+        $ext = $input->getClientExtension();
+
+        // Validating
+        if (!$this->validate($rules)) {
+            http_response_code(400);
+            die(json_encode(array('message' => $this->validator->getErrors())));
+        }
+
+        if ($input->isValid() && !$input->hasMoved()) {
+            // Saving uploaded file
+            $filename = $input->getRandomName();
+            $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
+            $input->move(FCPATH . '/survey/', $truename . '.' . $ext);
+
+            // Getting True Filename
+            $returnFile = $truename . '.' . $ext;
+
+            // Returning Message
+            die(json_encode($returnFile));
+        }
+    }
+
+    public function removepdfsurvey()
+    {
+        // Removing File
+        $input = $this->request->getPost('file');
+        unlink(FCPATH . 'survey/' . $input);
+
+        // Return Message
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
+
+    // Add Survey
+    public function addsurvey()
+    {
+        // Calling Models
+        $SurveyModel        = new SurveyModel();
+
+        // Get Data
+        $input              = $this->request->getPost();
+        $survey             = $SurveyModel->first();
+
+        // News Data
+        if (empty($survey)) {
+            $content = [
+                'file'          => $input['file'],
+            ];
+        } else {
+            unlink(FCPATH . 'survey/' . $survey['file']);
+            $content = [
+                'id'            => $survey['id'],
+                'file'          => $input['file'],
+            ];
+        }
+
+        // insert News
+        $SurveyModel->save($content);
+        return redirect()->to('dashboard/survey')->with('message', "Hasil Survey Berhasil Di Tambahkan!");
     }
 }
 ?>

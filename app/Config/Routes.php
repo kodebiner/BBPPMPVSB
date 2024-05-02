@@ -87,12 +87,17 @@ $routes->group('dashboard', static function ($routes) {
     $routes->post('pengaduan/(:num)', 'Auth::pengaduan/$1', ['filter' => 'group:superadmin,admin',]);
     $routes->post('permohonan/(:num)', 'Auth::permohonan/$1', ['filter' => 'group:superadmin,admin',]);
 
+    // Maklumat
+    $routes->get('maklumat', 'Auth::maklumat', ['filter' => 'group:superadmin,admin',]);
+
+    // Survey
+    $routes->get('survey', 'Auth::survey', ['filter' => 'group:superadmin,admin',]);
 });
 
 // Uploads
 $routes->group('upload', static function ($routes){
     service('auth')->routes($routes);
-    $routes->post('tinymce', 'Upload::fototinymce', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('tinymce', 'Acceptor::acceptor', ['filter' => 'group:superadmin,admin',]);
     $routes->post('foto', 'Upload::foto', ['filter' => 'group:superadmin,admin',]);
     $routes->post('removefoto', 'Upload::removefoto', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotoberita', 'Upload::fotoberita', ['filter' => 'group:superadmin,admin',]);
@@ -106,6 +111,8 @@ $routes->group('upload', static function ($routes){
     $routes->post('removeslideshow', 'Upload::removeslideshow', ['filter' => 'group:superadmin,admin',]);
     $routes->post('pdf', 'Upload::pdf', ['filter' => 'group:superadmin,admin',]);
     $routes->post('removefile', 'Upload::removepdf', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('pdfsurvey', 'Upload::pdfsurvey', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removepdfsurvey', 'Upload::removepdfsurvey', ['filter' => 'group:superadmin,admin',]);
 });
 
 // Add
@@ -122,6 +129,8 @@ $routes->group('add', static function ($routes){
     $routes->post('foto', 'Upload::addfoto', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotogaleri', 'Upload::addfotogaleri', ['filter' => 'group:superadmin,admin',]);
     $routes->post('videogaleri', 'Upload::addvideogaleri', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('maklumat', 'Upload::addmaklumat', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('survey', 'Upload::addsurvey', ['filter' => 'group:superadmin,admin',]);
 });
 
 // Update
@@ -186,6 +195,8 @@ $routes->group('layanan', static function ($routes) {
     $routes->get('standarpelayanan', 'Layanan::standarpelayanan');
     $routes->get('formulirpermohonan', 'Layanan::indexpermohonan');
     $routes->post('permohonaninformasi', 'Layanan::formpermohonan');
+    $routes->get('survey', 'Layanan::hasilsurvey');
+    $routes->get('maklumat', 'Layanan::maklumat');
 });
 
 // Pengaduan

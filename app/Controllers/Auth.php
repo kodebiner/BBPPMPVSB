@@ -14,6 +14,8 @@ use App\Models\VideoModel;
 use App\Models\SlideshowModel;
 use App\Models\PengaduanModel;
 use App\Models\PermohonanModel;
+use App\Models\SurveyModel;
+use App\Models\MaklumatModel;
 use App\Models\IdentitasModel;
 use App\Models\GroupModel;
 
@@ -929,6 +931,42 @@ class Auth extends BaseController
         $PermohonanModel->save($status);
 
         die(json_encode(array($status)));
+    }
+
+    public function maklumat()
+    {
+        // Calling Models
+        $MaklumatModel          = new MaklumatModel();
+        $usersmodel             = new UsersModel();
+
+        // Get Data
+        $user                   = $usersmodel->find($this->data['uid']);
+        $maklumat               = $MaklumatModel->first();
+
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Maklumat Pelayanan";
+        $data['maklumat']       = $maklumat;
+        $data['user']           = $user;
+
+        return view('Views/admin/maklumat', $data);
+    }
+
+    public function survey()
+    {
+        // Calling Models
+        $SurveyModel            = new SurveyModel();
+        $usersmodel             = new UsersModel();
+
+        // Get Data
+        $user                   = $usersmodel->find($this->data['uid']);
+        $survey                 = $SurveyModel->first();
+
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Hasil Survey";
+        $data['survey']         = $survey;
+        $data['user']           = $user;
+
+        return view('Views/admin/survey', $data);
     }
 
     public function errors()

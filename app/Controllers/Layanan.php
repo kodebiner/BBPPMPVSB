@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 use App\Models\PermohonanModel;
+use App\Models\SurveyModel;
+use App\Models\MaklumatModel;
 
 class Layanan extends BaseController
 {
@@ -100,5 +102,45 @@ class Layanan extends BaseController
 
         // Return
         return redirect()->back()->with('message', "Permohonan Informasi Berhasil Terkirim");
+    }
+
+    public function hasilsurvey()//: string
+    {
+        // Calling Models
+        $SurveyModel   = new SurveyModel();
+
+        // Populating Data
+        $surveys        = $SurveyModel->first();
+
+        // Parsing Data To View
+        $data                   = $this->data;
+        $data['title']          = "Hasil Survey";
+        $data['description']    = "Hasil Survey terkait BBPPMPVSB";
+        $data['surveys']        = $surveys;
+        $data['caturi']         = 'layanan/survey';
+        $data['cattitle']       = 'Hasil Survey';
+
+        // Return Data To View
+        return view('survey', $data);
+    }
+
+    public function maklumat()//: string
+    {
+        // Calling Models
+        $MaklumatModel          = new MaklumatModel();
+
+        // Populating Data
+        $article                = $MaklumatModel->first();
+
+        // Parsing Data To View
+        $data                   = $this->data;
+        $data['title']          = "Maklumat Pelayanan";
+        $data['description']    = "Maklumat Pelayanan terkait BBPPMPVSB";
+        $data['article']        = $article;
+        $data['caturi']         = 'layanan/maklumat';
+        $data['cattitle']       = 'Maklumat Pelayanan';
+
+        // Return Data To View
+        return view('maklumat', $data);
     }
 }
