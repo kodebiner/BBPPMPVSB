@@ -28,22 +28,25 @@
             <div class="uk-margin" id="image-container-create">
                 <div id="image-container" class="uk-form-controls">
                     <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
-                    <input id="foto" name="foto" hidden />
                     <div id="js-upload-foto" class="js-upload uk-placeholder uk-text-center">
                         <span uk-icon="icon: cloud-upload"></span>
                         <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
                         <div uk-form-custom>
-                            <input type="file">
-                            <span class="uk-link uk-preserve-color">pilih satu</span>
+                            <input type="file" multiple>
+                            <span class="uk-link uk-preserve-color">pilih di sini</span>
                         </div>
                     </div>
                 </div>
+                <div class="uk-text-meta">Foto wajib diunggah dan wajib klik salah satu foto sebagai thumbnail</div>
+                <div id="list-foto"></div>
+                <input id="thumbnail" name="thumbnail" required style="opacity:0; width:0;"/>
             </div>
             <!-- End Upload Foto -->
 
             <!-- Upload Foto Sampul Script -->
             <script>
                 var barfoto = document.getElementById('js-upload-createfoto');
+                var createCount = 0;
 
                 UIkit.upload('#js-upload-foto', {
 
@@ -73,56 +76,46 @@
                     complete: function () {
                         console.log('complete', arguments);
 
-                        var filename = arguments[0].response;
+                        createCount++;
 
-                        if (document.getElementById('imagecontainer')) {
-                            document.getElementById('imagecontainer').remove();
-                        };
+                        var filenames = arguments[0].response;
 
-                        document.getElementById('foto').value = filename;
+                        for (i in filenames) {
+                            var imgContainer = document.getElementById('list-foto');
 
-                        var imgContainer = document.getElementById('image-container-create');
+                            var displayContainer = document.createElement('div');
+                            displayContainer.setAttribute('id', 'display-container-create-'+createCount);
+                            displayContainer.setAttribute('class', 'thumb-selector uk-inline uk-padding-small');
 
-                        var displayContainer = document.createElement('div');
-                        displayContainer.setAttribute('id', 'imagecontainer');
-                        displayContainer.setAttribute('class', 'uk-inline uk-width-1-1');
+                            var displayImg = document.createElement('img');
+                            displayImg.setAttribute('src', 'images/'+filenames);
+                            displayImg.setAttribute('width', '300');
+                            displayImg.setAttribute('height', '300');
 
-                        var displayImg = document.createElement('div');
-                        displayImg.setAttribute('class', 'uk-placeholder uk-text-center');
-                        displayImg.setAttribute('uk-lightbox', '');
+                            var chooseThumb = document.createElement('a');
+                            chooseThumb.setAttribute('onClick', 'choosenThumb('+createCount+')');
 
-                        var linkimg = document.createElement('a');
-                        linkimg.setAttribute('id','imagecontainer');
-                        linkimg.setAttribute('class','uk-inline');
-                        linkimg.setAttribute('href','images/'+filename);
-                        linkimg.setAttribute('data-caption', filename);
+                            var inputhidden = document.createElement('input');
+                            inputhidden.setAttribute('hidden', '');
+                            inputhidden.setAttribute('id', 'foto-'+createCount);
+                            inputhidden.setAttribute('name', 'foto['+createCount+']');
+                            inputhidden.setAttribute('value', filenames);
 
-                        var imagetag = document.createElement('img');
-                        imagetag.setAttribute('id','fileimage');
-                        imagetag.setAttribute('class','uk-margin-top uk-margin-bottom');
-                        imagetag.setAttribute('src','images/'+filename);
-                        imagetag.setAttribute('width','120');
-                        imagetag.setAttribute('heigth','180');
-                        imagetag.setAttribute('alt', filename);
+                            var closeContainer = document.createElement('div');
+                            closeContainer.setAttribute('class', 'uk-position-small uk-position-top-right');
 
-                        var closeContainer = document.createElement('div');
-                        closeContainer.setAttribute('class', 'uk-position-small uk-position-right');
+                            var closeButton = document.createElement('a');
+                            closeButton.setAttribute('class', 'uk-icon-button uk-button-danger uk-light');
+                            closeButton.setAttribute('onClick', 'removeFoto('+createCount+')');
+                            closeButton.setAttribute('uk-icon', 'close');
 
-                        var closeButton = document.createElement('a');
-                        closeButton.setAttribute('class', 'tm-img-remove uk-border-circle');
-                        closeButton.setAttribute('onClick', 'removeFoto()');
-                        closeButton.setAttribute('uk-icon', 'close');
-
-                        var linktext = document.createTextNode(filename);
-
-                        closeContainer.appendChild(closeButton);
-                        displayContainer.appendChild(displayImg);
-                        displayContainer.appendChild(closeContainer);
-                        displayImg.appendChild(linkimg);
-                        linkimg.appendChild(imagetag);
+                            chooseThumb.appendChild(displayImg);
+                            closeContainer.appendChild(closeButton);
+                            displayContainer.appendChild(inputhidden);
+                            displayContainer.appendChild(chooseThumb);
+                            displayContainer.appendChild(closeContainer);
+                        }
                         imgContainer.appendChild(displayContainer);
-
-                        document.getElementById('js-upload-foto').setAttribute('hidden', '');
                     },
 
                     loadStart: function (e) {
@@ -158,12 +151,16 @@
                     }
                 });
 
-                function removeFoto() {
+                function removeFoto(f) {
+                    if ($('#thumbnail').val() === $('#foto-'+f).val()) {
+                        $('#thumbnail').val('');
+                    };
+
                     $.ajax({
                         type: 'post',
                         url: 'upload/removefotoberita',
                         data: {
-                            'foto': document.getElementById('foto').value
+                            'foto': document.getElementById('foto-'+f).value
                         },
                         dataType: 'json',
 
@@ -176,14 +173,18 @@
 
                             var pesan = arguments[0][1];
 
-                            document.getElementById('imagecontainer').remove();
-                            document.getElementById('foto').value = '';
+                            document.getElementById('display-container-create-'+f).remove();
 
                             alert(pesan);
-
-                            document.getElementById('js-upload-foto').removeAttribute('hidden', '');
                         }
                     });
+                };
+
+                function choosenThumb(d) {
+                    $('.thumb-selector').removeClass('uk-background-primary');
+                    $('#display-container-create-'+d).addClass('uk-background-primary');
+                    var thumbnail = $('#foto-'+d).val();
+                    $('#thumbnail').val(thumbnail);
                 };
             </script>
             <!-- End Upload Foto Sampul Script -->

@@ -5,6 +5,7 @@ use App\Models\UsersModel;
 use App\Models\BeritaModel;
 use App\Models\ArtistaModel;
 use App\Models\DiklatModel;
+use App\Models\FotoDiklatModel;
 use App\Models\ScheduleModel;
 use App\Models\SeminarModel;
 use App\Models\PhotoModel;
@@ -458,6 +459,16 @@ class Upload extends BaseController
         // Removing File
         $input = $this->request->getPost('foto');
         unlink(FCPATH . 'images/' . $input);
+
+        // Return Message
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
+
+    public function removefotodiklat()
+    {
+        // Removing File
+        $input = $this->request->getPost('foto');
+        unlink(FCPATH . $input);
 
         // Return Message
         die(json_encode(array('errors', 'Data berhasil di hapus')));
@@ -1237,8 +1248,9 @@ class Upload extends BaseController
     public function adddiklat()
     {
         // Calling Models
-        $UserModel      = new UsersModel();
-        $DiklatModel    = new DiklatModel();
+        $UserModel          = new UsersModel();
+        $DiklatModel        = new DiklatModel();
+        $FotoDiklatModel    = new FotoDiklatModel();
 
         // Get Data
         $input  = $this->request->getPost();
@@ -1263,21 +1275,38 @@ class Upload extends BaseController
         ];
 
         if (!$this->validate($rules)) {
+            foreach ($input['foto'] as $key => $photo) {
+                unlink(FCPATH . 'images/' . $photo);
+            }
             return redirect()->to('dashboard/adddiklat')->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
-        // News Data 
+        // Diklat Data 
         $diklat = [
             'title'         => $input['judul'],
             'text'          => $input['description'],
-            'images'        => "images/".$input['foto'],
+            'images'        => "images/".$input['thumbnail'],
         ];
 
-        // insert News
+        // insert Diklat
         $DiklatModel->insert($diklat);
+
+        $diklatid   = $DiklatModel->getInsertID();
+
+        // Foto Diklat Data
+        foreach ($input['foto'] as $fid => $value) {
+            // Foto Diklat Data 
+            $fotodiklat = [
+                'diklatid'      => $diklatid,
+                'file'          => "images/".$value,
+            ];
+    
+            // insert Foto Diklat
+            $FotoDiklatModel->insert($fotodiklat);
+        }
         return redirect()->to('dashboard/diklat')->with('message', "Diklat Berhasil Di Tambahkan!");
     }
 

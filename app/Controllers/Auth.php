@@ -456,11 +456,9 @@ class Auth extends BaseController
     {
         // Calling Models
         $usersmodel         = new UsersModel();
-        $FotoDiklatModel    = new FotoDiklatModel();
 
         // Get Data
-        $user       = $usersmodel->find($this->data['uid']);
-        $photos     = $usersmodel->find($this->data['uid']);
+        $user               = $usersmodel->find($this->data['uid']);
 
         // Parsing Data
         $data               = $this->data;
@@ -473,18 +471,21 @@ class Auth extends BaseController
     public function editdiklat($id)
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
-        $DiklatModel    = new DiklatModel();
+        $usersmodel         = new UsersModel();
+        $DiklatModel        = new DiklatModel();
+        $FotoDiklatModel    = new FotoDiklatModel();
 
-        $user = $usersmodel->find($this->data['uid']);
-        $diklat = $DiklatModel->find($id);
-        $users = $usersmodel->findAll();
+        $user               = $usersmodel->find($this->data['uid']);
+        $diklat             = $DiklatModel->find($id);
+        $photos             = $FotoDiklatModel->where('diklatid', $id)->find();
+        $users              = $usersmodel->findAll();
 
         // Parsing Data
         $data               = $this->data;
         $data['title']      = "Dashboard Edit Diklat";
         $data['user']       = $user;
         $data['users']      = $users;
+        $data['photos']     = $photos;
         $data['news']       = $diklat;
 
         return view('Views/admin/editdiklat', $data);
@@ -493,16 +494,24 @@ class Auth extends BaseController
     public function removediklat($id)
     {
         // Calling Models
-        $DiklatModel = new DiklatModel();
+        $DiklatModel        = new DiklatModel();
+        $FotoDiklatModel    = new FotoDiklatModel();
 
         // Get Data
         $diklat = $DiklatModel->find($id);
+        $photos = $FotoDiklatModel->where('diklatid', $id)->find();
 
         // unlink image
         if(!empty($diklat['images'])){
             unlink(FCPATH . $diklat['images']);
         }
+        if(!empty($photos)){
+            foreach ($photos as $photo) {
+                unlink(FCPATH . $photo['file']);
+            }
+        }
 
+        $photos->delete();
         $DiklatModel->delete($diklat);
 
         die(json_encode(array($diklat)));

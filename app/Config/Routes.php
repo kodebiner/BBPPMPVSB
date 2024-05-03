@@ -105,6 +105,7 @@ $routes->group('upload', static function ($routes){
     $routes->post('removefotoberita', 'Upload::removefotoberita', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotoseminar', 'Upload::fotoseminar', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotodiklat', 'Upload::fotodiklat', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removefotodiklat', 'Upload::removefotodiklat', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotojadwal', 'Upload::fotojadwal', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotogaleri', 'Upload::fotogaleri', ['filter' => 'group:superadmin,admin',]);
     $routes->post('videogaleri', 'Upload::videogaleri', ['filter' => 'group:superadmin,admin',]);
