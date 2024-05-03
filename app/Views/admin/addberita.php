@@ -201,128 +201,46 @@
 
             <script>
                 tinymce.init({
-                    selector: 'textarea#file-picker',
-                    plugins: ' link ',
-                    toolbar: ['undo redo | styles bold italic | alignnone aligncenter alignjustify alignleft alignright | indent outdent',
-                    'link',]
-                    // plugins: 'a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize autosave casechange charmap checklist code codesample directionality editimage emoticons export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mentions mergetags nonbreaking pagebreak pageembed permanentpen powerpaste preview quickbars save searchreplace table tableofcontents template tinycomments tinydrive tinymcespellchecker typography visualblocks visualchars wordcount',
-                    // toolbar: 'a11ychecker | advcode | advlist | advtable | anchor | autocorrect | autolink | autoresize | autosave | casechange | charmap | checklist | code | codesample | directionality | editimage | emoticons | export | footnotes | formatpainter | fullscreen | help | image | importcss | inlinecss | insertdatetime | link | linkchecker | lists | media | mediaembed | mentions | mergetags | nonbreaking | pagebreak | pageembed | permanentpen | powerpaste | preview | quickbars | save | searchreplace | table | tableofcontents | template | tinycomments | tinydrive | tinymcespellchecker | typography | visualblocks | visualchars | wordcount',
-                    // link_context_toolbar: true,
+                    selector:                   'textarea#file-picker',
+                    plugins:                    ' link code table lists wordcount image searchreplace fullscreen autolink help',
+                    toolbar:                    ['undo redo | styles bold italic underline strikethrough subscript superscript | backcolor forecolor | table link image | alignleft aligncenter alignright alignjustify | numlist bullist | lineheight | indent outdent | searchreplace fullscreen help code'],
+                    link_default_target:        '_blank',
+                    link_default_protocol:      'https',
+                    image_title:                false,
+                    automatic_uploads:          true,
+                    file_picker_types:          'image',
+                    file_picker_callback:       (cb, value, meta) => {
+                                                    const input = document.createElement('input');
+                                                    input.setAttribute('type', 'file');
+                                                    input.setAttribute('accept', 'images/*');
+
+                                                    input.addEventListener('change', (e) => {
+                                                    const file = e.target.files[0];
+
+                                                    const reader = new FileReader();
+                                                    reader.addEventListener('load', () => {
+                                                        /*
+                                                        Note: Now we need to register the blob in TinyMCEs image blob
+                                                        registry. In the next release this part hopefully won't be
+                                                        necessary, as we are looking to handle it internally.
+                                                        */
+                                                        const id = 'blobid' + (new Date()).getTime();
+                                                        const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                                                        const base64 = reader.result.split(',')[1];
+                                                        const blobInfo = blobCache.create(id, file, base64);
+                                                        blobCache.add(blobInfo);
+
+                                                        /* call the callback and populate the Title field with the file name */
+                                                        cb(blobInfo.blobUri(), { title: file.name });
+                                                    });
+                                                    reader.readAsDataURL(file);
+                                                    });
+
+                                                    input.click();
+                                                },
+
                 });
-                    // const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
-                    // const xhr = new XMLHttpRequest();
-                    // xhr.withCredentials = true;
-
-                    // xhr.open('POST', 'upload/tinymce');
-
-                    // xhr.upload.onprogress = (e) => {
-                    //     progress(e.loaded / e.total * 100);
-                    // };
-
-                    // xhr.onload = () => {
-                    //     console.log(xhr);
-                    //     // if (xhr.status === 403) {
-                    //     // reject({ message: 'HTTP Error: ' + xhr.status, remove: true });
-                    //     // return;
-                    //     // }
-
-                    //     // if (xhr.status < 200 || xhr.status >= 300) {
-                    //     // reject('HTTP Error: ' + xhr.status);
-                    //     // return;
-                    //     // }
-
-                    //     // const json = JSON.parse(xhr.responseText);
-
-                    //     // if (!json || typeof json.location != 'string') {
-                    //     // reject('Invalid JSON: ' + xhr.responseText);
-                    //     // return;
-                    //     // }
-
-                    //     // resolve(json.location);
-                    // };
-
-                    // xhr.onerror = () => {
-                    //     reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
-                    // };
-
-                    // const formData = new FormData();
-                    // formData.append('file', blobInfo.blob(), blobInfo.filename());
-
-                    // xhr.send(formData);
-                    // });
-
-                    // tinymce.init({
-                    // selector: 'textarea#file-picker',
-                    // plugins: 'image link code',
-                    // toolbar: 'undo redo | link image | code',
-                    // image_uploadtab: false,
-                    // a11y_advanced_options: true,
-                    // image_prepend_url: '</?=base_url()?>/images/',
-
-                    /* enable title field in the Image dialog*/
-                    // image_title: true,
-                    // images_upload_handler: example_image_upload_handler,
-
-                    /* enable automatic uploads of images represented by blob or data URIs*/
-                    // automatic_uploads: true,
-                    // images_upload_url: 'postAcceptor.php'
-                    // images_upload_url: 'upload/tinymce',
-                    // images_upload_base_path: '/images',
-
-
-                    /*
-                        URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url)
-                        images_upload_url: 'postAcceptor.php',
-                        here we add custom filepicker only to Image dialog
-                        
-                    */
-
-                    // file_picker_types: 'image',
-                    /* and here's our custom image picker*/
-                    // file_picker_callback: function (cb, value, meta) {
-                    //     var input = document.createElement('input');
-                    //     input.setAttribute('type', 'file');
-                    //     input.setAttribute('accept', 'image/*');
-
-                        /*
-                        Note: In modern browsers input[type="file"] is functional without
-                        even adding it to the DOM, but that might not be the case in some older
-                        or quirky browsers like IE, so you might want to add it to the DOM
-                        just in case, and visually hide it. And do not forget do remove it
-                        once you do not need it anymore.
-                        */
-
-                    //     input.onchange = function () {
-                    //     var file = this.files[0];
-
-                    //     var reader = new FileReader();
-                    //     reader.onload = function () {
-                    //         /*
-                    //         Note: Now we need to register the blob in TinyMCEs image blob
-                    //         registry. In the next release this part hopefully won't be
-                    //         necessary, as we are looking to handle it internally.
-                    //         */
-                    //         // var id = 'blobid' + (new Date()).getTime();
-                    //         var id = 'blobid' + (new Date()).getTime();
-                    //         var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-                    //         var base64 = reader.result.split(',')[1];
-                    //         var blobInfo = blobCache.create(id, file, base64);
-                    //         blobCache.add(blobInfo);
-                            
-                    //         console.log(blobInfo);
-                    //         /* call the callback and populate the Title field with the file name */
-                    //         cb(blobInfo.blobUri(), { title: file.name });
-                    //     };
-                    //     reader.readAsDataURL(file);
-                    //     console.log(reader);
-                    // };
-
-                        // input.click();
-                    // },
-                    // content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                    // });
                 </script>
-
             </div>
             <div class="uk-card-footer">
                 <p uk-margin class="uk-text-right">

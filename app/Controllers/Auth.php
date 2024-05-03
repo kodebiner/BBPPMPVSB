@@ -187,6 +187,24 @@ class Auth extends BaseController
         return view('Views/admin/editusers', $data);
     }
 
+    public function removeusers($id)
+    {
+
+        // Calling Models
+        $usersmodel         = new UsersModel();
+        $GroupModel         = new GroupModel();
+
+        // Get Data
+        $user      = auth()->getProvider()->find($id);
+        $users     = auth()->getProvider()->findAll();
+        $group     = auth()->getProvider()->find($user->id)->getGroups();
+
+
+        $usersmodel->delete($user);
+
+        die(json_encode(array($user)));
+    }
+
 
     // Berita Views
     public function berita()

@@ -29,6 +29,7 @@ $routes->group('dashboard', static function ($routes) {
     $routes->get('users', 'Auth::users', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
     $routes->get('addusers', 'Auth::addusers', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
     $routes->get('editusers/(:num)', 'Auth::editusers/$1', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
+    $routes->post('removeusers/(:num)', 'Auth::removeusers/$1', ['filter' => 'group:superadmin', 'permission:users.manage-admins']);
 
     // Berita
     $routes->get('berita', 'Auth::berita', ['filter' => 'group:superadmin,admin',]);

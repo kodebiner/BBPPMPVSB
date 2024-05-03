@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                     <?php foreach ($users as $user) { ?>
-                        <tr>
+                        <tr id="users">
                             <td><?= $user['name']?></td>
                             <td><?= $user['email']?></td>
                             <td><?= $user['group'] ?></td>
@@ -32,8 +32,31 @@
                                     <a style="background-color: rgba(60, 105, 151, .8); color: white;" class="uk-icon-button" href="dashboard/editusers/<?= $user['id'] ?>" uk-icon="icon: file-edit"></a>
                                 </div>
                                 <div>
-                                    <a style="background-color: red; color: white;" onclick="removeArtista" class="uk-icon-button" uk-icon="trash"></a>
+                                    <a style="background-color: red; color: white;" onclick="removeUsers<?=$user['id']?>()" class="uk-icon-button" uk-icon="trash"></a>
                                 </div>
+                                <script>
+                                    function removeUsers<?= $user['id']; ?>() {
+                                        let text = "Anda yakin ingin menghapus <?=$user['name']?> ?";
+                                        if (confirm(text) == true) {
+                                            $.ajax({
+                                                url: "removeusers/<?= $user['id'] ?>",
+                                                method: "POST",
+                                                data: {
+                                                    users: <?= $user['id'] ?>,
+                                                },
+                                                dataType: "json",
+                                                error: function() {
+                                                    console.log('error', arguments);
+                                                },
+                                                success: function() {
+                                                    console.log('success', arguments);
+                                                    alert('Pengguna berhasil di hapus');
+                                                    $("#users<?=$user['id']?>").remove();
+                                                },
+                                            })
+                                        }
+                                    }
+                                </script>
                             </td>
                         </tr>
                     <?php } ?>
