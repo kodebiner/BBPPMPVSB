@@ -221,7 +221,7 @@
             <!-- End Upload Foto Sampul Script -->
 
             <script>
-               tinymce.init({
+                tinymce.init({
                     selector:                   'textarea#file-picker',
                     plugins:                    ' link code table lists wordcount image searchreplace fullscreen autolink help',
                     toolbar:                    ['undo redo | styles bold italic underline strikethrough subscript superscript | backcolor forecolor | table link image | alignleft aligncenter alignright alignjustify | numlist bullist | lineheight | indent outdent | searchreplace fullscreen help code'],

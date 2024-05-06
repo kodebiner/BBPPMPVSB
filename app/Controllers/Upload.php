@@ -474,6 +474,46 @@ class Upload extends BaseController
         die(json_encode(array('errors', 'Data berhasil di hapus')));
     }
 
+    public function clearthumbnail()
+    {
+        // Calling Model
+        $DiklatModel        = new DiklatModel();
+        $FotoDiklatModel    = new FotoDiklatModel();
+
+        // Popuating Data
+        $input              = $this->request->getPost('thumb');
+        $diklat             = $DiklatModel->where('images', $input)->first();
+
+        // Removing Thumbnail
+        $datainput          = [
+            'id'        => $diklat['id'],
+            'images'    => null,
+        ];
+        $DiklatModel->save($datainput);
+
+        // Removing Photos
+        $FotoDiklatModel->where('file', $input)->delete();
+
+        // Return Message
+        die(json_encode(array('errors', 'Thumbnail berhasil di hapus')));
+    }
+
+    public function removefotodiklatexist()
+    {
+        // Calling Model
+        $FotoDiklatModel    = new FotoDiklatModel();
+
+        // Removing File
+        $input = $this->request->getPost('foto');
+        unlink(FCPATH . $input);
+
+        // Delete From Database
+        $FotoDiklatModel->where('file', $input)->delete();
+
+        // Return Message
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
+
     public function fotoseminar()
     {
         $image      = \Config\Services::image();
@@ -1314,29 +1354,43 @@ class Upload extends BaseController
     public function editdiklat($id){
 
         // Calling Models
-        $DiklatModel    = new DiklatModel();
+        $DiklatModel        = new DiklatModel();
+        $FotoDiklatModel    = new FotoDiklatModel();
 
-        // Get Data
-        $input  = $this->request->getPost();
-        $photos = $this->request->getPost('foto');
+        // Getting Input
+        $input              = $this->request->getPost();
 
-        $fotodiklat = $DiklatModel->find($id);
+        // Populating Data
+        $diklats            = $DiklatModel->find($id);
 
-        if ($photos === $fotodiklat['images']) {
-            $xfoto = $fotodiklat['images'];
-        } else {
-            unlink(FCPATH . $fotodiklat['images']);
-            $xfoto = "images/".$this->request->getPost('foto');
+        // if ($diklats['images'] == $input['thumbnail']) {
+        //     $thumbnail      = $diklats['images'];
+        // } else {
+        //     $thumbnail      = $input['thumbnail'];
+        // }
+
+        if (!empty($input['foto-create'])) {
+            foreach ($input['foto-create'] as $key => $newphoto) {
+                // Foto Diklat Data 
+                $fotodiklat = [
+                    'diklatid'      => $id,
+                    'file'          => $newphoto,
+                ];
+        
+                // insert Foto Diklat
+                $FotoDiklatModel->insert($fotodiklat);
+            }
         }
 
-        // News Data 
+        // Diklat Data 
         $diklat = [
             'id'            => $id,
             'title'         => $input['judul'],
-            'images'        => $xfoto,
+            'images'        => $input['thumbnail'],
+            'text'          => $input['description  '],
         ];
 
-        // insert News
+        // insert Diklat
         $DiklatModel->save($diklat);
         return redirect()->to('dashboard/diklat')->with('message', "Diklat Berhasil Di Ubah!");
     }
