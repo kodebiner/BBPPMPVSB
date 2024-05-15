@@ -80,18 +80,11 @@ class Auth extends BaseController
             'password'  => $users->password,
         ];
 
-        $level = [
-            'superusers',
-            'admin',
-            'user',
-        ];
-
         // Parsing data
         $data                       = $this->data;
         $data['title']              = "Dashboard Ubah Profil";
         $data['user']               = $user;
         $data['users']              = $account;
-        $data['level']              = $level;
 
         // Return View
         return view('Views/admin/editakun', $data);
@@ -148,6 +141,7 @@ class Auth extends BaseController
         $data               = $this->data;
         $data['title']      = "Dashboard Tambah Users";
         $data['user']       = $user;
+        $data['level']      = ['superadmin', 'admin', 'user'];
 
         return view('Views/admin/addusers', $data);
     }
@@ -172,7 +166,7 @@ class Auth extends BaseController
         ];
 
         $level = [
-            'superusers',
+            'superadmin',
             'admin',
             'user',
         ];

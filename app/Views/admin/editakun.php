@@ -26,23 +26,6 @@
                 </div>
             </div>
 
-            <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Level Akun</label>
-            <div class="uk-margin">
-                <select class="uk-select" name="level" aria-label="Select">
-                    <?php
-                    foreach ($level as $lev) {
-                        if (strcmp($lev, $users['group']) !== 0) {
-                            $selected = "";
-                        }
-                        else {
-                            $selected = "selected";
-                        }
-                    ?>
-                        <option value="<?= $lev ?>" <?= $selected ?>><?= $lev ?></option>
-                    <?php } ?>
-                </select>
-            </div>
-
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Kata Sandi Lama</label>
             <div class="uk-margin">
                 <div class="uk-form-controls">

@@ -26,6 +26,15 @@
                 </div>
             </div>
 
+            <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Level Akun</label>
+            <div class="uk-margin">
+                <select class="uk-select" name="level" aria-label="Select">
+                    <?php foreach ($level as $lev) { ?>
+                        <option value="<?= $lev ?>"><?= $lev ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Kata Sandi</label>
             <div class="uk-margin">
                 <div class="uk-form-controls">

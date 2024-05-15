@@ -14,6 +14,11 @@ class Home extends BaseController
 {
     protected $data;
 
+    public function info()
+    {
+        phpinfo();
+    }
+
     public function index()//: string
     {
         // Calling Models

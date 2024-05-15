@@ -50,13 +50,6 @@ class Upload extends BaseController
                     'required'      => '{field} harus di isi',
                 ],
             ],
-            'level' => [
-                'label'  => 'Level Akun',
-                'rules'  => 'required',
-                'errors' => [
-                    'required'      => '{field} harus di isi',
-                ],
-            ],
         ];
 
         if (!$this->validate($rules)) {
@@ -112,12 +105,6 @@ class Upload extends BaseController
             'email'     => $input['email'],
         ]);
         $users->save($user);
-
-        $addgroup = [
-            'id'    => $group['id'],
-            'group' => $input['level'],
-        ];
-        $GroupModel->save($addgroup);
 
         return redirect()->to('dashboard/editakun/')->with('message', "Data Akun Berhasil Di Perbaharui!");
     }
