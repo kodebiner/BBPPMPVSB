@@ -32,7 +32,7 @@
                             <span uk-icon="icon: cloud-upload"></span>
                             <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
                             <div uk-form-custom>
-                                <input type="file" multiple>
+                                <input type="file">
                                 <span class="uk-link uk-preserve-color">pilih satu</span>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
         var barpdf = document.getElementById('js-upload-createfile');
         UIkit.upload('.js-upload-filesurvey', {
             url: 'upload/pdfsurvey',
-            multiple: true,
+            multiple: false,
             name: 'uploads',
             param: {
                 lorem: 'ipsum'

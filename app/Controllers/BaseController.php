@@ -9,6 +9,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Tatter\Visits\Models\VisitModel;
+use App\Models\RbiModel;
 
 
 /**
@@ -68,6 +69,7 @@ abstract class BaseController extends Controller
 
         // Calling Model
         $VisitModel     = new VisitModel();
+        $RbiModel       = new RbiModel();
 
         // Login Check
         $auth = service('authentication');
@@ -79,6 +81,30 @@ abstract class BaseController extends Controller
         $dailyvisit     = $VisitModel->where('updated_at <', date('Y-m-d 23:59:59'))->where('updated_at >', date('Y-m-d 00:00:00'))->find();
         $monthlyvisit   = $VisitModel->where('updated_at <', date('Y-m-t 23:59:59'))->where('updated_at >', date('Y-m-1 00:00:00'))->find();
 
+        // RBI Data
+        $parentrbis     = $RbiModel->where('parentid', 0)->orderBy('ordering', 'ASC')->find();
+        if (!empty($parentrbis)) {
+            $parentid       = [];
+
+            foreach ($parentrbis as $parent) {
+                $parentid[] = $parent['id'];
+            }
+            $subparentrbi   = $RbiModel->whereIn('parentid', $parentid)->orderBy('ordering', 'ASC')->find();
+            if (!empty($subparentrbi)) {
+                $subparentid    = [];
+        
+                foreach ($subparentrbi as $subparent) {
+                    $subparentid[]  = $subparent['id'];
+                }
+                $childrbi       = $RbiModel->whereIn('parentid', $subparentid)->orderBy('ordering', 'ASC')->find();
+            } else {
+                $childrbi       = [];
+            }
+        } else {
+            $subparentrbi   = [];
+            $childrbi       = [];
+        }
+
         // Parsing View Data
         $this->data = [
             'ismobile'      => $this->agent->isMobile(),
@@ -87,6 +113,9 @@ abstract class BaseController extends Controller
             'uid'           => auth()->id(),
             'dailyvisit'    => count($dailyvisit),
             'monthlyvisit'  => count($monthlyvisit),
+            'parentrbis'    => $parentrbis,
+            'subparents'    => $subparentrbi,
+            'childs'        => $childrbi,
         ];
     }
 }

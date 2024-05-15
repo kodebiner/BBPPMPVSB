@@ -10,175 +10,178 @@
         <?= view('Views/Auth/_message_block') ?>
         <form action="add/fotogaleri" method="post">
             <div class="uk-card-body">
-
-            <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Judul</label>
-            <div class="uk-margin">
-                <div class="uk-form-controls">
-                    <input class="uk-input uk-box-shadow-small uk-border-rounded" id="form-stacked-text" name="judul" type="text" placeholder="Masukkan Judul...">
-                </div>
-            </div>
-
-            <!-- Upload Foto -->
-            <h5 class="uk-margin-small-top">Upload Foto</h5>
-            <div class="uk-margin" id="image-container-create">
-                <div id="image-container" class="uk-form-controls">
-                    <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
-                    <input id="foto" name="foto" hidden />
-                    <div id="js-upload-foto" class="js-upload uk-placeholder uk-text-center">
-                        <span uk-icon="icon: cloud-upload"></span>
-                        <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
-                        <div uk-form-custom>
-                            <input type="file">
-                            <span class="uk-link uk-preserve-color">pilih satu</span>
-                        </div>
+                <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Judul</label>
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <input class="uk-input uk-box-shadow-small uk-border-rounded" id="form-stacked-text" name="judul" type="text" placeholder="Masukkan Judul...">
                     </div>
                 </div>
-            </div>
-            <!-- End Upload Foto -->
 
-            <!-- Upload Foto Sampul Script -->
-            <script>
-                var barfoto = document.getElementById('js-upload-createfoto');
+                <!-- Upload Foto -->
+                <h5 class="uk-margin-small-top">Upload Foto</h5>
+                <div class="uk-margin" id="image-container-create">
+                    <div id="image-container" class="uk-form-controls">
+                        <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
+                        <div id="js-upload-foto" class="js-upload uk-placeholder uk-text-center">
+                            <span uk-icon="icon: cloud-upload"></span>
+                            <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
+                            <div uk-form-custom>
+                                <input type="file" multiple>
+                                <span class="uk-link uk-preserve-color">pilih di sini</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-text-meta">Foto wajib diunggah dan wajib klik salah satu foto sebagai thumbnail</div>
+                    <div id="list-foto"></div>
+                    <input id="thumbnail" name="thumbnail" required style="opacity:0; width:0;"/>
+                </div>
+                <!-- End Upload Foto -->
 
-                UIkit.upload('#js-upload-foto', {
+                <script>
+                    // Upload Foto Script
+                    var barfoto = document.getElementById('js-upload-createfoto');
+                    var createCount = 0;
 
-                    url: 'upload/fotoberita',
-                    multiple: true,
-                    name: 'uploads',
-                    param: {
-                        lorem: 'ipsum'
-                    },
-                    method: 'POST',
-                    type: 'json',
+                    UIkit.upload('#js-upload-foto', {
 
-                    beforeSend: function () {
-                        console.log('beforeSend', arguments);
-                    },
-                    beforeAll: function () {
-                        console.log('beforeAll', arguments);
-                    },
-                    load: function () {
-                        console.log('load', arguments);
-                    },
-                    error: function () {
-                        console.log('error', arguments);
-                        var error = arguments[0].xhr.response.message.upload;
-                        alert(error);
-                    },
-                    complete: function () {
-                        console.log('complete', arguments);
-
-                        var filename = arguments[0].response;
-
-                        if (document.getElementById('imagecontainer')) {
-                            document.getElementById('imagecontainer').remove();
-                        };
-
-                        document.getElementById('foto').value = filename;
-
-                        var imgContainer = document.getElementById('image-container-create');
-
-                        var displayContainer = document.createElement('div');
-                        displayContainer.setAttribute('id', 'imagecontainer');
-                        displayContainer.setAttribute('class', 'uk-inline uk-width-1-1');
-
-                        var displayImg = document.createElement('div');
-                        displayImg.setAttribute('class', 'uk-placeholder uk-text-center');
-                        displayImg.setAttribute('uk-lightbox', '');
-
-                        var linkimg = document.createElement('a');
-                        linkimg.setAttribute('id','imagecontainer');
-                        linkimg.setAttribute('class','uk-inline');
-                        linkimg.setAttribute('href','images/'+filename);
-                        linkimg.setAttribute('data-caption', filename);
-
-                        var imagetag = document.createElement('img');
-                        imagetag.setAttribute('id','fileimage');
-                        imagetag.setAttribute('class','uk-margin-top uk-margin-bottom');
-                        imagetag.setAttribute('src','images/'+filename);
-                        imagetag.setAttribute('width','120');
-                        imagetag.setAttribute('heigth','180');
-                        imagetag.setAttribute('alt', filename);
-
-                        var closeContainer = document.createElement('div');
-                        closeContainer.setAttribute('class', 'uk-position-small uk-position-right');
-
-                        var closeButton = document.createElement('a');
-                        closeButton.setAttribute('class', 'tm-img-remove uk-border-circle');
-                        closeButton.setAttribute('onClick', 'removeFoto()');
-                        closeButton.setAttribute('uk-icon', 'close');
-
-                        var linktext = document.createTextNode(filename);
-
-                        closeContainer.appendChild(closeButton);
-                        displayContainer.appendChild(displayImg);
-                        displayContainer.appendChild(closeContainer);
-                        displayImg.appendChild(linkimg);
-                        linkimg.appendChild(imagetag);
-                        imgContainer.appendChild(displayContainer);
-
-                        document.getElementById('js-upload-foto').setAttribute('hidden', '');
-                    },
-
-                    loadStart: function (e) {
-                        console.log('loadStart', arguments);
-                        barfoto.removeAttribute('hidden');
-                        barfoto.max = e.total;
-                        barfoto.value = e.loaded;
-                    },
-
-                    progress: function (e) {
-                        console.log('progress', arguments);
-                        barfoto.max = e.total;
-                        barfoto.value = e.loaded;
-                    },
-
-                    loadEnd: function (e) {
-                        console.log('loadEnd', arguments);
-                        barfoto.max = e.total;
-                        barfoto.value = e.loaded;
-                    },
-
-                    completeAll: function () {
-                        console.log('completeAll', arguments);
-                        setTimeout(function () {
-                            barfoto.setAttribute('hidden', 'hidden');
-                        }, 1000);
-
-                        alert('Upload Selesai');
-                    }
-                });
-
-                function removeFoto() {
-                    $.ajax({
-                        type: 'post',
-                        url: 'upload/removefotoberita',
-                        data: {
-                            'foto': document.getElementById('foto').value
+                        url: 'upload/fotoberita',
+                        multiple: true,
+                        name: 'uploads',
+                        param: {
+                            lorem: 'ipsum'
                         },
-                        dataType: 'json',
+                        method: 'POST',
+                        type: 'json',
 
-                        error: function() {
+                        beforeSend: function () {
+                            console.log('beforeSend', arguments);
+                        },
+                        beforeAll: function () {
+                            console.log('beforeAll', arguments);
+                        },
+                        load: function () {
+                            console.log('load', arguments);
+                        },
+                        error: function () {
                             console.log('error', arguments);
+                            var error = arguments[0].xhr.response.message.upload;
+                            alert(error);
+                        },
+                        complete: function () {
+                            console.log('complete', arguments);
+
+                            createCount++;
+
+                            var filenames = arguments[0].response;
+
+                            for (i in filenames) {
+                                var imgContainer = document.getElementById('list-foto');
+
+                                var displayContainer = document.createElement('div');
+                                displayContainer.setAttribute('id', 'display-container-create-'+createCount);
+                                displayContainer.setAttribute('class', 'thumb-selector uk-inline uk-padding-small');
+
+                                var displayImg = document.createElement('img');
+                                displayImg.setAttribute('src', 'images/'+filenames);
+                                displayImg.setAttribute('width', '300');
+                                displayImg.setAttribute('height', '300');
+
+                                var chooseThumb = document.createElement('a');
+                                chooseThumb.setAttribute('onClick', 'choosenThumb('+createCount+')');
+
+                                var inputhidden = document.createElement('input');
+                                inputhidden.setAttribute('hidden', '');
+                                inputhidden.setAttribute('id', 'foto-'+createCount);
+                                inputhidden.setAttribute('name', 'foto['+createCount+']');
+                                inputhidden.setAttribute('value', filenames);
+
+                                var closeContainer = document.createElement('div');
+                                closeContainer.setAttribute('class', 'uk-position-small uk-position-top-right');
+
+                                var closeButton = document.createElement('a');
+                                closeButton.setAttribute('class', 'uk-icon-button uk-button-danger uk-light');
+                                closeButton.setAttribute('onClick', 'removeFoto('+createCount+')');
+                                closeButton.setAttribute('uk-icon', 'close');
+
+                                chooseThumb.appendChild(displayImg);
+                                closeContainer.appendChild(closeButton);
+                                displayContainer.appendChild(inputhidden);
+                                displayContainer.appendChild(chooseThumb);
+                                displayContainer.appendChild(closeContainer);
+                            }
+                            imgContainer.appendChild(displayContainer);
                         },
 
-                        success: function() {
-                            console.log('success', arguments);
+                        loadStart: function (e) {
+                            console.log('loadStart', arguments);
+                            barfoto.removeAttribute('hidden');
+                            barfoto.max = e.total;
+                            barfoto.value = e.loaded;
+                        },
 
-                            var pesan = arguments[0][1];
+                        progress: function (e) {
+                            console.log('progress', arguments);
+                            barfoto.max = e.total;
+                            barfoto.value = e.loaded;
+                        },
 
-                            document.getElementById('imagecontainer').remove();
-                            document.getElementById('foto').value = '';
+                        loadEnd: function (e) {
+                            console.log('loadEnd', arguments);
+                            barfoto.max = e.total;
+                            barfoto.value = e.loaded;
+                        },
 
-                            alert(pesan);
+                        completeAll: function () {
+                            console.log('completeAll', arguments);
+                            setTimeout(function () {
+                                barfoto.setAttribute('hidden', 'hidden');
+                            }, 1000);
 
-                            document.getElementById('js-upload-foto').removeAttribute('hidden', '');
+                            alert('Upload Selesai');
                         }
                     });
-                };
-            </script>
-            <!-- End Upload Foto Sampul Script -->
+                    // Upload Foto Script End
 
+                    // Remove Foto Script
+                    function removeFoto(f) {
+                        if ($('#thumbnail').val() === $('#foto-'+f).val()) {
+                            $('#thumbnail').val('');
+                        };
+
+                        $.ajax({
+                            type: 'post',
+                            url: 'upload/removefotoberita',
+                            data: {
+                                'foto': document.getElementById('foto-'+f).value
+                            },
+                            dataType: 'json',
+
+                            error: function() {
+                                console.log('error', arguments);
+                            },
+
+                            success: function() {
+                                console.log('success', arguments);
+
+                                var pesan = arguments[0][1];
+
+                                document.getElementById('display-container-create-'+f).remove();
+
+                                alert(pesan);
+                            }
+                        });
+                    };
+                    // Remove Foto Script End
+
+                    // Choose Thumbanil Script
+                    function choosenThumb(d) {
+                        $('.thumb-selector').removeClass('uk-background-primary');
+                        $('#display-container-create-'+d).addClass('uk-background-primary');
+                        var thumbnail = $('#foto-'+d).val();
+                        $('#thumbnail').val(thumbnail);
+                    };
+                    // Choose Thumbanil Script End
+                </script>
             </div>
             <div class="uk-card-footer">
                 <p uk-margin class="uk-text-right">

@@ -108,7 +108,7 @@
                                             </ul>
                                         </div>
                                     </li>
-                                    <!-- <li class="uk-parent <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
+                                    <!-- <li class="uk-parent <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2)=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
                                         <a href="">Diklat</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
@@ -127,8 +127,56 @@
                                     <li>
                                         <a href="webinar">Webinar</a>
                                     </li> -->
-                                    <li>
-                                        <a href="webinar">RBI</a>
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='rbi') && ($uri->getSegment(2)==='')?'uk-active':'(:any)' ?>">
+                                        <a href="">RBI</a>
+                                        <div class="uk-navbar-dropdown">
+                                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                <?php
+                                                foreach ($parentrbis as $parent)
+                                                {
+                                                ?>
+                                                    <li class="<?= ($uri->getSegment(1)==='rbi') && ($uri->getSegment(2) === $parent['alias'])?'uk-active':'' ?>">
+                                                        <a href="rbi/<?= $parent['alias'] ?>"><?= $parent['title'] ?></a>
+                                                        <div class="uk-navbar-dropdown" style="--uk-position-shift-offset: 100px; --uk-position-viewport-offset: 100px;">
+                                                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                                <?php
+                                                                foreach ($subparents as $subparent)
+                                                                {
+                                                                    if ($subparent['parentid'] == $parent['id'])
+                                                                    {
+                                                                    ?>
+                                                                        <li class="<?= ($uri->getSegment(1)==='rbi') && ($uri->getSegment(2) === $subparent['alias'])?'uk-active':'' ?>">
+                                                                            <a href="rbi/<?= $subparent['alias'] ?>"><?= $subparent['title'] ?></a>
+                                                                            <div class="uk-navbar-dropdown" style="--uk-position-shift-offset: 100px; --uk-position-viewport-offset: 100px;">
+                                                                                <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                                                    <?php
+                                                                                    foreach ($childs as $child)
+                                                                                    {
+                                                                                        if ($child['parentid'] == $subparent['id'])
+                                                                                        {
+                                                                                        ?>
+                                                                                            <li class="<?= ($uri->getSegment(1)==='rbi') && ($uri->getSegment(2) === $child['alias'])?'uk-active':'' ?>">
+                                                                                                <a href="rbi/<?= $child['alias'] ?>"><?= $child['title'] ?></a>
+                                                                                            </li>
+                                                                                        <?php
+                                                                                        }
+                                                                                    }
+                                                                                    ?>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </li>
+                                                                    <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                <?php
+                                                }
+                                                ?>
+                                            </ul>
+                                        </div>
                                     </li>
                                     <li class="uk-parent <?= ($uri->getSegment(1)==='publikasi') && ($uri->getSegment(2)==='artista')?'uk-active':'' ?>">
                                         <a href="">Publikasi</a>
@@ -280,7 +328,7 @@
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'berita') ? 'uk-active' : '' ?>">
                                             <a href="berita">Berita</a>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'formulirpermohonan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='maklumat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='survey')?'uk-active':'' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2)=== 'formulirpermohonan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='maklumat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='survey')?'uk-active':'' ?>">
                                             <a href="">Layanan <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
                                                 <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirpermohonan')?'uk-active':'' ?>">
@@ -289,15 +337,15 @@
                                                 <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?>">
                                                     <a href="layanan/standarpelayanan">Standar Pelayanan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'maklumat')?'uk-active':'' ?>">
+                                                <li class="<?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2)=== 'maklumat')?'uk-active':'' ?>">
                                                     <a href="layanan/maklumat">Maklumat Layanan</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2 )=== 'survey')?'uk-active':'' ?>">
+                                                <li class="<?= ($uri->getSegment(1) === 'layanan') && ($uri->getSegment(2)=== 'survey')?'uk-active':'' ?>">
                                                     <a href="layanan/survey">Hasil Survey</a>
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2 )=== 'formulirpengaduan')?'uk-active':'' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2)=== 'formulirpengaduan')?'uk-active':'' ?>">
                                             <a href="">Pengaduan <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
                                                 <li>
@@ -306,18 +354,18 @@
                                                 <li>
                                                     <a href="https://wbs.kemdikbud.go.id/" target="_blank">Whistle Blowing System</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2 )=== 'formulirpengaduan')?'uk-active':'' ?>">
+                                                <li class="<?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2)=== 'formulirpengaduan')?'uk-active':'' ?>">
                                                     <a href="pengaduan/formulirpengaduan">Pengaduan Masyarakat</a>
                                                 </li>
                                             </ul>
                                         </li>
-                                        <!-- <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
+                                        <!-- <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2)=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
                                             <a href="">Diklat <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
-                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'artikel')?'uk-active':'' ?>">
+                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2)=== 'artikel')?'uk-active':'' ?>">
                                                     <a href="diklat/artikel">Artikel Diklat</a>
                                                 </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2 )=== 'pendaftaran')?'uk-active':'' ?>">
+                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2)=== 'pendaftaran')?'uk-active':'' ?>">
                                                     <a href="diklat/pendaftaran">Pendaftaran Diklat</a>
                                                 </li>
                                             </ul>
@@ -328,10 +376,52 @@
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'webinar') ? 'uk-active' : '' ?>">
                                             <a href="webinar">Webinar</a>
                                         </li> -->
-                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'webinar') ? 'uk-active' : '' ?>">
-                                            <a href="webinar">RBI</a>
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'rbi') && ($uri->getSegment(2)=== '')?'uk-active':'' ?>">
+                                            <a href="">RBI <span uk-nav-parent-icon></span></a>
+                                            <ul class="uk-nav-sub">
+                                                <?php
+                                                foreach ($parentrbis as $parentrbi)
+                                                {
+                                                ?>
+                                                    <li class="<?= ($uri->getSegment(1) === 'rbi') && ($uri->getSegment(2)=== $parentrbi['alias'])?'uk-active':'' ?>">
+                                                        <a href="rbi/<?= $parentrbi['alias'] ?>"><?= $parentrbi['title'] ?></a>
+                                                        <ul class="uk-nav-sub">
+                                                            <?php
+                                                            foreach ($subparents as $subparent)
+                                                            {
+                                                                if ($subparent['parentid'] == $parentrbi['id'])
+                                                                {
+                                                            ?>
+                                                                <li class="<?= ($uri->getSegment(1) === 'rbi') && ($uri->getSegment(2)=== $subparent['alias'])?'uk-active':'' ?>">
+                                                                    <a href="rbi/<?= $subparent['alias'] ?>"><?= $subparent['title'] ?></a>
+                                                                    <ul class="uk-nav-sub">
+                                                                        <?php
+                                                                        foreach ($childs as $child)
+                                                                        {
+                                                                            if ($child['parentid'] == $subparent['id'])
+                                                                            {
+                                                                            ?>
+                                                                                <li class="<?= ($uri->getSegment(1) === 'rbi') && ($uri->getSegment(2)=== $child['alias'])?'uk-active':'' ?>">
+                                                                                    <a href="rbi/<?= $child['alias'] ?>"><?= $child['title'] ?></a>
+                                                                                </li>
+                                                                            <?php
+                                                                            }
+                                                                        }
+                                                                        ?>
+                                                                    </ul>
+                                                                </li>
+                                                            <?php
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </ul>
+                                                    </li>
+                                                <?php
+                                                }
+                                                ?>
+                                            </ul>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'publikasi') && ($uri->getSegment(2 )=== 'artista')?'uk-active':'' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'publikasi') && ($uri->getSegment(2)=== 'artista')?'uk-active':'' ?>">
                                             <a href="">Publikasi <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
                                                 <li>
@@ -342,10 +432,10 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'informasi') && ($uri->getSegment(2 )=== 'diklat')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'informasi') && ($uri->getSegment(2) === 'seminarwebinar')?'uk-active':'' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'informasi') && ($uri->getSegment(2)=== 'diklat')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'informasi') && ($uri->getSegment(2) === 'seminarwebinar')?'uk-active':'' ?>">
                                             <a href="">Informasi Kegiatan <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
-                                                <li class="<?= ($uri->getSegment(1) === 'informasi') && ($uri->getSegment(2 )=== 'diklat')?'uk-active':'' ?>">
+                                                <li class="<?= ($uri->getSegment(1) === 'informasi') && ($uri->getSegment(2)=== 'diklat')?'uk-active':'' ?>">
                                                     <a href="informasi/diklat">Diklat / Pelatihan</a>
                                                 </li>
                                                 <li class="<?= ($uri->getSegment(1) === 'informasi') && ($uri->getSegment(2) === 'seminarwebinar')?'uk-active':'' ?>">
@@ -353,10 +443,10 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2 )=== 'foto')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2)=== 'foto')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
                                             <a href="">Galeri <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
-                                                <li class="<?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2 )=== 'foto')?'uk-active':'' ?>">
+                                                <li class="<?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2)=== 'foto')?'uk-active':'' ?>">
                                                     <a href="galeri/foto">Galeri Foto</a>
                                                 </li>
                                                 <li class="<?= ($uri->getSegment(1) === 'galeri') && ($uri->getSegment(2) === 'video')?'uk-active':'' ?>">
@@ -388,9 +478,78 @@
     <style class="uk-margin-remove-adjacent">#page\#0 > div { border-top: 150px solid transparent; background-origin: border-box; } </style>
     <?= $this->renderSection('main') ?>
     <!-- Main Section End -->
-
+    
     <!-- Footer Section -->
-    <section class="uk-section uk-section-default"></section>
+    <section class="uk-section uk-section-default">
+        <!-- <div class="uk-container uk-container-large"> -->
+            <div class="uk-grid-large uk-margin uk-flex-middle uk-flex-right@m" uk-grid>
+                <!-- <div class="uk-width-1-1 uk-width-1-2@m">
+                    <div class="uk-margin uk-text-left@s uk-text-center">
+                        <img src="img/logofix.png" width="300" class="el-image" alt="" loading="lazy">
+                    </div>
+                </div> -->
+                <div class="uk-width-1-1 uk-width-1-4@m">
+                    <!-- <h3 class="uk-h4 uk-heading-divider uk-margin-medium">Hubungi Kami</h3> -->
+                    <div class="uk-text-center uk-text-right@m">
+                        <a href="mailto:mail@example.com" class="uk-link-reset" target="_blank">mail@example.com <span uk-icon="mail"></span></a>
+                    </div>
+                    <div class="uk-text-center uk-text-right@m">
+                        <a href="https://wa.me/628112934704" class="uk-link-reset" target="_blank">+628112934704 <span uk-icon="whatsapp"></span></a>
+                    </div>
+                    <!-- <div class="uk-child-width-auto" uk-grid>
+                        <div>
+                            <a href="https://wa.me/628112934704" class="uk-icon-button" uk-icon="whatsapp" target="_blank"></a>
+                        </div>
+                        <div>
+                            <a href="mailto:mail@example.com" class="uk-icon-button" uk-icon="mail" target="_blank"></a>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="uk-width-1-1 uk-width-1-4@m">
+                    <!-- <h3 class="uk-h4 uk-heading-divider uk-margin-medium">Sosial Media</h3> -->
+                    <div class="uk-flex-center uk-child-width-auto" uk-grid>
+                        <div>
+                            <a href="https://www.linkedin.com/company/bbppmpv-seni-dan-budaya/?originalSubdomain=id" class="uk-icon-button" uk-icon="linkedin" target="_blank"></a>
+                        </div>
+                        <div>
+                            <a href="https://www.tiktok.com/@bbppmpv_senibudaya" class="uk-icon-button" uk-icon="tiktok" target="_blank"></a>
+                        </div>
+                        <div>
+                            <a href="https://twitter.com/bbppmpvsb" class="uk-icon-button" uk-icon="x" target="_blank"></a>
+                        </div>
+                        <div>
+                            <a href="https://www.instagram.com/bbppmpvsenibudaya.kemdikbud/" class="uk-icon-button" uk-icon="instagram" target="_blank"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="uk-text-center">
+                <div class="uk-width-1-1">
+                    <div class="uk-panel uk-text-small uk-text-muted">©
+                        <?php
+                        function auto_copyright($year = 'auto')
+                        {
+                            if (intval($year) == 'auto') {
+                                $year = date('Y');
+                            }
+                            if (intval($year) == date('Y')) {
+                                echo intval($year);
+                            }
+                            if (intval($year) < date('Y')) {
+                                echo intval($year) . ' - ' . date('Y');
+                            }
+                            if (intval($year) > date('Y')) {
+                                echo date('Y');
+                            }
+                        }
+                        ?>
+                        <?php auto_copyright("2024"); ?> BBPPMPV Seni dan Budaya.<br class="uk-hidden@s"> Developed by <a class="uk-link-muted" href="https://binary111.com/" target="_blank">PT Kodebiner Teknologi Indonesia</a>.
+                    </div>
+                </div>
+            </div>
+        <!-- </div> -->
+    </section>
     <!-- Footer Section End -->
 </body>
 

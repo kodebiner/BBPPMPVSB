@@ -2,10 +2,10 @@
 
 <?= $this->section('content') ?>
 
-    <div class="uk-card uk-card-small uk-card-body uk-margin-xlarge-right uk-light" style="background-color: rgba(60, 105, 151, .8);">
+    <div class="uk-card uk-card-small uk-card-body uk-margin-xlarge-right uk-light" style="background-color:  rgba(60, 105, 151, .8);">
         <div class="uk-child-width-1-2" uk-grid>
             <div>
-                <h3 class="uk-card-title">Maklumat Pelayanan</h3>
+                <h3 class="uk-card-title">Ubah RBI</h3>
             </div>
             <div class="uk-text-right">
                 <a class="uk-icon-button uk-button-primary" href="#preview" uk-icon="eye" uk-toggle></a>
@@ -15,22 +15,48 @@
 
     <div class="uk-card uk-card-default uk-margin-xlarge-right">
         <?= view('Views/Auth/_message_block') ?>
-        <form action="add/maklumat" method="post">
+        <form action="save/rbi/<?=$news['id']?>" method="post">
             <div class="uk-card-body">
-                <!-- Input Content -->
-                <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Konten</label>
-                <div class="uk-margin">
-                    <div class="uk-form-controls">
-                        <textarea class="uk-textarea uk-box-shadow-small uk-border-rounded" id="file-picker" name="konten" placeholder="Masukkan Konten..." aria-label="Textarea" onchange="preview()"><?php if (!empty($maklumat)) { ?><?= $maklumat['text'] ?><?php } ?></textarea>
-                    </div>
+
+            <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Judul</label>
+            <div class="uk-margin">
+                <div class="uk-form-controls">
+                    <input class="uk-input uk-box-shadow-small uk-border-rounded" id="title" name="title" type="text" value="<?=$news['title']?>" placeholder="Masukkan Judul..." onchange="preview()">
                 </div>
-                <!-- Input Content -->
             </div>
-            <div class="uk-card-footer">
-                <p uk-margin class="uk-text-right">
-                    <button class="uk-button uk-light" style="background-color: rgba(60, 105, 151, .8); color:white;" type="submit">Simpan</button>
-                </p>
+
+            <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Pilih Tipe</label>
+            <div class="uk-margin">
+                <select class="uk-select" name="type" value="<?= $news['parentid'] ?>" >
+                    <option value="0" <?php if ($news['parentid'] == '0') { echo 'selected'; } ?>>Menu Baru</option>
+                    <?php
+                    foreach ($parents as $parent) {
+                        if ($parent['id'] === $news['parentid']) {
+                            $selected = 'selected';
+                        } else {
+                            $selected = "";
+                        }
+                        echo '<option value="' . $parent['id'] . '" ' . $selected . '>' . $parent['title'] . '</option>';
+                    }
+                    foreach ($subparents as $subparent) {
+                        if ($subparent['id'] === $news['parentid']) {
+                            $selected = 'selected';
+                        } else {
+                            $selected = "";
+                        }
+                        echo '<option value="' . $subparent['id'] . '" ' . $selected . '>' . $subparent['title'] . '</option>';
+                    }
+                    ?>
+                </select>
             </div>
+
+            <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold">Konten</label>
+            <div class="uk-margin">
+                <textarea name="content" id="file-picker" placeholder="Masukkan Konten.." onchange="preview()">
+                    <?=$news['content']?>
+                </textarea>
+            </div>
+
             <script>
                 tinymce.init({
                     selector:                   'textarea#file-picker',
@@ -77,7 +103,13 @@
                                                 },
 
                 });
-            </script>
+                </script>
+            </div>
+            <div class="uk-card-footer">
+                <p uk-margin class="uk-text-right">
+                    <button class="uk-button uk-light" style="background-color: rgba(60, 105, 151, .8); color:white;" type="submit">Simpan</button>
+                </p>
+            </div>
         </form>
     </div>
 
@@ -85,13 +117,16 @@
     <div class="uk-modal-full" id="preview" uk-modal>
         <div class="uk-modal-dialog" uk-height-viewport>
             <div class="uk-modal-header">
-                <h2 class="uk-modal-title">Preview Maklumat Pelayanan</h2>
+                <h2 class="uk-modal-title">Preview Edit RBI</h2>
                 <button class="uk-modal-close-default" type="button" uk-close></button>
             </div>
 
             <div class="uk-modal-body">
                 <section class="uk-section-default uk-section">
-                    <div class="uk-container uk-container-xlarge" id="previewcontent"><?php if (!empty($maklumat)) { ?><?= $maklumat['text'] ?><?php } ?></div>
+                    <div class="uk-container uk-container-xlarge">
+                        <h2 class="uk-text-center" id="previewtitle"><?=$news['title']?></h2>
+                        <div id="previewcontent"><?=$news['content']?></div>
+                    </div>
                 </section>
             </div>
         </div>
@@ -99,8 +134,9 @@
 
     <script>
         function preview(inst) {
-            var fulltext        = $('#file-picker').val();
-            
+            var title = $('#title').val();
+            var content = $('#file-picker').val();
+            $('#previewtitle').html(title);
             $('#previewcontent').html(tinyMCE.activeEditor.getContent());
         };
     </script>

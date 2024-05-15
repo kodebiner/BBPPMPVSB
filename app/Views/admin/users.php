@@ -36,7 +36,7 @@
                                 </div>
                                 <script>
                                     function removeUsers<?= $user['id']; ?>() {
-                                        let text = "Anda yakin ingin menghapus <?=$user['name']?> ?";
+                                        let text = 'Anda yakin ingin menghapus <?=$user['name']?> ?';
                                         if (confirm(text) == true) {
                                             $.ajax({
                                                 url: "removeusers/<?= $user['id'] ?>",

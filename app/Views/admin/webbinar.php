@@ -35,7 +35,7 @@
                 
                             <script>
                                 function removeArtista<?= $news['id']; ?>() {
-                                    let text = "Anda yakin ingin menghapus web binar <?=$news['title']?> ini?";
+                                    let text = 'Anda yakin ingin menghapus web binar <?=$news['title']?> ini?';
                                     if (confirm(text) == true) {
                                         $.ajax({
                                             url: "dashboard/removeseminar/<?= $news['id'] ?>",

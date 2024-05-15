@@ -10,12 +10,14 @@ use App\Models\DiklatModel;
 use App\Models\FotoDiklatModel;
 use App\Models\ScheduleModel;
 use App\Models\PhotoModel;
+use App\Models\FotoGaleriModel;
 use App\Models\VideoModel;
 use App\Models\SlideshowModel;
 use App\Models\PengaduanModel;
 use App\Models\PermohonanModel;
 use App\Models\SurveyModel;
 use App\Models\MaklumatModel;
+use App\Models\RbiModel;
 use App\Models\IdentitasModel;
 use App\Models\GroupModel;
 
@@ -729,18 +731,21 @@ class Auth extends BaseController
     public function editfoto($id)
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
-        $PhotoModel     = new PhotoModel();
+        $usersmodel         = new UsersModel();
+        $PhotoModel         = new PhotoModel();
+        $FotoGaleriModel    = new FotoGaleriModel();
 
         // Get Data
-        $user = $usersmodel->find($this->data['uid']);
-        $photo = $PhotoModel->find($id);
+        $user               = $usersmodel->find($this->data['uid']);
+        $news               = $PhotoModel->find($id);
+        $photos             = $FotoGaleriModel->where('photoid', $id)->find();
 
         // Parsing Data
         $data               = $this->data;
         $data['title']      = "Dashboard Ubah Galeri Foto";
         $data['user']       = $user;
-        $data['news']       = $photo;
+        $data['news']       = $news;
+        $data['photos']     = $photos;
 
         return view('Views/admin/editfoto', $data);
     }
@@ -992,6 +997,167 @@ class Auth extends BaseController
         $data['user']           = $user;
 
         return view('Views/admin/survey', $data);
+    }
+
+    // RBI
+    public function rbi()
+    {
+        // Calling Models
+        $RbiModel               = new RbiModel();
+        $usersmodel             = new UsersModel();
+
+        // Get Data
+        $user                   = $usersmodel->find($this->data['uid']);
+        $parents                = $RbiModel->where('parentid', 0)->orderBy('ordering', 'ASC')->paginate(20, 'rbi');
+        $rbidata                = [];
+        
+        if (!empty($parents)) {
+            foreach ($parents as $parent) {
+                $rbidata[$parent['id']]        = [
+                    'id'        => $parent['id'],
+                    'title'     => $parent['title'],
+                    'alias'     => $parent['alias'],
+                    'content'   => $parent['content'],
+                    'ordering'  => $parent['ordering'],
+                ];
+                $subparents     = $RbiModel->where('parentid', $parent['id'])->orderBy('ordering', 'ASC')->find();
+
+                if (!empty($subparents)) {
+                    foreach ($subparents as $subparent) {
+                        $rbidata[$parent['id']]['subparent'][$subparent['id']]    = [
+                            'id'        => $subparent['id'],
+                            'parentid'  => $subparent['parentid'],
+                            'title'     => $subparent['title'],
+                            'alias'     => $subparent['alias'],
+                            'content'   => $subparent['content'],
+                            'ordering'  => $subparent['ordering'],
+                        ];
+                        $childs = $RbiModel->where('parentid', $subparent['id'])->orderBy('ordering', 'ASC')->find();
+
+                        if (!empty($childs)) {
+                            foreach ($childs as $child) {
+                                $rbidata[$parent['id']]['subparent'][$subparent['id']]['child'][$child['id']]    = [
+                                    'id'        => $child['id'],
+                                    'parentid'  => $child['parentid'],
+                                    'title'     => $child['title'],
+                                    'alias'     => $child['alias'],
+                                    'content'   => $child['content'],
+                                    'ordering'  => $child['ordering'],
+                                ];
+                            }
+                        } else {
+                            $rbidata[$parent['id']]['subparent'][$subparent['id']]['child'] = [];
+                        }
+                    }
+                } else {
+                    $childs = [];
+                    $rbidata[$parent['id']]['subparent'] = [];
+                }
+            }
+        } else {
+            $subparents     = [];
+            $childs         = [];
+        }
+        
+        // Parsing Data to View
+        $data                   = $this->data;
+        $data['title']          = "Dashboard RBI";
+        $data['parents']        = $parents;
+        $data['rbidata']        = $rbidata;
+        $data['user']           = $user;
+        $data['count']          = count($parents);
+        $data['pager']          = $RbiModel->pager;
+        
+        return view('Views/admin/rbi', $data);
+    }
+
+    public function addrbi()
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $RbiModel       = new RbiModel();
+
+        // Get Data
+        $user           = $usersmodel->find($this->data['uid']);
+        $parents        = $RbiModel->where('parentid', 0)->find();
+        $parentid       = [];
+
+        foreach ($parents as $parent) {
+            $parentid[] = $parent['id'];
+        }
+
+        $subparents = $RbiModel->whereIn('parentid', $parentid)->find();
+
+        // Parsing Data
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Tambah RBI";
+        $data['description']    = 'Preview';
+        $data['user']           = $user;
+        $data['parents']        = $parents;
+        $data['subparents']     = $subparents;
+
+        return view('Views/admin/addrbi', $data);
+    }
+
+    public function editrbi($id)
+    {
+        // Calling Models
+        $RbiModel           = new RbiModel();
+        $usersmodel         = new UsersModel();
+
+        $news               = $RbiModel->find($id);
+        $user               = $usersmodel->find($this->data['uid']);
+        $parents            = $RbiModel->where('parentid', 0)->find();
+        $parentid           = [];
+
+        foreach ($parents as $parent) {
+            $parentid[] = $parent['id'];
+        }
+
+        $subparents = $RbiModel->whereIn('parentid', $parentid)->find();
+        array_multisort($news, SORT_DESC);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Edit RBI";
+        $data['user']       = $user;
+        $data['news']       = $news;
+        $data['parents']    = $parents;
+        $data['subparents'] = $subparents;
+
+        return view('Views/admin/editrbi', $data);
+    }
+
+    public function removerbi()
+    {
+        // Calling Models
+        $RbiModel       = new RbiModel();
+
+        // Get Data
+        $input          = $this->request->getPOST();
+        $parent         = $RbiModel->find($input['id']);
+        $subparent      = $RbiModel->where('parentid', $input['id'])->find();
+        if (!empty($subparent)) {
+            foreach ($subparent as $sub) {
+                $child      = $RbiModel->where('parentid', $sub['id'])->find();
+
+                // Remove Child
+                if (!empty($child)) {
+                    foreach ($child as $rbichild) {
+                        $RbiModel->delete($rbichild['id']);
+                    }
+                }
+
+                // Remove SubParent
+                $RbiModel->delete($sub['id']);
+            }
+        }
+
+        // Remove Parent
+        $RbiModel->delete($parent['id']);
+
+        // Return
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
     }
 
     public function errors()

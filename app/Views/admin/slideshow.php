@@ -52,7 +52,7 @@
                 
                             <script>
                                 function removeSlide<?= $slide['id']; ?>() {
-                                    let text = "Anda yakin ingin menghapus slide <?=$slide['file']?> ini?";
+                                    let text = 'Anda yakin ingin menghapus slide <?=$slide['file']?> ini?';
                                     if (confirm(text) == true) {
                                         $.ajax({
                                             url: "dashboard/removeslideshow/<?= $slide['id'] ?>",

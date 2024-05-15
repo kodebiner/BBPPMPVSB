@@ -9,10 +9,12 @@ use App\Models\FotoDiklatModel;
 use App\Models\ScheduleModel;
 use App\Models\SeminarModel;
 use App\Models\PhotoModel;
+use App\Models\FotoGaleriModel;
 use App\Models\VideoModel;
 use App\Models\SlideshowModel;
 use App\Models\SurveyModel;
 use App\Models\MaklumatModel;
+use App\Models\RbiModel;
 use App\Models\GroupModel;
 
 use App\Controllers\BaseController;
@@ -501,6 +503,46 @@ class Upload extends BaseController
         die(json_encode(array('errors', 'Data berhasil di hapus')));
     }
 
+    public function clearthumbnailphoto()
+    {
+        // Calling Model
+        $PhotoModel         = new PhotoModel();
+        $FotoGaleriModel    = new FotoGaleriModel();
+
+        // Popuating Data
+        $input              = $this->request->getPost('thumb');
+        $photos             = $PhotoModel->where('images', $input)->first();
+
+        // Removing Thumbnail
+        $datainput          = [
+            'id'        => $photos['id'],
+            'images'    => null,
+        ];
+        $PhotoModel->save($datainput);
+
+        // Removing Photos
+        $FotoGaleriModel->where('file', $input)->delete();
+
+        // Return Message
+        die(json_encode(array('errors', 'Thumbnail berhasil di hapus')));
+    }
+
+    public function removefotogaleriexist()
+    {
+        // Calling Model
+        $FotoGaleriModel    = new FotoGaleriModel();
+
+        // Removing File
+        $input = $this->request->getPost('foto');
+        unlink(FCPATH . $input);
+
+        // Delete From Database
+        $FotoGaleriModel->where('file', $input)->delete();
+
+        // Return Message
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
+
     public function fotoseminar()
     {
         $image      = \Config\Services::image();
@@ -875,7 +917,6 @@ class Upload extends BaseController
 
         // Get Data
         $input  = $this->request->getPost();
-        dd($input);
         $user   = $UserModel->find($this->data['uid']);
 
         // Validation Rules
@@ -1309,7 +1350,7 @@ class Upload extends BaseController
         }
 
         // Alias
-        $aliases = preg_replace('/\s+/', '-', $input['judul']);
+        // $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
         // Diklat Data 
         $diklat = [
@@ -1350,12 +1391,6 @@ class Upload extends BaseController
         // Populating Data
         $diklats            = $DiklatModel->find($id);
 
-        // if ($diklats['images'] == $input['thumbnail']) {
-        //     $thumbnail      = $diklats['images'];
-        // } else {
-        //     $thumbnail      = $input['thumbnail'];
-        // }
-
         if (!empty($input['foto-create'])) {
             foreach ($input['foto-create'] as $key => $newphoto) {
                 // Foto Diklat Data 
@@ -1374,7 +1409,7 @@ class Upload extends BaseController
             'id'            => $id,
             'title'         => $input['judul'],
             'images'        => $input['thumbnail'],
-            'text'          => $input['description  '],
+            'text'          => $input['description'],
         ];
 
         // insert Diklat
@@ -1386,7 +1421,8 @@ class Upload extends BaseController
     public function addfotogaleri()
     {
         // Calling Models
-        $PhotoModel    = new PhotoModel();
+        $PhotoModel         = new PhotoModel();
+        $FotoGaleriModel    = new FotoGaleriModel();
 
         // Get Data
         $input  = $this->request->getPost();
@@ -1416,11 +1452,25 @@ class Upload extends BaseController
         // News Data 
         $foto = [
             'title'         => $input['judul'],
-            'images'        => "images/".$input['foto'],
+            'images'        => "images/".$input['thumbnail'],
         ];
 
         // insert News
         $PhotoModel->insert($foto);
+
+        $photoid   = $PhotoModel->getInsertID();
+
+        // Foto Galeri Data
+        foreach ($input['foto'] as $fid => $value) {
+            // Foto Galeri Data 
+            $fotogaleri = [
+                'photoid'       => $photoid,
+                'file'          => "images/".$value,
+            ];
+    
+            // insert Foto Galeri
+            $FotoGaleriModel->insert($fotogaleri);
+        }
         return redirect()->to('dashboard/foto')->with('message', "Foto Berhasil Di Tambahkan!");
     }
 
@@ -1428,29 +1478,35 @@ class Upload extends BaseController
     public function editfotogaleri($id){
 
         // Calling Models
-        $PhotoModel     = new PhotoModel();
+        $PhotoModel         = new PhotoModel();
+        $FotoGaleriModel    = new FotoGaleriModel();
 
-        // Get Data
+        // Getting Input
         $input  = $this->request->getPost();
-        $photos = $this->request->getPost('foto');
 
+        // Populating Data
         $fotogaleri = $PhotoModel->find($id);
 
-        if ($photos === $fotogaleri['images']) {
-            $xfoto = $fotogaleri['images'];
-        } else {
-            unlink(FCPATH . $fotogaleri['images']);
-            $xfoto = "images/".$this->request->getPost('foto');
+        if (!empty($input['foto-create'])) {
+            foreach ($input['foto-create'] as $key => $newphoto) {
+                // Foto Galeri Data 
+                $fotophoto = [
+                    'photoid'       => $id,
+                    'file'          => $newphoto,
+                ];
+        
+                // insert Foto Diklat
+                $FotoGaleriModel->insert($fotophoto);
+            }
         }
-
-        // News Data 
+        // Foto Data 
         $foto = [
             'id'            => $id,
             'title'         => $input['judul'],
-            'images'        => $xfoto,
+            'images'        => $input['thumbnail'],
         ];
 
-        // insert News
+        // insert Foto
         $PhotoModel->save($foto);
         return redirect()->to('dashboard/foto')->with('message', "Foto Berhasil Di Ubah!");
     }
@@ -1763,6 +1819,210 @@ class Upload extends BaseController
         // insert News
         $SurveyModel->save($content);
         return redirect()->to('dashboard/survey')->with('message', "Hasil Survey Berhasil Di Tambahkan!");
+    }
+
+    // Reordering Parent RBI
+    public function reorderingparent()
+    {
+        // Calling Models
+        $RbiModel     = new RbiModel();
+
+        // Populating Data
+        $input          = $this->request->getPOST();
+
+        $parent         = $RbiModel->find($input['id']);
+
+        // Processing Data
+        if ($parent['ordering'] < $input['order']) {
+            $upperParent = $RbiModel->where('parentid', '0')->where('ordering <=', $input['order'])->where('ordering >', $parent['ordering'])->find();
+            foreach ($upperParent as $upper) {
+                $upperSubmit = [
+                    'id'        => $upper['id'],
+                    'ordering'  => $upper['ordering'] - 1
+                ];
+                $RbiModel->save($upperSubmit);
+            }
+        } else {
+            $lowerParent = $RbiModel->where('parentid', '0')->where('ordering >=', $input['order'])->where('ordering <', $parent['ordering'])->find();
+            foreach ($lowerParent as $lower) {
+                $lowerSubmit = [
+                    'id'        => $lower['id'],
+                    'ordering'  => $lower['ordering'] + 1
+                ];
+                $RbiModel->save($lowerSubmit);
+            }
+        }
+        $currentSubmit = [
+            'id'        => $input['id'],
+            'ordering'  => $input['order']
+        ];
+        $RbiModel->save($currentSubmit);
+
+        die(json_encode($currentSubmit));
+    }
+
+    // Reordering SubParent RBI
+    public function reorderingsubparent()
+    {
+        // Calling Models
+        $RbiModel       = new RbiModel();
+
+        // Populating Data
+        $input          = $this->request->getPOST();
+
+        $subparent      = $RbiModel->find($input['id']);
+
+        // Processing Data
+        if ($subparent['ordering'] < $input['order']) {
+            $upperPaket = $RbiModel->where('parentid', $input['parent'])->where('ordering <=', $input['order'])->where('ordering >', $subparent['ordering'])->find();
+            foreach ($upperPaket as $upper) {
+                $upperSubmit = [
+                    'id'        => $upper['id'],
+                    'ordering'  => $upper['ordering'] - 1
+                ];
+                $RbiModel->save($upperSubmit);
+            }
+        } else {
+            $lowerPaket = $RbiModel->where('parentid', $input['parent'])->where('ordering >=', $input['order'])->where('ordering <', $subparent['ordering'])->find();
+            foreach ($lowerPaket as $lower) {
+                $lowerSubmit = [
+                    'id'        => $lower['id'],
+                    'ordering'  => $lower['ordering'] + 1
+                ];
+                $RbiModel->save($lowerSubmit);
+            }
+        }
+        $currentSubmit = [
+            'id'        => $input['id'],
+            'parentid'  => $input['parent'],
+            'ordering'  => $input['order']
+        ];
+        $RbiModel->save($currentSubmit);
+
+        die(json_encode($currentSubmit));
+    }
+
+    // Reordering Child RBI
+    public function reorderingchild()
+    {
+        // Calling Models
+        $RbiModel       = new RbiModel();
+
+        // Populating Data
+        $input          = $this->request->getPOST();
+
+        $child          = $RbiModel->find($input['id']);
+
+        // Processing Data
+        if ($child['ordering'] < $input['order']) {
+            $upperPaket = $RbiModel->where('parentid', $input['parent'])->where('ordering <=', $input['order'])->where('ordering >', $child['ordering'])->find();
+            foreach ($upperPaket as $upper) {
+                $upperSubmit = [
+                    'id'        => $upper['id'],
+                    'ordering'  => $upper['ordering'] - 1
+                ];
+                $RbiModel->save($upperSubmit);
+            }
+        } else {
+            $lowerPaket = $RbiModel->where('parentid', $input['parent'])->where('ordering >=', $input['order'])->where('ordering <', $child['ordering'])->find();
+            foreach ($lowerPaket as $lower) {
+                $lowerSubmit = [
+                    'id'        => $lower['id'],
+                    'ordering'  => $lower['ordering'] + 1
+                ];
+                $RbiModel->save($lowerSubmit);
+            }
+        }
+        $currentSubmit = [
+            'id'        => $input['id'],
+            'parentid'  => $input['parent'],
+            'ordering'  => $input['order']
+        ];
+        $RbiModel->save($currentSubmit);
+
+        die(json_encode($currentSubmit));
+    }
+
+    // Add RBI
+    public function addrbi()
+    {
+        // Calling Models
+        $RbiModel       = new RbiModel();
+
+        // Get Data
+        $input          = $this->request->getPost();
+
+        // Validation Rules
+        $rules = [
+            'title' => [
+                'label'  => 'Judul RBI',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'type' => [
+                'label'  => 'Tipe RBI',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di pilih',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addrbi')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Alias
+        $aliases = preg_replace('/\s+/', '-', $input['title']);
+
+        // Save Data
+        $lastOrder      = $RbiModel->where('parentid', $input['type'])->orderBy('ordering', 'DESC')->first();
+        if (!empty($lastOrder)) {
+            $order = $lastOrder['ordering'] + 1;
+        } else {
+            $order = '1';
+        }
+
+        // RBI Data 
+        $data = [
+            'parentid'      => $input['type'],
+            'title'         => $input['title'],
+            'alias'         => $aliases,
+            'content'       => $input['content'],
+            'ordering'      => $order,
+        ];
+
+        // insert RBI
+        $RbiModel->insert($data);
+        return redirect()->to('dashboard/rbi')->with('message', "RBI Berhasil Di Tambahkan!");
+    }
+
+    // Edit RBI
+    public function editrbi($id){
+
+        // Calling Models
+        $RbiModel       = new RbiModel();
+
+        // Get Data
+        $input          = $this->request->getPost();
+
+        // Alias
+        $aliases        = preg_replace('/\s+/', '-', $input['title']);
+
+        // News Data 
+        $data = [
+            'id'            => $id,
+            'parentid'      => $input['type'],
+            'title'         => $input['title'],
+            'alias'         => $aliases,
+            'content'       => $input['content'],
+        ];
+
+        // insert News
+        $RbiModel->save($data);
+        return redirect()->to('dashboard/rbi')->with('message', "RBI Berhasil Di Ubah!");
     }
 }
 ?>

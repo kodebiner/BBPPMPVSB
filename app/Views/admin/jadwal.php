@@ -57,7 +57,7 @@
                 
                             <script>
                                 function removeArtista<?= $news['id']; ?>() {
-                                    let text = "Anda yakin ingin menghapus jadwal <?=$news['title']?> ini?";
+                                    let text = 'Anda yakin ingin menghapus jadwal <?=$news['title']?> ini?';
                                     if (confirm(text) == true) {
                                         $.ajax({
                                             url: "dashboard/removejadwal/<?= $news['id'] ?>",

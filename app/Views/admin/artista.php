@@ -40,7 +40,7 @@
                 
                             <script>
                                 function removeArtista<?= $art['id']; ?>() {
-                                    let text = "Anda yakin ingin menghapus data Artista ini?";
+                                    let text = 'Anda yakin ingin menghapus data Artista ini?';
                                     if (confirm(text) == true) {
                                         $.ajax({
                                             url: "dashboard/removeartista/<?= $art['id'] ?>",

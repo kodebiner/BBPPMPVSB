@@ -18,34 +18,35 @@ class Gallery extends BaseController
         $pager      = \Config\Services::pager();
 
         // Calling Models
-        $PhotoModel           = new PhotoModel();
+        $PhotoModel             = new PhotoModel();
 
-        $galleriesdata     = $PhotoModel->orderBy('updated_at', 'DESC')->find();
-        $galleries = [];
-        foreach ($galleriesdata as $gallery) {
-            $images = $gallery['images'];
+        $galleriesdata          = $PhotoModel->orderBy('updated_at', 'DESC')->paginate(24, 'gallery');
+        // dd($galleriesdata);
+        // $galleries = [];
+        // foreach ($galleriesdata as $gallery) {
+        //     // $images = $gallery['images'];
 
-            if (!empty($images)) {
-                $galleries[]     = $gallery;
-            }
-        }
+        //     // if (!empty($images)) {
+        //         $galleries[]     = $gallery;
+        //     // }
+        // }
 
-        $page    = (int)($this->request->getGet('gallery') ?? 1);
-        $perPage = 24;
-        $total   = count($galleries);
+        // $page    = (int)($this->request->getGet('gallery') ?? 1);
+        // $perPage = 15;
+        // $total   = count($galleries);
 
         // Call makeLinks() to make pagination links.
-        $pager_links = $pager->makeLinks($page, $perPage, $total, 'uikit_full');
+        // $pager_links = $pager->makeLinks($page, $perPage, $total, 'uikit_full');
 
         // Parsing Data To View
         $data                   = $this->data;
         $data['title']          = "Galeri Foto";
         $data['description']    = "Galeri Foto terkait BBPPMPVSB";
-        $data['galleries']      = $galleries;
+        $data['galleries']      = $galleriesdata;
         $data['caturi']         = 'galeri/foto';
         $data['cattitle']       = 'Galeri Foto';
-        $data['count']          = count($galleries);
-        $data['pager']          = $pager_links;
+        $data['count']          = count($galleriesdata);
+        $data['pager']          = $PhotoModel->pager;
 
         // Return Data To View
         return view('gallery', $data);

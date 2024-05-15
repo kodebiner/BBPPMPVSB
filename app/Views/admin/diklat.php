@@ -41,7 +41,7 @@
                 
                             <script>
                                 function removeArtista<?= $news['id']; ?>() {
-                                    let text = "Anda yakin ingin menghapus diklat <?=$news['title']?> ini?";
+                                    let text = 'Anda yakin ingin menghapus diklat <?=$news['title']?> ini?';
                                     if (confirm(text) == true) {
                                         $.ajax({
                                             url: "dashboard/removediklat/<?= $news['id'] ?>",

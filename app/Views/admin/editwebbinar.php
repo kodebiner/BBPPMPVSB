@@ -2,8 +2,15 @@
 
 <?= $this->section('content') ?>
 
-    <div class="uk-card uk-card-small uk-card-body uk-margin-xlarge-right uk-light" style="background-color:  rgba(60, 105, 151, .8);;">
-        <h3 class="uk-card-title">Ubah Webinar</h3>
+    <div class="uk-card uk-card-small uk-card-body uk-margin-xlarge-right uk-light" style="background-color:  rgba(60, 105, 151, .8);">
+        <div class="uk-child-width-1-2" uk-grid>
+            <div>
+                <h3 class="uk-card-title">Ubah Webinar</h3>
+            </div>
+            <div class="uk-text-right">
+                <a class="uk-icon-button uk-button-primary" href="#preview" uk-icon="eye" uk-toggle></a>
+            </div>
+        </div>
     </div>
 
     <div class="uk-card uk-card-default uk-margin-xlarge-right">
@@ -14,27 +21,27 @@
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Judul</label>
             <div class="uk-margin">
                 <div class="uk-form-controls">
-                    <input class="uk-input uk-box-shadow-small uk-border-rounded" id="form-stacked-text" name="judul" value="<?=$news['title']?>" type="text" placeholder="Masukkan Judul...">
+                    <input class="uk-input uk-box-shadow-small uk-border-rounded" id="title" name="judul" value="<?=$news['title']?>" type="text" placeholder="Masukkan Judul..." onchange="preview()">
                 </div>
             </div>
             
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Ringkasan</label>
             <div class="uk-margin">
                 <div class="uk-form-controls">
-                    <textarea class="uk-textarea uk-box-shadow-small uk-border-rounded" rows="5" name="ringkasan" placeholder="Masukkan Ringkasan..." aria-label="Textarea"><?=$news['description']?></textarea>
+                    <textarea class="uk-textarea uk-box-shadow-small uk-border-rounded" id="ringkasan" rows="5" name="ringkasan" placeholder="Masukkan Ringkasan..." aria-label="Textarea" onchange="preview()"><?=$news['description']?></textarea>
                 </div>
             </div>
 
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Pendahuluan</label>
             <div class="uk-margin">
                 <div class="uk-form-controls">
-                    <textarea class="uk-textarea uk-box-shadow-small uk-border-rounded" rows="5" name="pendahuluan" placeholder="Masukkan Pendahuluan..." aria-label="Textarea"><?=$news['introtext']?></textarea>
+                    <textarea class="uk-textarea uk-box-shadow-small uk-border-rounded" id="pendahuluan" rows="5" name="pendahuluan" placeholder="Masukkan Pendahuluan..." aria-label="Textarea" onchange="preview()"><?=$news['introtext']?></textarea>
                 </div>
             </div>
 
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold">Isi</label>
             <div class="uk-margin">
-                <textarea name="isi" id="file-picker" placeholder="Masukkan Isi..">
+                <textarea name="isi" id="file-picker" placeholder="Masukkan Isi.." onchange="preview()">
                     <?=$news['fulltext']?>
                 </textarea>
             </div>
@@ -58,7 +65,7 @@
             <div class="uk-margin" id="image-container-create">
                 <div id="image-container" class="uk-form-controls">
                     <progress id="js-upload-createfoto" class="uk-progress" value="0" max="100" hidden></progress>
-                    <input id="foto" name="foto" hidden value="<?=$news['images']?>"/>
+                    <input id="foto" name="foto" hidden value="<?=$news['images']?>" onchange="preview()" />
                     <div id="js-upload-foto" class="js-upload uk-placeholder uk-text-center">
                         <span uk-icon="icon: cloud-upload"></span>
                         <span class="uk-text-middle">Tarik dan lepas file disini atau</span>
@@ -155,6 +162,11 @@
                         imgContainer.appendChild(displayContainer);
 
                         document.getElementById('js-upload-foto').setAttribute('hidden', '');
+
+                        var photo           = 'images/'+filename;
+
+                        $('#previewimage').attr('src', photo);
+                        $('#previewimage').attr('width', '300');
                     },
 
                     loadStart: function (e) {
@@ -214,6 +226,11 @@
                             alert(pesan);
 
                             document.getElementById('js-upload-foto').removeAttribute('hidden', '');
+
+                            var photo           = '<?= $news['images'] ?>';
+
+                            $('#previewimage').attr('src', photo);
+                            $('#previewimage').attr('width', '300');
                         }
                     });
                 };
@@ -230,6 +247,11 @@
                     image_title:                false,
                     automatic_uploads:          true,
                     file_picker_types:          'image',
+                    setup:                      (ed) => {
+                                                    ed.on('change', (e) => {
+                                                        preview();
+                                                    })
+                                                },
                     file_picker_callback:       (cb, value, meta) => {
                                                     const input = document.createElement('input');
                                                     input.setAttribute('type', 'file');
@@ -272,5 +294,122 @@
         </form>
     </div>
 
+    <!-- Preview Modal -->
+    <div class="uk-modal-full" id="preview" uk-modal>
+        <div class="uk-modal-dialog" uk-height-viewport>
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title">Preview Edit Webinar</h2>
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+            </div>
 
+            <div class="uk-modal-body">
+                <section class="uk-section-default uk-section uk-section-xsmall uk-padding-remove-bottom">
+                    <div class="uk-container">
+                        <div class="uk-container uk-container-xsmall">
+                            <div class="tm-grid-expand uk-child-width-1-1" uk-grid>
+                                <div>
+                                    <h3 class="uk-margin uk-text-center" id="previewtitle"><?=$news['title']?></h3>
+                                </div>
+                                <div class="uk-panel uk-text-lead uk-margin-large uk-text-center">
+                                    <div><p id="previewintrotext" class="uk-text-justify"><?=$news['introtext']?></p></div>
+                                </div>
+                                <div class="uk-margin">
+                                    <div class="uk-grid-match uk-grid-divider uk-child-width-auto uk-flex-center uk-text-meta uk-text-center" uk-grid uk-height-match="target: > .match-content">
+                                        <div class="match-content uk-flex-middle">
+                                            <div id="previewdate"></div>
+                                        </div>
+                                        <div class="match-content uk-flex-middle">
+                                            <div id="previewuser"></div>
+                                        </div>
+                                        <div class="match-content uk-flex-middle">
+                                            <div>Dilihat Sebanyak : 1</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-text-center"><div>Bagikan :</div></div>
+                                <div class="uk-margin uk-margin-small-top">
+                                    <div class="uk-grid-match uk-child-width-auto uk-flex-center uk-text-meta uk-text-center uk-grid-small" uk-grid uk-height-match="target: > .match-media">
+                                        <div>
+                                            <a class="uk-icon-button" uk-icon="facebook" href="https://www.facebook.com/sharer/sharer.php?u=&amp;src=sdkpreparse" target="_blank"></a>
+                                        </div>
+                                        <div>
+                                            <a class="uk-icon-button" uk-icon="whatsapp" href="https://wa.me/?text=" target="_blank"></a>
+                                        </div>
+                                        <div>
+                                            <a class="uk-icon-button" uk-icon="telegram" href="https://telegram.me/share/url?url=&text=" target="_blank"></a>
+                                        </div>
+                                        <div>
+                                            <a class="uk-icon-button" uk-icon="x" href="http://twitter.com/share?text=&url=" target="_blank"></a>
+                                        </div>
+                                        <div>
+                                            <a class="uk-icon-button" uk-icon="linkedin" href="https://www.linkedin.com/feed/?shareActive=true&text=" target="_blank"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="uk-margin">
+                            <div class="uk-margin-small">
+                                <img id="previewimage" src="<?=$news['images']?>" class="uk-width-1-1" />
+                            </div>
+                        </div>
+
+                        <div class="uk-container uk-container-xsmall">
+                            <div class="uk-panel uk-margin" id="previewfulltext"><?=$news['fulltext']?></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var username        = "<?= $user['username'] ?>";
+        document.getElementById("previewuser").innerHTML = username;
+
+        var publishthatdate = new Date();
+        var publishyear     = publishthatdate.getFullYear();
+        var publishmonth    = publishthatdate.getMonth();
+        var publishdate     = publishthatdate.getDate();
+        var publishday      = publishthatdate.getDay();
+
+        switch(publishday) {
+            case 0: publishday     = "Minggu"; break;
+            case 1: publishday     = "Senin"; break;
+            case 2: publishday     = "Selasa"; break;
+            case 3: publishday     = "Rabu"; break;
+            case 4: publishday     = "Kamis"; break;
+            case 5: publishday     = "Jum'at"; break;
+            case 6: publishday     = "Sabtu"; break;
+        }
+        switch(publishmonth) {
+            case 0: publishmonth   = "Januari"; break;
+            case 1: publishmonth   = "Februari"; break;
+            case 2: publishmonth   = "Maret"; break;
+            case 3: publishmonth   = "April"; break;
+            case 4: publishmonth   = "Mei"; break;
+            case 5: publishmonth   = "Juni"; break;
+            case 6: publishmonth   = "Juli"; break;
+            case 7: publishmonth   = "Agustus"; break;
+            case 8: publishmonth   = "September"; break;
+            case 9: publishmonth   = "Oktober"; break;
+            case 10: publishmonth  = "November"; break;
+            case 11: publishmonth  = "Desember"; break;
+        }
+        var publishfulldate         = publishday + ", " + publishdate + " " + publishmonth + " " + publishyear;
+        document.getElementById("previewdate").innerHTML = publishfulldate;
+
+        function preview(inst) {
+            var title           = $('#title').val();
+            var description     = $('#ringkasan').val();
+            var introtext       = $('#pendahuluan').val();
+            var fulltext        = $('#file-picker').val();
+
+            $('#previewtitle').html(title);
+            $('#previewintrotext').html(introtext);
+            $('#previewfulltext').html(tinyMCE.activeEditor.getContent());
+        };
+    </script>
+    <!-- Preview Modal End -->
 <?= $this->endSection() ?>

@@ -93,6 +93,12 @@ $routes->group('dashboard', static function ($routes) {
 
     // Survey
     $routes->get('survey', 'Auth::survey', ['filter' => 'group:superadmin,admin',]);
+
+    // RBI
+    $routes->get('rbi', 'Auth::rbi', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('addrbi', 'Auth::addrbi', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editrbi/(:num)', 'Auth::editrbi/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removerbi', 'Auth::removerbi', ['filter' => 'group:superadmin,admin',]);
 });
 
 // Uploads
@@ -110,6 +116,8 @@ $routes->group('upload', static function ($routes){
     $routes->post('removefotodiklatexist', 'Upload::removefotodiklatexist', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotojadwal', 'Upload::fotojadwal', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotogaleri', 'Upload::fotogaleri', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('clearthumbphoto', 'Upload::clearthumbnailphoto', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removefotogaleriexist', 'Upload::removefotogaleriexist', ['filter' => 'group:superadmin,admin',]);
     $routes->post('videogaleri', 'Upload::videogaleri', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotoslideshow', 'Upload::fotoslideshow', ['filter' => 'group:superadmin,admin',]);
     $routes->post('removeslideshow', 'Upload::removeslideshow', ['filter' => 'group:superadmin,admin',]);
@@ -117,6 +125,9 @@ $routes->group('upload', static function ($routes){
     $routes->post('removefile', 'Upload::removepdf', ['filter' => 'group:superadmin,admin',]);
     $routes->post('pdfsurvey', 'Upload::pdfsurvey', ['filter' => 'group:superadmin,admin',]);
     $routes->post('removepdfsurvey', 'Upload::removepdfsurvey', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('reorderingparent', 'Upload::reorderingparent', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('reorderingsubparent', 'Upload::reorderingsubparent', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('reorderingchild', 'Upload::reorderingchild', ['filter' => 'group:superadmin,admin',]);
 });
 
 // Add
@@ -135,6 +146,7 @@ $routes->group('add', static function ($routes){
     $routes->post('videogaleri', 'Upload::addvideogaleri', ['filter' => 'group:superadmin,admin',]);
     $routes->post('maklumat', 'Upload::addmaklumat', ['filter' => 'group:superadmin,admin',]);
     $routes->post('survey', 'Upload::addsurvey', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('rbi', 'Upload::addrbi', ['filter' => 'group:superadmin,admin',]);
 });
 
 // Update
@@ -151,6 +163,7 @@ $routes->group('save', static function ($routes){
     $routes->post('slideshow/(:num)', 'Upload::editslideshow/$1', ['filter' => 'group:superadmin,admin',]);
     $routes->post('fotogaleri/(:num)', 'Upload::editfotogaleri/$1', ['filter' => 'group:superadmin,admin',]);
     $routes->post('videogaleri/(:num)', 'Upload::editvideogaleri/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('rbi/(:num)', 'Upload::editrbi/$1', ['filter' => 'group:superadmin,admin',]);
 });
 
 //  Home
@@ -215,4 +228,9 @@ $routes->group('informasi', static function ($routes) {
     $routes->get('seminarwebinar/(:any)', 'Seminar::article/$1');
     $routes->get('diklat', 'Diklat::indexregistration');
     $routes->get('diklat/(:any)', 'Diklat::diklatregistration/$1');
+});
+
+// RBI
+$routes->group('rbi', static function ($routes) {
+    $routes->get('(:any)', 'Rbi::index/$1');
 });

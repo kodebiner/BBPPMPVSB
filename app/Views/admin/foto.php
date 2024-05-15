@@ -42,7 +42,7 @@
                 
                             <script>
                                 function removeFoto<?= $foto['id']; ?>() {
-                                    let text = "Anda yakin ingin menghapus Foto <?=$foto['title']?> ini?";
+                                    let text = 'Anda yakin ingin menghapus Foto <?=$foto['title']?> ini?';
                                     if (confirm(text) == true) {
                                         $.ajax({
                                             url: "dashboard/removefoto/<?= $foto['id'] ?>",

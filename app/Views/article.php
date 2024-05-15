@@ -27,7 +27,7 @@
                     <h3 class="uk-margin uk-text-center"><?= $article['title'] ?></h3>
                 </div>
                 <div class="uk-panel uk-text-lead uk-margin-large uk-text-center">
-                    <div><p><?= $article['introtext'] ?></p></div>
+                    <div><p class="uk-text-justify"><?= $article['introtext'] ?></p></div>
                 </div>
                 <div class="uk-grid-match uk-grid-divider uk-child-width-auto uk-flex-center uk-text-meta uk-text-center uk-margin" uk-grid uk-height-match="target: > .match-content">
                     <div class="match-content uk-flex-middle">
