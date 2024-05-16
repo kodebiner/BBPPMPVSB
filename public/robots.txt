@@ -1,2 +1,12 @@
 User-agent: *
-Disallow: 
+Disallow: /register/
+Disallow: /login/
+Disallow: /dashboard/
+Disallow: /upload/
+Disallow: /add/
+Disallow: /save/
+Disallow: /migration
+Disallow: /movedata
+Disallow: /reconfseminarwebinar
+Disallow: /reconfdata
+Disallow: /save/
