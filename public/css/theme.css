@@ -14502,7 +14502,7 @@ ul.uk-nav-sub {
 .uk-navbar-nav>li:hover>a::before,
 .uk-navbar-nav>li>a[aria-expanded=true]::before {
     background-color: rgba(60, 105, 151, 0.8);
-    background-image: url("/img/bgnavbar.svg")
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2254%22%20height%3D%2215%22%20viewBox%3D%220%200%2054%2015%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpath%20fill%3D%22%23E98120%22%20d%3D%22M.5%203.1C2.8%201.7%206%201.2%2010.2%201.6c6.2.6%2013.2.1%2018.4-.4C33.7.7%2033.4.8%2039.7.3s11.5-.5%209.6.9c-2%201.4-4.4%202.7-1%202.7%203.4%200%201.8%201.1%203.8%202s1.8%205.1%200%206.8c-1.8%201.7-1.3%202.2-6.5%202.2H15.7c-5.6%200-12.1-1.1-12.7-2.2C2.6%2012%201.8%208.8.5%203.1z%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
 }
 
 .uk-navbar-nav>li>a:active {
@@ -14520,7 +14520,7 @@ ul.uk-nav-sub {
 
 .uk-navbar-nav>li.uk-active>a::before {
     background-color: rgba(60, 105, 151, 0.8);
-    background-image: url("/img/bgnavbar.svg")
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2254%22%20height%3D%2215%22%20viewBox%3D%220%200%2054%2015%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpath%20fill%3D%22%23E98120%22%20d%3D%22M.5%203.1C2.8%201.7%206%201.2%2010.2%201.6c6.2.6%2013.2.1%2018.4-.4C33.7.7%2033.4.8%2039.7.3s11.5-.5%209.6.9c-2%201.4-4.4%202.7-1%202.7%203.4%200%201.8%201.1%203.8%202s1.8%205.1%200%206.8c-1.8%201.7-1.3%202.2-6.5%202.2H15.7c-5.6%200-12.1-1.1-12.7-2.2C2.6%2012%201.8%208.8.5%203.1z%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
 }
 
 .uk-navbar-parent-icon {
@@ -16243,7 +16243,7 @@ ul.uk-nav-sub {
 }
 
 .uk-text-bold {
-    font-weight: 700
+    font-weight: 700 !important
 }
 
 .uk-text-lighter {

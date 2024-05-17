@@ -3,7 +3,7 @@
 <?= $this->section('main') ?>
 
 <!-- Slideshow -->
-<div class="uk-section">
+<div>
     <div class="uk-position-relative uk-visible-toggle" tabindex="-1" uk-slideshow="animation: fade; autoplay: true; ratio:10:3; pause-on-hover: false; autoplay-interval: 5000;">
         <ul class="uk-slideshow-items">
             <?php foreach ($slideshows as $slideshow) { ?>
@@ -35,7 +35,7 @@
 <!-- External Link Section End -->
 
 <!-- Berita Section -->
-<section>
+<section class="uk-section uk-section-xsmall">
     <?php if ($ismobile == false) { ?>
         <!-- Dekstop View -->
         <div class="uk-container uk-container-expand">

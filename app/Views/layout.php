@@ -52,29 +52,29 @@
             </div>
             <!-- Header Section End -->
             <!-- Navbar Section -->
-            <div uk-sticky="" media="@l" cls-active="uk-navbar-sticky" sel-target=".uk-navbar-container" class="uk-sticky uk-margin">
+            <div uk-sticky="" media="@l" cls-active="uk-navbar-sticky" sel-target=".uk-navbar-container" class="uk-sticky">
                 <nav class="uk-navbar-container">
-                    <div class="uk-container uk-container-expand uk-section uk-section-xsmall">
+                    <div class="uk-container uk-container-expand" style="background: #3C6997 !important;">
                         <div class="uk-flex-middle" uk-navbar>
-                            <div class="uk-navbar-left">
+                            <!-- <div class="uk-navbar-left">
                                 <div class="uk-child-width-1-1" uk-grid>
                                     <div><div id="curentdate"></div></div>
                                     <div class="uk-margin-remove"><div id="curenttime"></div></div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="uk-navbar-center">
                                 <ul class="uk-navbar-nav">
                                     <li class="<?= ($uri->getSegment(1) === '') ? 'uk-active' : '' ?>">
-                                        <a href="">Beranda</a>
+                                        <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Beranda</a>
                                     </li>
                                     <li class="<?= ($uri->getSegment(1) === 'profil') ? 'uk-active' : '' ?>">
-                                        <a href="profil">Profil</a>
+                                        <a class="uk-text-bold uk-text-uppercase" href="profil" style="color: #fff;">Profil</a>
                                     </li>
                                     <li class="<?= ($uri->getSegment(1) === 'berita') ? 'uk-active':''?> ">
-                                        <a href="berita">Berita</a>
+                                        <a class="uk-text-bold uk-text-uppercase" href="berita" style="color: #fff;">Berita</a>
                                     </li>
                                     <li class="uk-parent <?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirpermohonan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='standarpelayanan')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='maklumat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='survey')?'uk-active':'' ?>">
-                                        <a href="">Layanan</a>
+                                        <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Layanan</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                                 <li class="<?= ($uri->getSegment(1)==='layanan') && ($uri->getSegment(2)==='formulirpermohonan')?'uk-active':'' ?>">
@@ -93,7 +93,7 @@
                                         </div>
                                     </li>
                                     <li class="uk-parent <?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirpengaduan')?'uk-active':'' ?>">
-                                        <a href="">Pengaduan</a>
+                                        <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Pengaduan</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                                 <li>
@@ -128,7 +128,7 @@
                                         <a href="webinar">Webinar</a>
                                     </li> -->
                                     <li class="uk-parent <?= ($uri->getSegment(1)==='rbi') && ($uri->getSegment(2)==='')?'uk-active':'(:any)' ?>">
-                                        <a href="">RBI</a>
+                                        <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">RBI</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                                 <?php
@@ -179,7 +179,7 @@
                                         </div>
                                     </li>
                                     <li class="uk-parent <?= ($uri->getSegment(1)==='publikasi') && ($uri->getSegment(2)==='artista')?'uk-active':'' ?>">
-                                        <a href="">Publikasi</a>
+                                        <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Publikasi</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                                 <li>
@@ -192,7 +192,7 @@
                                         </div>
                                     </li>
                                     <li class="uk-parent <?= ($uri->getSegment(1)==='informasi') && ($uri->getSegment(2)==='diklat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='informasi') && ($uri->getSegment(2)==='seminarwebinar')?'uk-active':'' ?>">
-                                        <a href="">Informasi Kegiatan</a>
+                                        <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Informasi Kegiatan</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                                 <li class="<?= ($uri->getSegment(1)==='informasi') && ($uri->getSegment(2)==='diklat')?'uk-active':'' ?>">
@@ -205,7 +205,7 @@
                                         </div>
                                     </li>
                                     <li class="uk-parent <?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?><?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
-                                        <a href="">Galeri</a>
+                                        <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Galeri</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                                 <li class="<?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?>">
@@ -222,23 +222,12 @@
                                     </li> -->
                                 </ul>
                             </div>
-                            <div class="uk-navbar-right">
-                                <!-- <form class="uk-search uk-search-default">
-                                    <span class="uk-search-icon-flip" uk-search-icon></span>
-                                    <input class="uk-search-input" type="search" placeholder="Search" aria-label="Search">
-                                </form> -->
-                                <div class="uk-panel">
-                                    <div class="uk-text-emphasis">Pengunjung :</div>
-                                    <div class="uk-text-emphasis uk-margin-left">Hari ini <span class="uk-float-right uk-margin-left uk-text-secondary"><?= $dailyvisit; ?></span></div>
-                                    <div class="uk-text-emphasis uk-margin-left">Bulan ini <span class="uk-float-right uk-margin-left uk-text-secondary"><?= $monthlyvisit; ?></span></div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </nav>
             </div>
             <!-- Navbar Section End -->
-            <script>
+            <!-- <script>
                 // Live Clock
                 var curenttime          = document.getElementById("curenttime");
                 function clock() {
@@ -284,7 +273,7 @@
 
                 var fulldate        = day + ", " + date + " " + month + " " + year;
                 document.getElementById("curentdate").innerHTML = fulldate;
-            </script>
+            </script> -->
             <!-- Dekstop View End -->
         <?php } else { ?>
             <!-- Mobile View -->
@@ -483,11 +472,15 @@
     <section class="uk-section uk-section-default">
         <!-- <div class="uk-container uk-container-large"> -->
             <div class="uk-grid-large uk-margin uk-flex-middle uk-flex-right@m" uk-grid>
-                <!-- <div class="uk-width-1-1 uk-width-1-2@m">
-                    <div class="uk-margin uk-text-left@s uk-text-center">
-                        <img src="img/logofix.png" width="300" class="el-image" alt="" loading="lazy">
+                <div class="uk-width-1-1 uk-width-1-2@m">
+                    <div class="uk-panel uk-width-1-3@m">
+                        <div class="uk-container uk-container-small uk-text-center uk-text-left@m">
+                            <div class="uk-text-emphasis">Pengunjung :</div>
+                            <div class="uk-text-emphasis">Hari ini <span class="uk-margin-left uk-text-secondary"><?= $dailyvisit; ?></span></div>
+                            <div class="uk-text-emphasis">Bulan ini <span class="uk-margin-left uk-text-secondary"><?= $monthlyvisit; ?></span></div>
+                        </div>
                     </div>
-                </div> -->
+                </div>
                 <div class="uk-width-1-1 uk-width-1-4@m">
                     <!-- <h3 class="uk-h4 uk-heading-divider uk-margin-medium">Hubungi Kami</h3> -->
                     <div class="uk-text-center uk-text-right@m">
