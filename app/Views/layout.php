@@ -491,7 +491,7 @@
                 <div class="uk-width-1-1 uk-width-1-4@m">
                     <!-- <h3 class="uk-h4 uk-heading-divider uk-margin-medium">Hubungi Kami</h3> -->
                     <div class="uk-text-center uk-text-right@m">
-                        <a href="mailto:mail@example.com" class="uk-link-reset" target="_blank">mail@example.com <span uk-icon="mail"></span></a>
+                        <a href="mailto:bbppmpvsb@kemdikbud.go.id" class="uk-link-reset" target="_blank">bbppmpvsb@kemdikbud.go.id <span uk-icon="mail"></span></a>
                     </div>
                     <div class="uk-text-center uk-text-right@m">
                         <a href="https://wa.me/628112934704" class="uk-link-reset" target="_blank">+628112934704 <span uk-icon="whatsapp"></span></a>
