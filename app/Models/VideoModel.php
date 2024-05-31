@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class VideoModel extends Model
 {
     protected $allowedFields = [
-        'title', 'images', 'link', 'created_at', 'updated_at', 'deleted_at',
+        'title', 'images', 'link', 'created_at', 'updated_at', 'deleted_at', 'status',
     ];
 
     protected $table      = 'video';

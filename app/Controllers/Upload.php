@@ -14,7 +14,15 @@ use App\Models\VideoModel;
 use App\Models\SlideshowModel;
 use App\Models\SurveyModel;
 use App\Models\MaklumatModel;
+use App\Models\PagesModel;
+use App\Models\StandarPelayananModel;
 use App\Models\RbiModel;
+use App\Models\OtherMenuModel;
+use App\Models\KemitraanModel;
+use App\Models\FieldgratModel;
+use App\Models\GratifikasiModel;
+use App\Models\TagsModel;
+use App\Models\ArticleTagsModel;
 use App\Models\GroupModel;
 
 use App\Controllers\BaseController;
@@ -770,7 +778,7 @@ class Upload extends BaseController
             // Saving uploaded file
             $filename = $input->getRandomName();
             $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . '/artista/artikel/', $truename . '.' . $ext);
+            $input->move(FCPATH . '/gratifikasi/', $truename . '.' . $ext);
 
             // Getting True Filename
             $returnFile = $truename . '.' . $ext;
@@ -784,7 +792,7 @@ class Upload extends BaseController
     {
         // Removing File
         $input = $this->request->getPost('file');
-        unlink(FCPATH . 'artista/artikel/' . $input);
+        unlink(FCPATH . 'gratifikasi/' . $input);
 
         // Return Message
         die(json_encode(array('errors', 'Data berhasil di hapus')));
@@ -807,7 +815,7 @@ class Upload extends BaseController
                 ],
             ],
             'file' => [
-                'label'  => 'File Majalah Artista',
+                'label'  => 'Link Flipbook Majalah Artista',
                 'rules'  => 'required',
                 'errors' => [
                     'required'      => '{field} harus di upload',
@@ -877,13 +885,13 @@ class Upload extends BaseController
             return redirect()->to('dashboard/editartista/'.$id)->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        if (!empty($input['file'])) {
-            if (!empty($artista['file'])) {
-                if ($input['file'] != $artista['file']) {
-                    unlink(FCPATH . '/artista/artikel/' . $artista['file']);
-                }
-            }
-        }
+            // if (!empty($input['file'])) {
+            //     if (!empty($artista['file'])) {
+            //         if ($input['file'] != $artista['file']) {
+            //             unlink(FCPATH . '/artista/artikel/' . $artista['file']);
+            //         }
+            //     }
+            // }
 
         if (!empty($input['foto'])) {
             if (!empty($artista['photo'])) {
@@ -912,8 +920,10 @@ class Upload extends BaseController
     public function addberita()
     {
         // Calling Models
-        $UserModel      = new UsersModel();
-        $BeritaModel    = new BeritaModel();
+        $UserModel          = new UsersModel();
+        $BeritaModel        = new BeritaModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $input  = $this->request->getPost();
@@ -950,6 +960,12 @@ class Upload extends BaseController
 
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
+        
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
 
         // News Data 
         $berita = [
@@ -960,10 +976,25 @@ class Upload extends BaseController
             'fulltext'      => $input['isi'],
             'images'        => "images/".$input['foto'],
             'description'   => $input['ringkasan'],
+            'status'        => $status,
         ];
 
         // insert News
         $BeritaModel->insert($berita);
+        $article = $BeritaModel->getInsertID();
+
+        // insert Tags
+        foreach ($input['tags'] as $tag) {
+            $dataTag = $TagsModel->find($tag);
+            if (empty($dataTag)) {
+                $TagsModel->insert(['title' => $tag]);
+                $tagid = $TagsModel->getInsertID();
+                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 1]);
+            } else {
+                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 1]);
+            }
+        }
+
         return redirect()->to('dashboard/berita')->with('message', "Berita Berhasil Di Tambahkan!");
     }
 
@@ -971,15 +1002,17 @@ class Upload extends BaseController
     public function editberita($id){
 
         // Calling Models
-        $UserModel      = new UsersModel();
-        $BeritaModel    = new BeritaModel();
+        $UserModel          = new UsersModel();
+        $BeritaModel        = new BeritaModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
-        $input  = $this->request->getPost();
-        $user   = $UserModel->find($this->data['uid']);
-        $photos = $this->request->getPost('foto');
+        $input              = $this->request->getPost();
+        $user               = $UserModel->find($this->data['uid']);
+        $photos             = $this->request->getPost('foto');
 
-        $fotoberita = $BeritaModel->find($id);
+        $fotoberita         = $BeritaModel->find($id);
 
         if ($photos === $fotoberita['images']) {
             $xfoto = $fotoberita['images'];
@@ -991,6 +1024,12 @@ class Upload extends BaseController
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+
         // News Data 
         $berita = [
             'id'            => $id,
@@ -1001,10 +1040,38 @@ class Upload extends BaseController
             'fulltext'      => $input['isi'],
             'images'        => $xfoto,
             'description'   => $input['ringkasan'],
+            'status'        => $status,
         ];
 
         // insert News
         $BeritaModel->save($berita);
+
+        // update tags
+        $currentTags    = $ArticleTagsModel->arrayTags($id, 1);
+        $tag            = [];
+        foreach ($currentTags as $tags) {
+            $tag[] = $tags['tagsid'];
+        }
+        $inputTags = $input['tags'];
+
+        // remove tags
+        $removedTags = array_diff($tag, $inputTags);
+        foreach ($removedTags as $removedTag) {
+            $ArticleTagsModel->deleteTags($id, $removedTag, 1);
+        }
+
+        // adding tags
+        $addedTags = array_diff($inputTags, $tag);
+        foreach ($addedTags as $addedTag) {
+            $Tags = $TagsModel->find($addedTag);
+            if (!empty($Tags)) {
+                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 1]);
+            } else {
+                $TagsModel->insert(['title' => $addedTag]);
+                $tagid = $TagsModel->getInsertID();
+                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 1]);
+            }
+        }
         return redirect()->to('dashboard/berita')->with('message', "Berita Berhasil Di Ubah!");
     }
 
@@ -1012,8 +1079,10 @@ class Upload extends BaseController
     public function addseminar()
     {
         // Calling Models
-        $UserModel      = new UsersModel();
-        $SeminarModel   = new SeminarModel();
+        $UserModel          = new UsersModel();
+        $SeminarModel       = new SeminarModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $input  = $this->request->getPost();
@@ -1050,6 +1119,12 @@ class Upload extends BaseController
 
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
+        
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
 
         // News Data 
         $seminar = [
@@ -1061,19 +1136,35 @@ class Upload extends BaseController
             'images'        => "images/".$input['foto'],
             'description'   => $input['ringkasan'],
             'type'          => 0,
+            'status'        => $status,
         ];
 
         // insert News
         $SeminarModel->insert($seminar);
+        $article = $SeminarModel->getInsertID();
+
+        // insert Tags
+        foreach ($input['tags'] as $tag) {
+            $dataTag = $TagsModel->find($tag);
+            if (empty($dataTag)) {
+                $TagsModel->insert(['title' => $tag]);
+                $tagid = $TagsModel->getInsertID();
+                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 2]);
+            } else {
+                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 2]);
+            }
+        }
         return redirect()->to('dashboard/seminar')->with('message', "Seminar Berhasil Di Tambahkan!");
     }
 
     // Edit Seminar
-    public function editseminar($id){
-
+    public function editseminar($id)
+    {
         // Calling Models
-        $UserModel      = new UsersModel();
-        $SeminarModel   = new SeminarModel();
+        $UserModel          = new UsersModel();
+        $SeminarModel       = new SeminarModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $input  = $this->request->getPost();
@@ -1092,6 +1183,12 @@ class Upload extends BaseController
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+
         // News Data 
         $seminar = [
             'id'            => $id,
@@ -1103,10 +1200,38 @@ class Upload extends BaseController
             'images'        => $xfoto,
             'description'   => $input['ringkasan'],
             'type'          => 0,
+            'status'        => $status,
         ];
 
         // insert News
         $SeminarModel->save($seminar);
+
+        // update tags
+        $currentTags    = $ArticleTagsModel->arrayTags($id, 2);
+        $tag            = [];
+        foreach ($currentTags as $tags) {
+            $tag[] = $tags['tagsid'];
+        }
+        $inputTags = $input['tags'];
+
+        // remove tags
+        $removedTags = array_diff($tag, $inputTags);
+        foreach ($removedTags as $removedTag) {
+            $ArticleTagsModel->deleteTags($id, $removedTag, 2);
+        }
+
+        // adding tags
+        $addedTags = array_diff($inputTags, $tag);
+        foreach ($addedTags as $addedTag) {
+            $Tags = $TagsModel->find($addedTag);
+            if (!empty($Tags)) {
+                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 2]);
+            } else {
+                $TagsModel->insert(['title' => $addedTag]);
+                $tagid = $TagsModel->getInsertID();
+                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 2]);
+            }
+        }
         return redirect()->to('dashboard/seminar')->with('message', "Seminar Berhasil Di Ubah!");
     }
 
@@ -1114,8 +1239,10 @@ class Upload extends BaseController
     public function addwebbinar()
     {
         // Calling Models
-        $UserModel      = new UsersModel();
-        $SeminarModel   = new SeminarModel();
+        $UserModel          = new UsersModel();
+        $SeminarModel       = new SeminarModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $input  = $this->request->getPost();
@@ -1152,6 +1279,12 @@ class Upload extends BaseController
 
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
+        
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
 
         // News Data 
         $seminar = [
@@ -1163,10 +1296,24 @@ class Upload extends BaseController
             'images'        => "images/".$input['foto'],
             'description'   => $input['ringkasan'],
             'type'          => 1,
+            'status'        => $status,
         ];
 
         // insert News
         $SeminarModel->insert($seminar);
+        $article = $SeminarModel->getInsertID();
+
+        // insert Tags
+        foreach ($input['tags'] as $tag) {
+            $dataTag = $TagsModel->find($tag);
+            if (empty($dataTag)) {
+                $TagsModel->insert(['title' => $tag]);
+                $tagid = $TagsModel->getInsertID();
+                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 2]);
+            } else {
+                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 2]);
+            }
+        }
         return redirect()->to('dashboard/webbinar')->with('message', "Webinar Berhasil Di Tambahkan!");
     }
 
@@ -1174,8 +1321,10 @@ class Upload extends BaseController
     public function editwebbinar($id){
 
         // Calling Models
-        $UserModel      = new UsersModel();
-        $SeminarModel   = new SeminarModel();
+        $UserModel          = new UsersModel();
+        $SeminarModel       = new SeminarModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $input  = $this->request->getPost();
@@ -1194,6 +1343,12 @@ class Upload extends BaseController
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+
         // News Data 
         $seminar = [
             'id'            => $id,
@@ -1205,10 +1360,38 @@ class Upload extends BaseController
             'images'        => $xfoto,
             'description'   => $input['ringkasan'],
             'type'          => 1,
+            'status'        => $status,
         ];
 
         // insert News
         $SeminarModel->save($seminar);
+
+        // update tags
+        $currentTags    = $ArticleTagsModel->arrayTags($id, 2);
+        $tag            = [];
+        foreach ($currentTags as $tags) {
+            $tag[] = $tags['tagsid'];
+        }
+        $inputTags = $input['tags'];
+
+        // remove tags
+        $removedTags = array_diff($tag, $inputTags);
+        foreach ($removedTags as $removedTag) {
+            $ArticleTagsModel->deleteTags($id, $removedTag, 2);
+        }
+
+        // adding tags
+        $addedTags = array_diff($inputTags, $tag);
+        foreach ($addedTags as $addedTag) {
+            $Tags = $TagsModel->find($addedTag);
+            if (!empty($Tags)) {
+                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 2]);
+            } else {
+                $TagsModel->insert(['title' => $addedTag]);
+                $tagid = $TagsModel->getInsertID();
+                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 2]);
+            }
+        }
         return redirect()->to('dashboard/webbinar')->with('message', "Webinar Berhasil Di Ubah!");
     }
 
@@ -1216,8 +1399,10 @@ class Upload extends BaseController
     public function addjadwal()
     {
         // Calling Models
-        $UserModel      = new UsersModel();
-        $ScheduleModel  = new ScheduleModel();
+        $UserModel          = new UsersModel();
+        $ScheduleModel      = new ScheduleModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $input  = $this->request->getPost();
@@ -1254,6 +1439,12 @@ class Upload extends BaseController
 
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
+        
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
 
         // News Data 
         $jadwal = [
@@ -1264,19 +1455,35 @@ class Upload extends BaseController
             'fulltext'      => $input['isi'],
             'images'        => "images/".$input['foto'],
             'description'   => $input['ringkasan'],
+            'status'        => $status,
         ];
 
         // insert News
         $ScheduleModel->insert($jadwal);
+        $article = $ScheduleModel->getInsertID();
+
+        // insert Tags
+        foreach ($input['tags'] as $tag) {
+            $dataTag = $TagsModel->find($tag);
+            if (empty($dataTag)) {
+                $TagsModel->insert(['title' => $tag]);
+                $tagid = $TagsModel->getInsertID();
+                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 4]);
+            } else {
+                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 4]);
+            }
+        }
         return redirect()->to('dashboard/jadwal')->with('message', "Jadwal Berhasil Di Tambahkan!");
     }
 
     // Edit Jadwal
-    public function editjadwal($id){
-
+    public function editjadwal($id)
+    {
         // Calling Models
-        $UserModel      = new UsersModel();
-        $ScheduleModel  = new ScheduleModel();
+        $UserModel          = new UsersModel();
+        $ScheduleModel      = new ScheduleModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $input  = $this->request->getPost();
@@ -1295,6 +1502,12 @@ class Upload extends BaseController
         // Alias
         $aliases = preg_replace('/\s+/', '-', $input['judul']);
 
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+
         // News Data 
         $jadwal = [
             'id'            => $id,
@@ -1305,10 +1518,38 @@ class Upload extends BaseController
             'fulltext'      => $input['isi'],
             'images'        => $xfoto,
             'description'   => $input['ringkasan'],
+            'status'        => $status,
         ];
 
         // insert News
         $ScheduleModel->save($jadwal);
+
+        // update tags
+        $currentTags    = $ArticleTagsModel->arrayTags($id, 4);
+        $tag            = [];
+        foreach ($currentTags as $tags) {
+            $tag[] = $tags['tagsid'];
+        }
+        $inputTags = $input['tags'];
+
+        // remove tags
+        $removedTags = array_diff($tag, $inputTags);
+        foreach ($removedTags as $removedTag) {
+            $ArticleTagsModel->deleteTags($id, $removedTag, 4);
+        }
+
+        // adding tags
+        $addedTags = array_diff($inputTags, $tag);
+        foreach ($addedTags as $addedTag) {
+            $Tags = $TagsModel->find($addedTag);
+            if (!empty($Tags)) {
+                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 4]);
+            } else {
+                $TagsModel->insert(['title' => $addedTag]);
+                $tagid = $TagsModel->getInsertID();
+                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 4]);
+            }
+        }
         return redirect()->to('dashboard/jadwal')->with('message', "Jadwal Berhasil Di Ubah!");
     }
 
@@ -1319,6 +1560,8 @@ class Upload extends BaseController
         $UserModel          = new UsersModel();
         $DiklatModel        = new DiklatModel();
         $FotoDiklatModel    = new FotoDiklatModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $input  = $this->request->getPost();
@@ -1351,12 +1594,19 @@ class Upload extends BaseController
 
         // Alias
         // $aliases = preg_replace('/\s+/', '-', $input['judul']);
+        
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
 
         // Diklat Data 
         $diklat = [
             'title'         => $input['judul'],
             'text'          => $input['description'],
             'images'        => "images/".$input['thumbnail'],
+            'status'        => $status,
         ];
 
         // insert Diklat
@@ -1375,15 +1625,29 @@ class Upload extends BaseController
             // insert Foto Diklat
             $FotoDiklatModel->insert($fotodiklat);
         }
+
+        // insert Tags
+        foreach ($input['tags'] as $tag) {
+            $dataTag = $TagsModel->find($tag);
+            if (empty($dataTag)) {
+                $TagsModel->insert(['title' => $tag]);
+                $tagid = $TagsModel->getInsertID();
+                $ArticleTagsModel->insert(['articleid' => $diklatid, 'tagsid' => $tagid, 'category' => 3]);
+            } else {
+                $ArticleTagsModel->insert(['articleid' => $diklatid, 'tagsid' => $tag, 'category' => 3]);
+            }
+        }
         return redirect()->to('dashboard/diklat')->with('message', "Diklat Berhasil Di Tambahkan!");
     }
 
     // Edit Diklat
-    public function editdiklat($id){
-
+    public function editdiklat($id)
+    {
         // Calling Models
         $DiklatModel        = new DiklatModel();
         $FotoDiklatModel    = new FotoDiklatModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Getting Input
         $input              = $this->request->getPost();
@@ -1404,16 +1668,50 @@ class Upload extends BaseController
             }
         }
 
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+
         // Diklat Data 
         $diklat = [
             'id'            => $id,
             'title'         => $input['judul'],
             'images'        => $input['thumbnail'],
             'text'          => $input['description'],
+            'status'        => $status,
         ];
 
         // insert Diklat
         $DiklatModel->save($diklat);
+
+        // update tags
+        $currentTags    = $ArticleTagsModel->arrayTags($id, 3);
+        $tag            = [];
+        foreach ($currentTags as $tags) {
+            $tag[] = $tags['tagsid'];
+        }
+        $inputTags = $input['tags'];
+    
+        // remove tags
+        $removedTags = array_diff($tag, $inputTags);
+        foreach ($removedTags as $removedTag) {
+            $ArticleTagsModel->deleteTags($id, $removedTag, 3);
+        }
+
+        // adding tags
+        $addedTags = array_diff($inputTags, $tag);
+        foreach ($addedTags as $addedTag) {
+            $Tags = $TagsModel->find($addedTag);
+            if (!empty($Tags)) {
+                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 3]);
+            } else {
+                $TagsModel->insert(['title' => $addedTag]);
+                $tagid = $TagsModel->getInsertID();
+                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 3]);
+            }
+        }
         return redirect()->to('dashboard/diklat')->with('message', "Diklat Berhasil Di Ubah!");
     }
 
@@ -1448,11 +1746,18 @@ class Upload extends BaseController
         if (!$this->validate($rules)) {
             return redirect()->to('dashboard/addfoto')->withInput()->with('errors', $this->validator->getErrors());
         }
+        
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
 
         // News Data 
         $foto = [
             'title'         => $input['judul'],
             'images'        => "images/".$input['thumbnail'],
+            'status'        => $status,
         ];
 
         // insert News
@@ -1499,11 +1804,19 @@ class Upload extends BaseController
                 $FotoGaleriModel->insert($fotophoto);
             }
         }
+
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+
         // Foto Data 
         $foto = [
             'id'            => $id,
             'title'         => $input['judul'],
             'images'        => $input['thumbnail'],
+            'status'        => $status,
         ];
 
         // insert Foto
@@ -1570,11 +1883,18 @@ class Upload extends BaseController
         $idlink = getYoutubeEmbedUrl($url);
         // $link = '<iframe width="560" height="315" src="'.$idlink.'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
 
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+
         // News Data 
         $video = [
             'title'         => $input['judul'],
             'images'        => $input['foto'],
             'link'          => $idlink,
+            'status'        => $status,
         ];
 
         // insert News
@@ -1621,12 +1941,19 @@ class Upload extends BaseController
             $xfoto = "images/".$this->request->getPost('foto');
         }
 
+        if(isset($input['status'])){
+            $status = 1;
+        }else{
+            $status = 0;
+        }
+
         // Video Data 
         $video = [
             'id'            => $id,
             'title'         => $input['judul'],
             'images'        => $xfoto,
             'link'          => $idlink,
+            'status'        => $status,
         ];
 
         // insert News
@@ -1749,6 +2076,34 @@ class Upload extends BaseController
         return redirect()->to('dashboard/maklumat')->with('message', "Maklumat Pelayanan Berhasil Di Tambahkan!");
     }
 
+    // Add Profile
+    public function addprofile()
+    {
+        // Calling Models
+        $PagesModel      = new PagesModel();
+
+        // Get Data
+        $input              = $this->request->getPost();
+        $profiles           = $PagesModel->where('name', 'Profile')->first();
+
+        // News Data
+        if (empty($profiles)) {
+            $content = [
+                'name'          => 'Profile',
+                'content'       => $input['konten'],
+            ];
+        } else {
+            $content = [
+                'id'            => $profiles['id'],
+                'content'       => $input['konten'],
+            ];
+        }
+
+        // insert News
+        $PagesModel->save($content);
+        return redirect()->to('dashboard/profile')->with('message', "Profil Berhasil Di Ubah!");
+    }
+
     // Upload File Hasil Survey
     public function pdfsurvey()
     {
@@ -1819,6 +2174,78 @@ class Upload extends BaseController
         // insert News
         $SurveyModel->save($content);
         return redirect()->to('dashboard/survey')->with('message', "Hasil Survey Berhasil Di Tambahkan!");
+    }
+
+    // Upload File Standar Pelayanan
+    public function pdfsp()
+    {
+        $validation = \Config\Services::validation();
+        $input      = $this->request->getFile('uploads');
+
+        // Validation Rules
+        $rules = [
+            'uploads'   => 'uploaded[uploads]|mime_in[uploads,application/pdf]',
+        ];
+
+        // Get Extention
+        $ext = $input->getClientExtension();
+
+        // Validating
+        if (!$this->validate($rules)) {
+            http_response_code(400);
+            die(json_encode(array('message' => $this->validator->getErrors())));
+        }
+
+        if ($input->isValid() && !$input->hasMoved()) {
+            // Saving uploaded file
+            $filename = $input->getRandomName();
+            $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
+            $input->move(FCPATH . '/standarpelayanan/', $truename . '.' . $ext);
+
+            // Getting True Filename
+            $returnFile = $truename . '.' . $ext;
+
+            // Returning Message
+            die(json_encode($returnFile));
+        }
+    }
+
+    public function removepdfsp()
+    {
+        // Removing File
+        $input = $this->request->getPost('file');
+        unlink(FCPATH . 'standarpelayanan/' . $input);
+
+        // Return Message
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
+
+    // Add Standar Pelayanan
+    public function addsp()
+    {
+        // Calling Models
+        $StandarPelayananModel        = new StandarPelayananModel();
+
+        // Get Data
+        $input              = $this->request->getPost();
+        $sp             = $StandarPelayananModel->first();
+
+        // News Data
+        if (empty($sp)) {
+            $content = [
+                'file'          => $input['file'],
+            ];
+        } else {
+            unlink(FCPATH . 'standarpelayanan/' . $sp['file']);
+            $content = [
+                'id'            => $sp['id'],
+                'file'          => $input['file'],
+            ];
+        }
+
+        // insert News
+        $StandarPelayananModel->save($content);
+        return redirect()->to('dashboard/standarpelayanan')->with('message', "Standar Pelayanan Berhasil Di Tambahkan!");
     }
 
     // Reordering Parent RBI
@@ -2023,6 +2450,317 @@ class Upload extends BaseController
         // insert News
         $RbiModel->save($data);
         return redirect()->to('dashboard/rbi')->with('message', "RBI Berhasil Di Ubah!");
+    }
+
+    // Reordering Other Menu
+    public function reorderingothermenu()
+    {
+        // Calling Models
+        $OtherMenuModel = new OtherMenuModel();
+
+        // Populating Data
+        $input          = $this->request->getPOST();
+
+        $othermenu      = $OtherMenuModel->find($input['id']);
+
+        // Processing Data
+        if ($othermenu['ordering'] < $input['order']) {
+            $upperPaket = $OtherMenuModel->where('ordering <=', $input['order'])->where('ordering >', $othermenu['ordering'])->find();
+            foreach ($upperPaket as $upper) {
+                $upperSubmit = [
+                    'id'        => $upper['id'],
+                    'ordering'  => $upper['ordering'] - 1
+                ];
+                $OtherMenuModel->save($upperSubmit);
+            }
+        } else {
+            $lowerPaket = $OtherMenuModel->where('ordering >=', $input['order'])->where('ordering <', $othermenu['ordering'])->find();
+            foreach ($lowerPaket as $lower) {
+                $lowerSubmit = [
+                    'id'        => $lower['id'],
+                    'ordering'  => $lower['ordering'] + 1
+                ];
+                $OtherMenuModel->save($lowerSubmit);
+            }
+        }
+        $currentSubmit = [
+            'id'        => $input['id'],
+            'ordering'  => $input['order']
+        ];
+        $OtherMenuModel->save($currentSubmit);
+
+        die(json_encode($currentSubmit));
+    }
+
+    // Add Menu Lainnya
+    public function addothermenu()
+    {
+        // Calling Models
+        $OtherMenuModel = new OtherMenuModel();
+
+        // Get Data
+        $input          = $this->request->getPost();
+
+        // Validation Rules
+        $rules = [
+            'title' => [
+                'label'  => 'Judul Menu',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addothermenu')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Alias
+        $aliases = preg_replace('/\s+/', '-', $input['title']);
+
+        // Save Data
+        $lastOrder      = $OtherMenuModel->orderBy('ordering', 'DESC')->first();
+        if (!empty($lastOrder)) {
+            $order = $lastOrder['ordering'] + 1;
+        } else {
+            $order = '1';
+        }
+
+        // RBI Data 
+        $data = [
+            'title'         => $input['title'],
+            'alias'         => $aliases,
+            'content'       => $input['content'],
+            'ordering'      => $order,
+        ];
+
+        // insert RBI
+        $OtherMenuModel->insert($data);
+        return redirect()->to('dashboard/othermenu')->with('message', "Menu Lainnya Berhasil Di Tambahkan!");
+    }
+
+    // Edit Menu Lainnya
+    public function editothermenu($id){
+
+        // Calling Models
+        $OtherMenuModel = new OtherMenuModel();
+
+        // Get Data
+        $input          = $this->request->getPost();
+
+        // Alias
+        $aliases        = preg_replace('/\s+/', '-', $input['title']);
+
+        // News Data 
+        $data = [
+            'id'            => $id,
+            'title'         => $input['title'],
+            'alias'         => $aliases,
+            'content'       => $input['content'],
+        ];
+
+        // insert News
+        $OtherMenuModel->save($data);
+        return redirect()->to('dashboard/othermenu')->with('message', "Menu Lainnya Berhasil Di Ubah!");
+    }
+
+    // Reordering Kemitraan
+    public function reorderingkemitraan()
+    {
+        // Calling Models
+        $KemitraanModel = new KemitraanModel();
+
+        // Populating Data
+        $input          = $this->request->getPOST();
+
+        $kemitraan      = $KemitraanModel->find($input['id']);
+
+        // Processing Data
+        if ($kemitraan['ordering'] < $input['order']) {
+            $upperPaket = $KemitraanModel->where('ordering <=', $input['order'])->where('ordering >', $kemitraan['ordering'])->find();
+            foreach ($upperPaket as $upper) {
+                $upperSubmit = [
+                    'id'        => $upper['id'],
+                    'ordering'  => $upper['ordering'] - 1
+                ];
+                $KemitraanModel->save($upperSubmit);
+            }
+        } else {
+            $lowerPaket = $KemitraanModel->where('ordering >=', $input['order'])->where('ordering <', $kemitraan['ordering'])->find();
+            foreach ($lowerPaket as $lower) {
+                $lowerSubmit = [
+                    'id'        => $lower['id'],
+                    'ordering'  => $lower['ordering'] + 1
+                ];
+                $KemitraanModel->save($lowerSubmit);
+            }
+        }
+        $currentSubmit = [
+            'id'        => $input['id'],
+            'ordering'  => $input['order']
+        ];
+        $KemitraanModel->save($currentSubmit);
+
+        die(json_encode($currentSubmit));
+    }
+
+    // Add Menu Lainnya
+    public function addkemitraan()
+    {
+        // Calling Models
+        $KemitraanModel = new KemitraanModel();
+
+        // Get Data
+        $input          = $this->request->getPost();
+
+        // Validation Rules
+        $rules = [
+            'title' => [
+                'label'  => 'Judul Menu',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addkemitraan')->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Alias
+        $aliases = preg_replace('/\s+/', '-', $input['title']);
+
+        // Save Data
+        $lastOrder      = $KemitraanModel->orderBy('ordering', 'DESC')->first();
+        if (!empty($lastOrder)) {
+            $order = $lastOrder['ordering'] + 1;
+        } else {
+            $order = '1';
+        }
+
+        // RBI Data 
+        $data = [
+            'title'         => $input['title'],
+            'alias'         => $aliases,
+            'content'       => $input['content'],
+            'ordering'      => $order,
+        ];
+
+        // insert RBI
+        $KemitraanModel->insert($data);
+        return redirect()->to('dashboard/kemitraan')->with('message', "Menu Kemitraan Berhasil Di Tambahkan!");
+    }
+
+    // Edit Menu Lainnya
+    public function editkemitraan($id){
+
+        // Calling Models
+        $KemitraanModel = new KemitraanModel();
+
+        // Get Data
+        $input          = $this->request->getPost();
+
+        // Alias
+        $aliases        = preg_replace('/\s+/', '-', $input['title']);
+
+        // News Data 
+        $data = [
+            'id'            => $id,
+            'title'         => $input['title'],
+            'alias'         => $aliases,
+            'content'       => $input['content'],
+        ];
+
+        // insert News
+        $KemitraanModel->save($data);
+        return redirect()->to('dashboard/kemitraan')->with('message', "Menu Kemitraan Berhasil Di Ubah!");
+    }
+
+    // Add Gratifikasi
+    public function addgratifikasi()
+    {
+        // Calling Models
+        $FieldgratModel     = new FieldgratModel();
+
+        // Get Data
+        $input              = $this->request->getPost();
+
+        // Validation Rules
+        $rules = [
+            'name' => [
+                'label'  => 'Name Inputan',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di isi',
+                ],
+            ],
+            'type' => [
+                'label'  => 'Tipe Inputan',
+                'rules'  => 'required',
+                'errors' => [
+                    'required'      => '{field} harus di pilih',
+                ],
+            ],
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->to('dashboard/addgratifkasi')->withInput()->with('errors', $this->validator->getErrors());
+        }
+        
+        if(isset($input['wajib'])){
+            $wajib = 1;
+        }else{
+            $wajib = 0;
+        }
+
+        // Alias
+        $aliases        = preg_replace('/\s+/', '_', $input['name']);
+
+        // News Data 
+        $gratifikasi = [
+            'name'          => $input['name'],
+            'alias'         => strtolower($aliases),
+            'wajib'         => $wajib,
+            'type'          => $input['type'],
+        ];
+
+        // insert News
+        $FieldgratModel->insert($gratifikasi);
+        return redirect()->to('dashboard/gratifikasi')->with('message', "Inputan Gratifikasi Berhasil Di Tambahkan!");
+    }
+
+    // Edit Gratifikasi
+    public function editgratifikasi($id){
+
+        // Calling Models
+        $FieldgratModel     = new FieldgratModel();
+
+        // Get Data
+        $input              = $this->request->getPost();
+
+        if(isset($input['wajib'])){
+            $wajib = 1;
+        }else{
+            $wajib = 0;
+        }
+
+        // Alias
+        $aliases        = preg_replace('/\s+/', '_', $input['name']);
+
+        // News Data 
+        $gratifikasi = [
+            'id'            => $id,
+            'name'          => $input['name'],
+            'alias'         => strtolower($aliases),
+            'wajib'         => $wajib,
+            'type'          => $input['type'],
+        ];
+
+        // insert News
+        $FieldgratModel->save($gratifikasi);
+        return redirect()->to('dashboard/gratifikasi')->with('message', "Inputan Gratifikasi Berhasil Di Ubah!");
     }
 }
 ?>

@@ -16,8 +16,16 @@ use App\Models\SlideshowModel;
 use App\Models\PengaduanModel;
 use App\Models\PermohonanModel;
 use App\Models\SurveyModel;
+use App\Models\StandarPelayananModel;
 use App\Models\MaklumatModel;
+use App\Models\PagesModel;
 use App\Models\RbiModel;
+use App\Models\OtherMenuModel;
+use App\Models\KemitraanModel;
+use App\Models\FieldgratModel;
+use App\Models\GratifikasiModel;
+use App\Models\TagsModel;
+use App\Models\ArticleTagsModel;
 use App\Models\IdentitasModel;
 use App\Models\GroupModel;
 
@@ -41,13 +49,16 @@ class Auth extends BaseController
         $usersmodel         = new UsersModel();
         $PermohonanModel    = new PermohonanModel();
         $PengaduanModel     = new PengaduanModel();
+        $GratifikasiModel   = new GratifikasiModel();
 
         // Get Data
-        $user       = $usersmodel->find($this->data['uid']);
-        $users      = $usersmodel->findAll();
-        $pengaduan  = $PengaduanModel->orderBy('status','ASC')->paginate(5,'pengaduan');
-        $permohonan = $PermohonanModel->orderBy('status','ASC')->paginate(5,'permohonan');
+        $user               = $usersmodel->find($this->data['uid']);
+        $users              = $usersmodel->findAll();
+        $pengaduan          = $PengaduanModel->orderBy('created_at','DESC')->paginate(10,'pengaduan');
+        $permohonan         = $PermohonanModel->orderBy('created_at','DESC')->paginate(10,'permohonan');
+        $gratifikasi        = $GratifikasiModel->orderBy('id','DESC')->paginate(10,'gratifikasi');
 
+        // dd($gratifikasi);
         // Parsing data
         $data                       = $this->data;
         $data['title']              = "Dashboard";
@@ -55,11 +66,59 @@ class Auth extends BaseController
         $data['users']              = $users;
         $data['permohonan']         = $permohonan;
         $data['pengaduan']          = $pengaduan;
+        $data['gratifikasi']        = $gratifikasi;
         $data['pager']              = $PengaduanModel->pager;
         $data['pagerpermohonan']    = $PermohonanModel->pager;
+        $data['pagergratifikasi']   = $GratifikasiModel->pager;
 
         // Retrun View
         return view('Views/admin/dashboard', $data);
+    }
+
+    // Export Pengaduan
+    public function exportpengaduan()
+    {
+        // Calling Models
+        $usersmodel             = new UsersModel();
+        $PengaduanModel         = new PengaduanModel();
+
+        // Populating Data
+        $startdate              = date('Y-m-1') . ' 00:00:00';
+        $enddate                = date('Y-m-t') . ' 23:59:59';
+        $users                  = $usersmodel->findAll();
+        $pengaduan              = $PengaduanModel->where('created_at >=', $startdate)->where('created_at <=', $enddate)->orderBy('created_at','DESC')->find();
+
+        // Parsing Data to View
+        $data                   = $this->data;
+        $data['pengaduan']      = $pengaduan;
+        $data['startdate']      = $startdate;
+        $data['users']          = $users;
+
+        // Return View
+        return view('Views/admin/exportaduan', $data);
+    }
+
+    // Export Permohonan
+    public function exportpermohonan()
+    {
+        // Calling Models
+        $usersmodel             = new UsersModel();
+        $PermohonanModel        = new PermohonanModel();
+
+        // Populating Data
+        $startdate              = date('Y-m-1') . ' 00:00:00';
+        $enddate                = date('Y-m-t') . ' 23:59:59';
+        $users                  = $usersmodel->findAll();
+        $permohonan             = $PermohonanModel->where('created_at >=', $startdate)->where('created_at <=', $enddate)->orderBy('created_at','DESC')->find();
+
+        // Parsing Data to View
+        $data                   = $this->data;
+        $data['permohonan']     = $permohonan;
+        $data['startdate']      = $startdate;
+        $data['users']          = $users;
+
+        // Return View
+        return view('Views/admin/exportpermohonan', $data);
     }
 
     // Akun Views
@@ -230,16 +289,20 @@ class Auth extends BaseController
     public function addberita()
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
-        $BeritaModel    = new BeritaModel();
+        $usersmodel         = new UsersModel();
+        $BeritaModel        = new BeritaModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
+        $tags = $TagsModel->findAll();
 
         // Parsing Data
         $data               = $this->data;
         $data['title']      = "Dashboard Tambah Berita";
         $data['user']       = $user;
+        $data['tags']       = $tags;
 
         return view('Views/admin/addberita', $data);
     }
@@ -247,20 +310,26 @@ class Auth extends BaseController
     public function editberita($id)
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
-        $BeritaModel    = new BeritaModel();
+        $usersmodel         = new UsersModel();
+        $BeritaModel        = new BeritaModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
-        $user = $usersmodel->find($this->data['uid']);
-        $news = $BeritaModel->find($id);
-        $users = $usersmodel->findAll();
+        $articletags        = $ArticleTagsModel->where('articleid', $id)->where('category', '1')->find();
+        $tags               = $TagsModel->findAll();
+        $user               = $usersmodel->find($this->data['uid']);
+        $news               = $BeritaModel->find($id);
+        $users              = $usersmodel->findAll();
         array_multisort($news, SORT_DESC);
 
         // Parsing Data
-        $data               = $this->data;
-        $data['title']      = "Dashboard Edit Berita";
-        $data['user']       = $user;
-        $data['users']      = $users;
-        $data['news']       = $news;
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Edit Berita";
+        $data['user']           = $user;
+        $data['users']          = $users;
+        $data['news']           = $news;
+        $data['tags']           = $tags;
+        $data['articletags']    = $articletags;
 
         return view('Views/admin/editberita', $data);
     }
@@ -268,10 +337,14 @@ class Auth extends BaseController
     public function removeberita($id)
     {
         // Calling Models
-        $BeritaModel    = new BeritaModel();
+        $BeritaModel        = new BeritaModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $berita = $BeritaModel->find($id);
+
+        // Delete Tags
+        $ArticleTagsModel->where('articleid', $id)->where('category', '1')->delete();
 
         // unlink image
         if(!empty($berita['images'])){
@@ -287,8 +360,8 @@ class Auth extends BaseController
     public function seminar()
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
-        $SeminarModel   = new SeminarModel();
+        $usersmodel         = new UsersModel();
+        $SeminarModel       = new SeminarModel();
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
@@ -311,15 +384,19 @@ class Auth extends BaseController
     public function addseminar()
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
+        $usersmodel         = new UsersModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
+        $tags = $TagsModel->findAll();
 
         // Parsing Data
         $data               = $this->data;
         $data['title']      = "Dashboard Tambah Seminar";
         $data['user']       = $user;
+        $data['tags']       = $tags;
 
         return view('Views/admin/addseminar', $data);
     }
@@ -327,19 +404,25 @@ class Auth extends BaseController
     public function editseminar($id)
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
-        $SeminarModel    = new SeminarModel();
+        $usersmodel         = new UsersModel();
+        $SeminarModel       = new SeminarModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
-        $user = $usersmodel->find($this->data['uid']);
-        $Seminar = $SeminarModel->find($id);
-        $users = $usersmodel->findAll();
+        $articletags        = $ArticleTagsModel->where('articleid', $id)->where('category', '2')->find();
+        $tags               = $TagsModel->findAll();
+        $user               = $usersmodel->find($this->data['uid']);
+        $Seminar            = $SeminarModel->find($id);
+        $users              = $usersmodel->findAll();
 
         // Parsing Data
-        $data               = $this->data;
-        $data['title']      = "Dashboard Edit Seminar";
-        $data['user']       = $user;
-        $data['users']      = $users;
-        $data['news']       = $Seminar;
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Edit Seminar";
+        $data['user']           = $user;
+        $data['users']          = $users;
+        $data['news']           = $Seminar;
+        $data['tags']           = $tags;
+        $data['articletags']    = $articletags;
 
         return view('Views/admin/editseminar', $data);
     }
@@ -347,10 +430,14 @@ class Auth extends BaseController
     public function removeseminar($id)
     {
         // Calling Models
-        $SeminarModel    = new SeminarModel();
+        $SeminarModel       = new SeminarModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $seminar = $SeminarModel->find($id);
+
+        // Delete Tags
+        $ArticleTagsModel->where('articleid', $id)->where('category', '2')->delete();
 
         // unlink image
         if(!empty($seminar['images'])){
@@ -366,8 +453,8 @@ class Auth extends BaseController
     public function webbinar()
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
-        $SeminarModel   = new SeminarModel();
+        $usersmodel         = new UsersModel();
+        $SeminarModel       = new SeminarModel();
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
@@ -390,15 +477,19 @@ class Auth extends BaseController
     public function addwebbinar()
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
+        $usersmodel         = new UsersModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $user = $usersmodel->find($this->data['uid']);
+        $tags = $TagsModel->findAll();
 
         // Parsing Data
         $data               = $this->data;
         $data['title']      = "Dashboard Tambah Webbinar";
         $data['user']       = $user;
+        $data['tags']       = $tags;
 
         return view('Views/admin/addwebbinar', $data);
     }
@@ -406,19 +497,25 @@ class Auth extends BaseController
     public function editwebbinar($id)
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
-        $SeminarModel    = new SeminarModel();
+        $usersmodel         = new UsersModel();
+        $SeminarModel       = new SeminarModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
-        $user = $usersmodel->find($this->data['uid']);
-        $Seminar = $SeminarModel->find($id);
-        $users = $usersmodel->findAll();
+        $articletags        = $ArticleTagsModel->where('articleid', $id)->where('category', '2')->find();
+        $tags               = $TagsModel->findAll();
+        $user               = $usersmodel->find($this->data['uid']);
+        $Seminar            = $SeminarModel->find($id);
+        $users              = $usersmodel->findAll();
 
         // Parsing Data
-        $data               = $this->data;
-        $data['title']      = "Dashboard Edit Webbinar";
-        $data['user']       = $user;
-        $data['users']      = $users;
-        $data['news']       = $Seminar;
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Edit Webbinar";
+        $data['user']           = $user;
+        $data['users']          = $users;
+        $data['news']           = $Seminar;
+        $data['tags']           = $tags;
+        $data['articletags']    = $articletags;
 
         return view('Views/admin/editwebbinar', $data);
     }
@@ -452,14 +549,18 @@ class Auth extends BaseController
     {
         // Calling Models
         $usersmodel         = new UsersModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $user               = $usersmodel->find($this->data['uid']);
+        $tags               = $TagsModel->findAll();
 
         // Parsing Data
         $data               = $this->data;
         $data['title']      = "Dashboard Tambah Seminar";
         $data['user']       = $user;
+        $data['tags']       = $tags;
 
         return view('Views/admin/adddiklat', $data);
     }
@@ -470,19 +571,25 @@ class Auth extends BaseController
         $usersmodel         = new UsersModel();
         $DiklatModel        = new DiklatModel();
         $FotoDiklatModel    = new FotoDiklatModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
+        $articletags        = $ArticleTagsModel->where('articleid', $id)->where('category', '3')->find();
+        $tags               = $TagsModel->findAll();
         $user               = $usersmodel->find($this->data['uid']);
         $diklat             = $DiklatModel->find($id);
         $photos             = $FotoDiklatModel->where('diklatid', $id)->find();
         $users              = $usersmodel->findAll();
 
         // Parsing Data
-        $data               = $this->data;
-        $data['title']      = "Dashboard Edit Diklat";
-        $data['user']       = $user;
-        $data['users']      = $users;
-        $data['photos']     = $photos;
-        $data['news']       = $diklat;
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Edit Diklat";
+        $data['user']           = $user;
+        $data['users']          = $users;
+        $data['photos']         = $photos;
+        $data['news']           = $diklat;
+        $data['tags']           = $tags;
+        $data['articletags']    = $articletags;
 
         return view('Views/admin/editdiklat', $data);
     }
@@ -492,10 +599,14 @@ class Auth extends BaseController
         // Calling Models
         $DiklatModel        = new DiklatModel();
         $FotoDiklatModel    = new FotoDiklatModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $diklat = $DiklatModel->find($id);
-        $photos = $FotoDiklatModel->where('diklatid', $id)->find();
+        $photos = $FotoDiklatModel->where('diklatid', $id)->where('category', '3')->find();
+
+        // Delete Tags
+        $ArticleTagsModel->where('articleid', $id)->delete();
 
         // unlink image
         if(!empty($diklat['images'])){
@@ -541,15 +652,19 @@ class Auth extends BaseController
     public function addjadwal()
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
+        $usersmodel         = new UsersModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
-        $user = $usersmodel->find($this->data['uid']);
+        $user               = $usersmodel->find($this->data['uid']);
+        $tags               = $TagsModel->findAll();
 
         // Parsing Data
         $data               = $this->data;
         $data['title']      = "Dashboard Tambah Jadwal";
         $data['user']       = $user;
+        $data['tags']       = $tags;
 
         return view('Views/admin/addjadwal', $data);
     }
@@ -557,19 +672,25 @@ class Auth extends BaseController
     public function editjadwal($id)
     {
         // Calling Models
-        $usersmodel     = new UsersModel();
-        $ScheduleModel    = new ScheduleModel();
+        $usersmodel         = new UsersModel();
+        $ScheduleModel      = new ScheduleModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
-        $user = $usersmodel->find($this->data['uid']);
-        $jadwal = $ScheduleModel->find($id);
-        $users = $usersmodel->findAll();
+        $articletags        = $ArticleTagsModel->where('articleid', $id)->where('category', '4')->find();
+        $tags               = $TagsModel->findAll();
+        $user               = $usersmodel->find($this->data['uid']);
+        $jadwal             = $ScheduleModel->find($id);
+        $users              = $usersmodel->findAll();
 
         // Parsing Data
-        $data               = $this->data;
-        $data['title']      = "Dashboard Edit Jadwal";
-        $data['user']       = $user;
-        $data['users']      = $users;
-        $data['news']       = $jadwal;
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Edit Jadwal";
+        $data['user']           = $user;
+        $data['users']          = $users;
+        $data['news']           = $jadwal;
+        $data['tags']           = $tags;
+        $data['articletags']    = $articletags;
 
         return view('Views/admin/editjadwal', $data);
     }
@@ -577,10 +698,14 @@ class Auth extends BaseController
     public function removejadwal($id)
     {
         // Calling Models
-        $ScheduleModel    = new ScheduleModel();
+        $ScheduleModel      = new ScheduleModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Get Data
         $jadwal = $ScheduleModel->find($id);
+
+        // Delete Tags
+        $ArticleTagsModel->where('articleid', $id)->where('category', '4')->delete();
 
         // unlink image
         if(!empty($jadwal['images'])){
@@ -769,7 +894,8 @@ class Auth extends BaseController
     }
 
     // Video Views
-    public function video(){
+    public function video()
+    {
         // Calling Models
         $usersmodel     = new UsersModel();
         $VideoModel     = new VideoModel();
@@ -863,7 +989,8 @@ class Auth extends BaseController
         return view('Views/admin/slideshow', $data);
     }
 
-    public function addslideshow(){
+    public function addslideshow()
+    {
         // Calling Models
         $usersmodel     = new UsersModel();
 
@@ -943,6 +1070,17 @@ class Auth extends BaseController
         die(json_encode(array($status)));
     }
 
+    public function pengaduandelete($id)
+    {
+        // Calling Models
+        $PengaduanModel = new PengaduanModel();
+
+        // Delete Data
+        $PengaduanModel->delete($id);
+        
+        return redirect()->back()->with('error', 'Data berhasil di hapus');
+    }
+
     // Permohonan
     public function permohonan($id)
     {
@@ -963,6 +1101,49 @@ class Auth extends BaseController
         die(json_encode(array($status)));
     }
 
+    public function permohonandelete($id)
+    {
+        // Calling Models
+        $PermohonanModel = new PermohonanModel();
+
+        // Delete Data
+        $PermohonanModel->delete($id);
+        
+        return redirect()->back()->with('error', 'Data berhasil di hapus');
+    }
+
+    // Gratifikasi
+    public function laporgratifikasi($id)
+    {
+        // Calling Models
+        $GratifikasiModel    = new GratifikasiModel();
+
+        // Get Data
+        $aduan = $GratifikasiModel->find($id);
+
+        $status = [
+            'id'        => $aduan['id'],
+            'status'    => "1",
+            'userid'    => $this->data['uid'],
+        ];
+
+        $GratifikasiModel->save($status);
+
+        die(json_encode(array($status)));
+    }
+
+    public function gratifikasidelete($id)
+    {
+        // Calling Models
+        $GratifikasiModel = new GratifikasiModel();
+
+        // Delete Data
+        $GratifikasiModel->delete($id);
+        
+        return redirect()->back()->with('error', 'Data berhasil di hapus');
+    }
+    
+    // Maklumat
     public function maklumat()
     {
         // Calling Models
@@ -981,6 +1162,26 @@ class Auth extends BaseController
         return view('Views/admin/maklumat', $data);
     }
 
+    // Profile
+    public function profile()
+    {
+        // Calling Models
+        $PagesModel             = new PagesModel();
+        $usersmodel             = new UsersModel();
+
+        // Get Data
+        $user                   = $usersmodel->find($this->data['uid']);
+        $profiles               = $PagesModel->where('name', 'Profile')->first();
+
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Profil";
+        $data['profiles']       = $profiles;
+        $data['user']           = $user;
+
+        return view('Views/admin/profile', $data);
+    }
+
+    // Survey
     public function survey()
     {
         // Calling Models
@@ -997,6 +1198,25 @@ class Auth extends BaseController
         $data['user']           = $user;
 
         return view('Views/admin/survey', $data);
+    }
+
+    // Standar Pelayanan
+    public function standarpelayanan()
+    {
+        // Calling Models
+        $StandarPelayananModel  = new StandarPelayananModel();
+        $usersmodel             = new UsersModel();
+
+        // Get Data
+        $user                   = $usersmodel->find($this->data['uid']);
+        $sp                     = $StandarPelayananModel->first();
+
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Hasil Standar Pelayanan";
+        $data['sp']             = $sp;
+        $data['user']           = $user;
+
+        return view('Views/admin/standarpelayanan', $data);
     }
 
     // RBI
@@ -1086,7 +1306,11 @@ class Auth extends BaseController
             $parentid[] = $parent['id'];
         }
 
-        $subparents = $RbiModel->whereIn('parentid', $parentid)->find();
+        if (!empty($parents)) {
+            $subparents = $RbiModel->whereIn('parentid', $parentid)->find();
+        } else {
+            $subparents = [];
+        }
 
         // Parsing Data
         $data                   = $this->data;
@@ -1158,6 +1382,224 @@ class Auth extends BaseController
 
         // Return
         die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
+
+    // Other Menu
+    public function othermenu()
+    {
+        // Calling Models
+        $OtherMenuModel         = new OtherMenuModel();
+        $usersmodel             = new UsersModel();
+
+        // Get Data
+        $user                   = $usersmodel->find($this->data['uid']);
+        $othermenus             = $OtherMenuModel->orderBy('ordering', 'ASC')->paginate(20, 'othermenu');
+        
+        // Parsing Data to View
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Menu Lainnya";
+        $data['othermenus']     = $othermenus;
+        $data['user']           = $user;
+        $data['count']          = count($othermenus);
+        $data['pager']          = $OtherMenuModel->pager;
+        
+        return view('Views/admin/othermenu', $data);
+    }
+
+    public function addothermenu()
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $OtherMenuModel = new OtherMenuModel();
+
+        // Get Data
+        $user           = $usersmodel->find($this->data['uid']);
+
+        // Parsing Data
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Tambah Menu Lainnya";
+        $data['description']    = 'Preview';
+        $data['user']           = $user;
+
+        return view('Views/admin/addothermenu', $data);
+    }
+
+    public function editothermenu($id)
+    {
+        // Calling Models
+        $OtherMenuModel     = new OtherMenuModel();
+        $usersmodel         = new UsersModel();
+
+        $othermenus         = $OtherMenuModel->find($id);
+        $user               = $usersmodel->find($this->data['uid']);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Edit Menu ".$othermenus['title'];
+        $data['user']       = $user;
+        $data['othermenus'] = $othermenus;
+
+        return view('Views/admin/editothermenu', $data);
+    }
+
+    public function removeothermenu()
+    {
+        // Calling Models
+        $OtherMenuModel     = new OtherMenuModel();
+
+        // Get Data
+        $input              = $this->request->getPOST();
+        $othermenus         = $OtherMenuModel->find($input['id']);
+
+        // Remove Parent
+        $OtherMenuModel->delete($input['id']);
+
+        // Return
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
+
+    // Kemitraan
+    public function kemitraan()
+    {
+        // Calling Models
+        $KemitraanModel         = new KemitraanModel();
+        $usersmodel             = new UsersModel();
+
+        // Get Data
+        $user                   = $usersmodel->find($this->data['uid']);
+        $kemitraans             = $KemitraanModel->orderBy('ordering', 'ASC')->paginate(20, 'othermenu');
+        
+        // Parsing Data to View
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Menu Lainnya";
+        $data['kemitraans']     = $kemitraans;
+        $data['user']           = $user;
+        $data['count']          = count($kemitraans);
+        $data['pager']          = $KemitraanModel->pager;
+        
+        return view('Views/admin/kemitraan', $data);
+    }
+
+    public function addkemitraan()
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $KemitraanModel = new KemitraanModel();
+
+        // Get Data
+        $user           = $usersmodel->find($this->data['uid']);
+
+        // Parsing Data
+        $data                   = $this->data;
+        $data['title']          = "Dashboard Tambah Menu Lainnya";
+        $data['description']    = 'Preview';
+        $data['user']           = $user;
+
+        return view('Views/admin/addkemitraan', $data);
+    }
+
+    public function editkemitraan($id)
+    {
+        // Calling Models
+        $KemitraanModel     = new KemitraanModel();
+        $usersmodel         = new UsersModel();
+
+        $kemitraans         = $KemitraanModel->find($id);
+        $user               = $usersmodel->find($this->data['uid']);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Edit Menu ".$kemitraans['title'];
+        $data['user']       = $user;
+        $data['kemitraans'] = $kemitraans;
+
+        return view('Views/admin/editkemitraan', $data);
+    }
+
+    public function removekemitraan()
+    {
+        // Calling Models
+        $KemitraanModel     = new KemitraanModel();
+
+        // Get Data
+        $input              = $this->request->getPOST();
+        $kemitraans         = $KemitraanModel->find($input['id']);
+
+        // Remove Parent
+        $KemitraanModel->delete($input['id']);
+
+        // Return
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
+    }
+
+    // Gratifikasi Views
+    public function gratifikasi()
+    {
+        // Calling Models
+        $usersmodel     = new UsersModel();
+        $FieldgratModel = new FieldgratModel();
+
+        // Get Data
+        $user           = $usersmodel->find($this->data['uid']);
+        $fieldfrat      = $FieldgratModel->orderBy('id', 'ASC')->paginate(20, 'news');
+        array_multisort($fieldfrat, SORT_ASC);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Seminar";
+        $data['user']       = $user;
+        $data['berita']     = $fieldfrat;
+        $data['count']      = count($fieldfrat);
+        $data['pager']      = $FieldgratModel->pager;
+
+        return view('Views/admin/gratifikasi', $data);
+    }
+
+    public function addgratifikasi()
+    {
+        // Calling Models
+        $usersmodel         = new UsersModel();
+
+        // Get Data
+        $user               = $usersmodel->find($this->data['uid']);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Tambah Gratifikasi";
+        $data['user']       = $user;
+
+        return view('Views/admin/addgratifikasi', $data);
+    }
+
+    public function editgratifikasi($id)
+    {
+        // Calling Models
+        $usersmodel         = new UsersModel();
+        $FieldgratModel     = new FieldgratModel();
+
+        $user               = $usersmodel->find($this->data['uid']);
+        $gratifikasi        = $FieldgratModel->find($id);
+
+        // Parsing Data
+        $data               = $this->data;
+        $data['title']      = "Dashboard Edit Gratifikasi";
+        $data['user']       = $user;
+        $data['news']       = $gratifikasi;
+
+        return view('Views/admin/editgratifikasi', $data);
+    }
+
+    public function removegratifikasi($id)
+    {
+        // Calling Models
+        $FieldgratModel     = new FieldgratModel();
+
+        // Get Data
+        $gratifikasi        = $FieldgratModel->find($id);
+
+        $FieldgratModel->delete($id);
+
+        die(json_encode(array($gratifikasi)));
     }
 
     public function errors()

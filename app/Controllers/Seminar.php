@@ -20,9 +20,9 @@ class Seminar extends BaseController
         // Search Engine
         // Populating Data
         if (isset($input['search']) && !empty($input['search'])) {
-            $newses     = $SeminarModel->orderBy('updated_at', 'DESC')->like('title', $input['search'])->find();
+            $newses     = $SeminarModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $input['search'])->find();
         } else {
-            $newses     = $SeminarModel->orderBy('updated_at', 'DESC')->paginate(10, 'news');
+            $newses     = $SeminarModel->orderBy('updated_at', 'DESC')->where('status', 1)->paginate(10, 'news');
         }
 
         // Parsing Data To View
@@ -47,8 +47,27 @@ class Seminar extends BaseController
         $VisitModel             = new VisitModel();
 
         // Populating Data
-        $article                = $SeminarModel->where('alias', $alias)->first();
+        $article                = $SeminarModel->where('alias', $alias)->where('status', 1)->first();
+        $nextarticles           = $SeminarModel->orderBy('updated_at', 'ASC')->where('updated_at >', $article['updated_at'])->limit(1)->get()->getResultArray();
+        $prevarticles           = $SeminarModel->orderBy('updated_at', 'DESC')->where('updated_at <', $article['updated_at'])->limit(1)->get()->getResultArray();
         $user                   = $UsersModel->find($article['userid']);
+        
+        if (!empty($nextarticles)) {
+            foreach ($nextarticles as $nextarticle) {
+                $nexturl        = $nextarticle['alias'];
+            }
+        } else {
+            $nexturl            = '';
+        }
+
+        if (!empty($prevarticles)) {
+            foreach ($prevarticles as $prevarticle) {
+                $prevurl        = $prevarticle['alias'];
+            }
+        } else {
+            $prevurl            = '';
+        }
+
         if (empty($user)) {
             $creator = 'Tim BBPPMPV Seni & Budaya';
         } else {
@@ -69,6 +88,8 @@ class Seminar extends BaseController
         $data['title']          = $article['title'];
         $data['description']    = $article['description'];
         $data['article']        = $article;
+        $data['nextarticles']   = '/informasi/seminarwebinar/'.$nexturl;
+        $data['prevarticles']   = '/informasi/seminarwebinar/'.$prevurl;
         $data['caturi']         = 'informasi/seminarwebinar';
         $data['cattitle']       = 'Seminar & Webinar';
         $data['user']           = $creator;

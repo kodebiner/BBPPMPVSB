@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\PermohonanModel;
 use App\Models\SurveyModel;
 use App\Models\MaklumatModel;
+use App\Models\StandarPelayananModel;
 
 class Layanan extends BaseController
 {
@@ -11,10 +12,17 @@ class Layanan extends BaseController
 
     public function standarpelayanan()//: string
     {
+        // Calling Models
+        $StandarPelayananModel  = new StandarPelayananModel();
+
+        // Populating Data
+        $sp                     = $StandarPelayananModel->first();
+
         // Parsing Data To View
         $data                   = $this->data;
         $data['title']          = "Standar Pelayanan";
         $data['description']    = "Standar Pelayanan terkait BBPPMPVSB";
+        $data['sp']             = $sp;
         $data['caturi']         = 'layanan/standarpelayanan';
         $data['cattitle']       = 'Standar Pelayanan';
 

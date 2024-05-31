@@ -3,7 +3,7 @@
 <?= $this->section('main') ?>
 
 <!-- Breadcrumb Section -->
-<section>
+<section class="uk-section uk-section-xsmall">
     <div class="uk-container uk-container-xlarge">
         <nav aria-label="Breadcrumb">
             <ul class="uk-breadcrumb">
@@ -29,8 +29,6 @@
         <?= view('Views/_message_block') ?>
         
         <form class="uk-form-stacked" role="form" action="layanan/permohonaninformasi" method="post">
-            <?= csrf_field() ?>
-
             <div class="uk-margin-bottom">
                 <label class="uk-form-label" for="name">Nama</label>
                 <div class="uk-form-controls">

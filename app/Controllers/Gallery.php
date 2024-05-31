@@ -20,7 +20,7 @@ class Gallery extends BaseController
         // Calling Models
         $PhotoModel             = new PhotoModel();
 
-        $galleriesdata          = $PhotoModel->orderBy('updated_at', 'DESC')->paginate(24, 'gallery');
+        $galleriesdata          = $PhotoModel->orderBy('updated_at', 'DESC')->where('status', 1)->paginate(24, 'gallery');
         // dd($galleriesdata);
         // $galleries = [];
         // foreach ($galleriesdata as $gallery) {
@@ -68,7 +68,7 @@ class Gallery extends BaseController
         //     $galleries     = $ContentModel->where('catid', '16')->orderBy('publish_up', 'DESC')->paginate(24, 'gallery');
         // }
 
-        $galleriesdata     = $VideoModel->orderBy('updated_at', 'DESC')->find();
+        $galleriesdata     = $VideoModel->orderBy('updated_at', 'DESC')->where('status', 1)->find();
         $galleries = [];
         foreach ($galleriesdata as $gallery) {
             $images = $gallery['images'];
@@ -114,7 +114,7 @@ class Gallery extends BaseController
         $VideoModel             = new VideoModel();
 
         // Populating Data
-        $galleriesdata          = $VideoModel->where('id', $id)->first();
+        $galleriesdata          = $VideoModel->where('status', 1)->find($id);
 
         // Parsing Data To View
         $data                   = $this->data;
@@ -135,7 +135,7 @@ class Gallery extends BaseController
         $FotoGaleriModel        = new FotoGaleriModel();
 
         // Populating Data
-        $photos                 = $PhotoModel->find($id);
+        $photos                 = $PhotoModel->where('status', 1)->find($id);
         $galleriesdata          = $FotoGaleriModel->where('photoid', $id)->find();
 
         // Parsing Data To View

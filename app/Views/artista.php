@@ -3,7 +3,7 @@
 <?= $this->section('main') ?>
 
 <!-- Breadcrumb Section -->
-<section>
+<section class="uk-section uk-section-xsmall">
     <div class="uk-container uk-container-expand">
         <nav aria-label="Breadcrumb">
             <ul class="uk-breadcrumb">

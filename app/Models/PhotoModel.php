@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class PhotoModel extends Model
 {
     protected $allowedFields = [
-        'title', 'images', 'created_at', 'updated_at', 'deleted_at',
+        'title', 'images', 'created_at', 'updated_at', 'deleted_at', 'status',
     ];
 
     protected $table      = 'photo';

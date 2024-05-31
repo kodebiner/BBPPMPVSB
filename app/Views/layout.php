@@ -34,6 +34,10 @@
     <script src="js/messages.min.js"></script>
     <script src="js/newsletter.min.js"></script>
     <script src="js/theme.js"></script>
+    
+    <!-- Tiny MCE Js  -->
+    <script src="https://cdn.tiny.cloud/1/fbtmdxwnanfjdicy4oh9uxzzp0idhv1sdbyxml3t9lgz0v6r/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <!-- Extra Script Section -->
     <?= $this->renderSection('extraScript') ?>
@@ -56,12 +60,6 @@
                 <nav class="uk-navbar-container">
                     <div class="uk-container uk-container-expand" style="background: #3C6997 !important;">
                         <div class="uk-flex-middle" uk-navbar>
-                            <!-- <div class="uk-navbar-left">
-                                <div class="uk-child-width-1-1" uk-grid>
-                                    <div><div id="curentdate"></div></div>
-                                    <div class="uk-margin-remove"><div id="curenttime"></div></div>
-                                </div>
-                            </div> -->
                             <div class="uk-navbar-center">
                                 <ul class="uk-navbar-nav">
                                     <li class="<?= ($uri->getSegment(1) === '') ? 'uk-active' : '' ?>">
@@ -69,6 +67,23 @@
                                     </li>
                                     <li class="<?= ($uri->getSegment(1) === 'profil') ? 'uk-active' : '' ?>">
                                         <a class="uk-text-bold uk-text-uppercase" href="profil" style="color: #fff;">Profil</a>
+                                    </li>
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='kemitraan') && ($uri->getSegment(2)==='')?'uk-active':'(:any)' ?>">
+                                        <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Kemitraan</a>
+                                        <div class="uk-navbar-dropdown">
+                                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                <?php
+                                                foreach ($kemitraans as $kemitraan)
+                                                {
+                                                ?>
+                                                    <li class="<?= ($uri->getSegment(1)==='kemitraan') && ($uri->getSegment(2) === $kemitraan['alias'])?'uk-active':'' ?>">
+                                                        <a href="kemitraan/<?= $kemitraan['alias'] ?>"><?= $kemitraan['title'] ?></a>
+                                                    </li>
+                                                <?php
+                                                }
+                                                ?>
+                                            </ul>
+                                        </div>
                                     </li>
                                     <li class="<?= ($uri->getSegment(1) === 'berita') ? 'uk-active':''?> ">
                                         <a class="uk-text-bold uk-text-uppercase" href="berita" style="color: #fff;">Berita</a>
@@ -92,7 +107,7 @@
                                             </ul>
                                         </div>
                                     </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirpengaduan')?'uk-active':'' ?>">
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirpengaduan')?'uk-active':'' ?> <?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirgratifikasi')?'uk-active':'' ?>">
                                         <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Pengaduan</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
@@ -105,28 +120,12 @@
                                                 <li class="<?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirpengaduan')?'uk-active':'' ?>">
                                                     <a href="pengaduan/formulirpengaduan">Pengaduan Masyarakat</a>
                                                 </li>
+                                                <li class="<?= ($uri->getSegment(1)==='pengaduan') && ($uri->getSegment(2)==='formulirgratifikasi')?'uk-active':'' ?>">
+                                                    <a href="pengaduan/formulirgratifikasi">Lapor Gratifikasi</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </li>
-                                    <!-- <li class="uk-parent <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2)=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
-                                        <a href="">Diklat</a>
-                                        <div class="uk-navbar-dropdown">
-                                            <ul class="uk-nav uk-navbar-dropdown-nav">
-                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'artikel')?'uk-active':'' ?>">
-                                                    <a href="diklat/artikel">Artikel Diklat</a>
-                                                </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
-                                                    <a href="diklat/pendaftaran">Pendaftaran Diklat</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li> -->
-                                    <!-- <li class="<?= ($uri->getSegment(1) === 'seminar') ? 'uk-active':'' ?>">
-                                        <a href="seminar">Seminar</a>
-                                    </li class="<?= ($uri->getSegment(1 )=== 'webinar') ? 'uk-active':'' ?>">
-                                    <li>
-                                        <a href="webinar">Webinar</a>
-                                    </li> -->
                                     <li class="uk-parent <?= ($uri->getSegment(1)==='rbi') && ($uri->getSegment(2)==='')?'uk-active':'(:any)' ?>">
                                         <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">RBI</a>
                                         <div class="uk-navbar-dropdown">
@@ -217,63 +216,47 @@
                                             </ul>
                                         </div>
                                     </li>
-                                    <!-- <li class="uk-parent <?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?><?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
-                                        <a href="login">Login</a>
-                                    </li> -->
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='othermenu') && ($uri->getSegment(2)==='')?'uk-active':'(:any)' ?>">
+                                        <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Menu Lainnya</a>
+                                        <div class="uk-navbar-dropdown">
+                                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                <?php
+                                                foreach ($othermenus as $othermenu)
+                                                {
+                                                ?>
+                                                    <li class="<?= ($uri->getSegment(1)==='othermenu') && ($uri->getSegment(2) === $othermenu['alias'])?'uk-active':'' ?>">
+                                                        <a href="othermenu/<?= $othermenu['alias'] ?>"><?= $othermenu['title'] ?></a>
+                                                    </li>
+                                                <?php
+                                                }
+                                                ?>
+                                            </ul>
+                                        </div>
+                                    </li>
                                 </ul>
+                            </div>
+                            <div class="uk-navbar-right">
+                                <div>
+                                    <a class="uk-navbar-toggle" href uk-search-icon style="color: #fff;"></a>
+                                    <div class="uk-navbar-dropdown" uk-drop="mode: click; cls-drop: uk-navbar-dropdown; boundary: !.uk-navbar; flip: false">
+                                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                            <div class="uk-width-expand">
+                                                <form class="uk-margin" id="searchform" action="search" method="GET">
+                                                    <input class="uk-input uk-form-width-medium" id="search" name="search" placeholder="Cari" <?= (isset($input['search']) ? 'value="' . $input['search'] . '"' : '') ?> />
+                                                </form>
+                                            </div>
+                                            <div class="uk-width-auto">
+                                                <a class="uk-drop-close" href="#" uk-close></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </nav>
             </div>
             <!-- Navbar Section End -->
-            <!-- <script>
-                // Live Clock
-                var curenttime          = document.getElementById("curenttime");
-                function clock() {
-                    var curentdate      = new Date();
-                    var hour            = curentdate.getHours();
-                    var minute          = curentdate.getMinutes();
-                    var second          = curentdate.getSeconds();
-                    curenttime.textContent = 
-                        ("0" + hour).substr(-2) + ":" + ("0" + minute).substr(-2) + ":" + ("0" + second).substr(-2);
-                }
-                setInterval(clock, 1000);
-
-                // Date In Indonesia
-                var curentdate      = new Date();
-                var year            = curentdate.getFullYear();
-                var month           = curentdate.getMonth();
-                var date            = curentdate.getDate();
-                var day             = curentdate.getDay();
-
-                switch(day) {
-                    case 0: day     = "Minggu"; break;
-                    case 1: day     = "Senin"; break;
-                    case 2: day     = "Selasa"; break;
-                    case 3: day     = "Rabu"; break;
-                    case 4: day     = "Kamis"; break;
-                    case 5: day     = "Jum'at"; break;
-                    case 6: day     = "Sabtu"; break;
-                }
-                switch(month) {
-                    case 0: month   = "Januari"; break;
-                    case 1: month   = "Februari"; break;
-                    case 2: month   = "Maret"; break;
-                    case 3: month   = "April"; break;
-                    case 4: month   = "Mei"; break;
-                    case 5: month   = "Juni"; break;
-                    case 6: month   = "Juli"; break;
-                    case 7: month   = "Agustus"; break;
-                    case 8: month   = "September"; break;
-                    case 9: month   = "Oktober"; break;
-                    case 10: month  = "November"; break;
-                    case 11: month  = "Desember"; break;
-                }
-
-                var fulldate        = day + ", " + date + " " + month + " " + year;
-                document.getElementById("curentdate").innerHTML = fulldate;
-            </script> -->
             <!-- Dekstop View End -->
         <?php } else { ?>
             <!-- Mobile View -->
@@ -306,6 +289,11 @@
                     <div class="uk-margin">
                         <div class="uk-child-width-1-1" uk-grid>
                             <div>
+                                <form class="uk-margin" id="searchform" action="search" method="GET">
+                                    <input class="uk-input uk-form-width-medium" id="search" name="search" placeholder="Cari" <?= (isset($input['search']) ? 'value="' . $input['search'] . '"' : '') ?> />
+                                </form>
+                            </div>
+                            <div>
                                 <div class="uk-panel">
                                     <ul class="uk-nav-default" uk-nav>
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === '') ? 'uk-active' : '' ?>">
@@ -313,6 +301,21 @@
                                         </li>
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'profil') ? 'uk-active' : '' ?>">
                                             <a href="profil">Profil</a>
+                                        </li>
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'kemitraan') && ($uri->getSegment(2)=== '')?'uk-active':'' ?>">
+                                            <a href="">Kemitraan <span uk-nav-parent-icon></span></a>
+                                            <ul class="uk-nav-sub">
+                                                <?php
+                                                foreach ($kemitraans as $kemitraan)
+                                                {
+                                                ?>
+                                                    <li class="<?= ($uri->getSegment(1) === 'kemitraan') && ($uri->getSegment(2)=== $kemitraan['alias'])?'uk-active':'' ?>">
+                                                        <a href="kemitraan/<?= $kemitraan['alias'] ?>"><?= $kemitraan['title'] ?></a>
+                                                    </li>
+                                                <?php
+                                                }
+                                                ?>
+                                            </ul>
                                         </li>
                                         <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'berita') ? 'uk-active' : '' ?>">
                                             <a href="berita">Berita</a>
@@ -334,7 +337,7 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2)=== 'formulirpengaduan')?'uk-active':'' ?>">
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2)=== 'formulirpengaduan')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2)=== 'formulirgratifikasi')?'uk-active':'' ?>">
                                             <a href="">Pengaduan <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
                                                 <li>
@@ -346,25 +349,11 @@
                                                 <li class="<?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2)=== 'formulirpengaduan')?'uk-active':'' ?>">
                                                     <a href="pengaduan/formulirpengaduan">Pengaduan Masyarakat</a>
                                                 </li>
-                                            </ul>
-                                        </li>
-                                        <!-- <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2)=== 'artikel')?'uk-active':'' ?><?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2) === 'pendaftaran')?'uk-active':'' ?>">
-                                            <a href="">Diklat <span uk-nav-parent-icon></span></a>
-                                            <ul class="uk-nav-sub">
-                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2)=== 'artikel')?'uk-active':'' ?>">
-                                                    <a href="diklat/artikel">Artikel Diklat</a>
-                                                </li>
-                                                <li class="<?= ($uri->getSegment(1) === 'diklat') && ($uri->getSegment(2)=== 'pendaftaran')?'uk-active':'' ?>">
-                                                    <a href="diklat/pendaftaran">Pendaftaran Diklat</a>
+                                                <li class="<?= ($uri->getSegment(1) === 'pengaduan') && ($uri->getSegment(2)=== 'formulirgratifikasi')?'uk-active':'' ?>">
+                                                    <a href="pengaduan/formulirgratifikasi">Lapor Gratifikasi</a>
                                                 </li>
                                             </ul>
-                                        </li> -->
-                                        <!-- <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'seminar') ? 'uk-active' : '' ?>">
-                                            <a href="seminar">Seminar</a>
                                         </li>
-                                        <li class="uk-nav-divider <?= ($uri->getSegment(1) === 'webinar') ? 'uk-active' : '' ?>">
-                                            <a href="webinar">Webinar</a>
-                                        </li> -->
                                         <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'rbi') && ($uri->getSegment(2)=== '')?'uk-active':'' ?>">
                                             <a href="">RBI <span uk-nav-parent-icon></span></a>
                                             <ul class="uk-nav-sub">
@@ -443,6 +432,21 @@
                                                 </li>
                                             </ul>
                                         </li>
+                                        <li class="uk-parent uk-nav-divider <?= ($uri->getSegment(1) === 'othermenu') && ($uri->getSegment(2)=== '')?'uk-active':'' ?>">
+                                            <a href="">Menu Lainnya <span uk-nav-parent-icon></span></a>
+                                            <ul class="uk-nav-sub">
+                                                <?php
+                                                foreach ($othermenus as $othermenu)
+                                                {
+                                                ?>
+                                                    <li class="<?= ($uri->getSegment(1) === 'othermenu') && ($uri->getSegment(2)=== $othermenu['alias'])?'uk-active':'' ?>">
+                                                        <a href="othermenu/<?= $othermenu['alias'] ?>"><?= $othermenu['title'] ?></a>
+                                                    </li>
+                                                <?php
+                                                }
+                                                ?>
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -470,36 +474,38 @@
     
     <!-- Footer Section -->
     <section class="uk-section uk-section-default">
-        <!-- <div class="uk-container uk-container-large"> -->
+        <div class="uk-container uk-container-xlarge">
             <div class="uk-grid-large uk-margin uk-flex-middle uk-flex-right@m" uk-grid>
-                <div class="uk-width-1-1 uk-width-1-2@m">
-                    <div class="uk-panel uk-width-1-3@m">
-                        <div class="uk-container uk-container-small uk-text-center uk-text-left@m">
-                            <div class="uk-text-emphasis">Pengunjung :</div>
-                            <div class="uk-text-emphasis">Hari ini <span class="uk-margin-left uk-text-secondary"><?= $dailyvisit; ?></span></div>
-                            <div class="uk-text-emphasis">Bulan ini <span class="uk-margin-left uk-text-secondary"><?= $monthlyvisit; ?></span></div>
-                        </div>
+                <div class="uk-width-1-1 uk-width-2-5@m">
+                    <div class="uk-margin">
+                        <img src="img/logofix.png" />
+                    </div>
+                    <div class="uk-margin">
+                        <a class="uk-text-justify uk-link-reset" href="https://maps.app.goo.gl/CmDkU3P1z9rqL3Cy9" target="_blank">
+                            <div>Jl. Kaliurang KM. 12,5 Klidon Sukoharjo Ngaglik, Klidon, Sukoharjo, Sleman, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55581</div>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="mailto:bbppmpvsb@kemdikbud.go.id" class="uk-link-reset" target="_blank"><span uk-icon="mail"></span> bbppmpvsb@kemdikbud.go.id</a>
+                    </div>
+                    <div>
+                        <a href="https://wa.me/628112934704" class="uk-link-reset" target="_blank"><span uk-icon="whatsapp"></span> +628112934704</a>
                     </div>
                 </div>
-                <div class="uk-width-1-1 uk-width-1-4@m">
-                    <!-- <h3 class="uk-h4 uk-heading-divider uk-margin-medium">Hubungi Kami</h3> -->
-                    <div class="uk-text-center uk-text-right@m">
-                        <a href="mailto:bbppmpvsb@kemdikbud.go.id" class="uk-link-reset" target="_blank">bbppmpvsb@kemdikbud.go.id <span uk-icon="mail"></span></a>
+                <div class="uk-width-1-1 uk-width-2-5@m">
+                    <h5 class="uk-text-uppercase uk-text-bold uk-text-center">Daftar Tag :</h5>
+                    <div class="uk-child-width-auto uk-grid-small uk-flex-center" uk-grid>
+                        <?php
+                        foreach ($tags as $tag) { ?>
+                            <div>
+                                <a class="uk-button uk-button-primary uk-button-small" href="tag?tag=<?= $tag['title'] ?>">#<?= $tag['title'] ?></a>
+                            </div>
+                        <?php
+                        }
+                        ?>
                     </div>
-                    <div class="uk-text-center uk-text-right@m">
-                        <a href="https://wa.me/628112934704" class="uk-link-reset" target="_blank">+628112934704 <span uk-icon="whatsapp"></span></a>
-                    </div>
-                    <!-- <div class="uk-child-width-auto" uk-grid>
-                        <div>
-                            <a href="https://wa.me/628112934704" class="uk-icon-button" uk-icon="whatsapp" target="_blank"></a>
-                        </div>
-                        <div>
-                            <a href="mailto:mail@example.com" class="uk-icon-button" uk-icon="mail" target="_blank"></a>
-                        </div>
-                    </div> -->
                 </div>
-                <div class="uk-width-1-1 uk-width-1-4@m">
-                    <!-- <h3 class="uk-h4 uk-heading-divider uk-margin-medium">Sosial Media</h3> -->
+                <div class="uk-width-1-1 uk-width-1-5@m">
                     <div class="uk-flex-center uk-child-width-auto" uk-grid>
                         <div>
                             <a href="https://www.linkedin.com/company/bbppmpv-seni-dan-budaya/?originalSubdomain=id" class="uk-icon-button" uk-icon="linkedin" target="_blank"></a>
@@ -541,7 +547,7 @@
                     </div>
                 </div>
             </div>
-        <!-- </div> -->
+        </div>
     </section>
     <!-- Footer Section End -->
 </body>

@@ -53,9 +53,9 @@ class Diklat extends BaseController
         // Search Engine
         // Populating Data
         if (isset($input['search']) && !empty($input['search'])) {
-            $newses     = $DiklatModel->orderBy('updated_at', 'DESC')->like('title', $input['search'])->find();
+            $newses     = $DiklatModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $input['search'])->find();
         } else {
-            $newses     = $DiklatModel->orderBy('updated_at', 'DESC')->paginate(12, 'news');
+            $newses     = $DiklatModel->orderBy('updated_at', 'DESC')->where('status', 1)->paginate(12, 'news');
         }
 
 
@@ -107,7 +107,7 @@ class Diklat extends BaseController
         $VisitModel             = new VisitModel();
 
         // Populating Data
-        $article        = $DiklatModel->find($id);
+        $article        = $DiklatModel->where('status', 1)->find($id);
         $photos         = $FotoDiklatModel->where('diklatid', $id)->find();
         $visitors       = $VisitModel->where('path', '/informasi/diklat/'.$id)->find();
         $viewvisit      = [];

@@ -30,10 +30,10 @@ class Home extends BaseController
         $DiklatModel    = new DiklatModel();
         
         // Populating Data
-        $newses         = $BeritaModel->orderBy('updated_at', 'DESC')->limit(4)->find();
-        $workshops      = $SeminarModel->orderBy('updated_at', 'DESC')->limit(3)->find();
-        $schedules      = $ScheduleModel->orderBy('updated_at', 'DESC')->limit(6)->find();
-        $diklats        = $DiklatModel->orderBy('updated_at', 'DESC')->limit(4)->find();
+        $newses         = $BeritaModel->orderBy('updated_at', 'DESC')->where('status', 1)->limit(4)->find();
+        $workshops      = $SeminarModel->orderBy('updated_at', 'DESC')->where('status', 1)->limit(3)->find();
+        $schedules      = $ScheduleModel->orderBy('updated_at', 'DESC')->where('status', 1)->limit(6)->find();
+        $diklats        = $DiklatModel->orderBy('updated_at', 'DESC')->where('status', 1)->limit(4)->find();
         $slideshows     = $SlideshowModel->where('status', '1')->orderBy('id', 'DESC')->find();
 
         // Parsing Data To View
@@ -394,6 +394,97 @@ class Home extends BaseController
 
             // Insert Data
             $VideoModel->insert($datavideo);
+        }
+        // Data Video End
+    }
+
+    public function changestatus()
+    {
+        // Calling Models
+        $BeritaModel        = new BeritaModel();
+        $SeminarModel       = new SeminarModel();
+        $ScheduleModel      = new ScheduleModel();
+        $PhotoModel         = new PhotoModel();
+        $DiklatModel        = new DiklatModel();
+        $VideoModel         = new VideoModel();
+
+        // Populating Data
+        $newses             = $BeritaModel->findAll();
+        $seminars           = $SeminarModel->findAll();
+        $schedules          = $ScheduleModel->findAll();
+        $photos             = $PhotoModel->findAll();
+        $diklats            = $DiklatModel->findAll();
+        $videos             = $VideoModel->findAll();
+
+        // Data Berita
+        foreach ($newses as $news) {
+            $datanews = [
+                'id'        => $news['id'],
+                'status'    => 1,
+            ];
+
+            // Insert Data
+            $BeritaModel->save($datanews);
+        }
+        // Data Berita End
+        
+        // Data Seminar
+        foreach ($seminars as $seminar) {
+            $dataseminar = [
+                'id'        => $seminar['id'],
+                'status'    => 1,
+            ];
+
+            // Insert Data
+            $SeminarModel->save($dataseminar);
+        }
+        // Data Seminar End
+        
+        // Data Schedule
+        foreach ($schedules as $schedule) {
+            $dataschedule = [
+                'id'        => $schedule['id'],
+                'status'    => 1,
+            ];
+
+            // Insert Data
+            $ScheduleModel->save($dataschedule);
+        }
+        // Data Schedule End
+        
+        // Data Photo
+        foreach ($photos as $photo) {
+            $dataphoto = [
+                'id'        => $photo['id'],
+                'status'    => 1,
+            ];
+
+            // Insert Data
+            $PhotoModel->save($dataphoto);
+        }
+        // Data Photo End
+        
+        // Data Diklat
+        foreach ($diklats as $diklat) {
+            $datadiklat = [
+                'id'        => $diklat['id'],
+                'status'    => 1,
+            ];
+
+            // Insert Data
+            $DiklatModel->save($datadiklat);
+        }
+        // Data Diklat End
+        
+        // Data Video
+        foreach ($videos as $video) {
+            $datavideo = [
+                'id'        => $video['id'],
+                'status'    => 1,
+            ];
+
+            // Insert Data
+            $VideoModel->save($datavideo);
         }
         // Data Video End
     }

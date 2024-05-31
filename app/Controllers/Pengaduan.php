@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 use App\Models\PengaduanModel;
+use App\Models\FieldgratModel;
+use App\Models\GratifikasiModel;
 
 class Pengaduan extends BaseController
 {
@@ -71,13 +73,58 @@ class Pengaduan extends BaseController
             'phone'         => $input['phone'],
             'note'          => $input['note'],
             'status'        => 0,
+            'type'          => $input['type'],
             'created_at'    => $date,
         ];
 
-        // Insert Data Paket
+        // Insert Data Pengaduan
         $PengaduanModel->insert($laporan);
 
         // Return
         return redirect()->back()->with('message', "Aduan Berhasil Terkirim");
+    }
+
+    public function indexgratifikasi()//: string
+    {
+        // Calling Models
+        $FieldgratModel         = new FieldgratModel();
+
+        // Populating Data
+        $fieldgrats             = $FieldgratModel->findAll();
+        
+        // Parsing Data To View
+        $data                   = $this->data;
+        $data['title']          = "Laporan Gratifikasi";
+        $data['description']    = "Laporan Gratifikasi terkait BBPPMPVSB";
+        $data['fieldgrats']     = $fieldgrats;
+        $data['caturi']         = 'pengaduan/formulirgratifikasi';
+        $data['cattitle']       = 'Laporan Gratifikasi';
+
+        // Return Data To View
+        return view('formulirgratifikasi', $data);
+    }
+
+    public function formgratifikasi()//: string
+    {
+        // Calling Models
+        $GratifikasiModel       = new GratifikasiModel();
+
+        // Populating Data
+        $input                  = $this->request->getPost();
+        $jsondata               = json_encode($input, TRUE);
+        
+        $date                   = date('Y-m-d H:i:s');
+        
+        $data = [
+            'content'           => $jsondata,
+            'status'            => 0,
+            'created_at'        => $date,
+        ];
+
+        // Insert Data Gratifikasi
+        $GratifikasiModel->insert($data);
+
+        // Return
+        return redirect()->back()->with('message', "Laporan Gratifikasi Berhasil Terkirim");
     }
 }

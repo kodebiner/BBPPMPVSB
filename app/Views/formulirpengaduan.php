@@ -3,7 +3,7 @@
 <?= $this->section('main') ?>
 
 <!-- Breadcrumb Section -->
-<section>
+<section class="uk-section uk-section-xsmall">
     <div class="uk-container uk-container-xlarge">
         <nav aria-label="Breadcrumb">
             <ul class="uk-breadcrumb">
@@ -29,8 +29,6 @@
         <?= view('Views/_message_block') ?>
         
         <form class="uk-form-stacked" role="form" action="pengaduan/pengaduanmasyarakat" method="post">
-            <?= csrf_field() ?>
-
             <div class="uk-margin-bottom">
                 <label class="uk-form-label" for="name">Nama</label>
                 <div class="uk-form-controls">
@@ -49,6 +47,14 @@
                 <label class="uk-form-label" for="phone">Nomor HP/WA</label>
                 <div class="uk-form-controls">
                     <input class="uk-input <?php if (session('errors.phone')) : ?>tm-form-invalid<?php endif ?>" id="phone" name="phone" type="number" placeholder="contoh : 08123456789" aria-label="Not clickable icon"/>
+                </div>
+            </div>
+
+            <div class="uk-margin-bottom">
+                <label class="uk-form-label" for="type">Jenis Aduan</label>
+                <div class="uk-form-controls">
+                    <label><input class="uk-radio" type="radio" name="type" value="0"> Saran</label>
+                    <label><input class="uk-radio" type="radio" name="type" value="1"> Kerusakan</label>
                 </div>
             </div>
 

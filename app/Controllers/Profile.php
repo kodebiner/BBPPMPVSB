@@ -1,35 +1,27 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\CategoriesModel;
-use App\Models\ContentModel;
-use App\Models\UserModel;
+use App\Models\PagesModel;
 
 class Profile extends BaseController
 {
     protected $data;
 
-    public function index()//: string
+    public function profile()//: string
     {
         // Calling Models
-        $ContentModel   = new ContentModel();
+        $PagesModel          = new PagesModel();
 
-        // Search Engine
         // Populating Data
-        // if (isset($input['search']) && !empty($input['search'])) {
-        //     $profiles     = $ContentModel->where('catid', '25')->orderBy('publish_up', 'DESC')->like('title', $input['search'])->find();
-        // } else {
-        //     $profiles     = $ContentModel->where('catid', '25')->orderBy('publish_up', 'DESC')->find();
-        // }
+        $article                = $PagesModel->where('name', 'Profile')->first();
 
         // Parsing Data To View
         $data                   = $this->data;
-        $data['title']          = "Profil BBPPMPVSB";
-        $data['description']    = "Tentang BBPPMPVSB";
-        // $data['profiles']       = $profiles;
-        // $data['count']          = count($profiles);
-        $data['caturi']         = 'profil';
-        $data['cattitle']       = 'Profil BBPPMPVSB';
+        $data['title']          = "Profil";
+        $data['description']    = "Profil terkait BBPPMPVSB";
+        $data['article']        = $article;
+        $data['caturi']         = 'profile';
+        $data['cattitle']       = 'Profil';
 
         // Return Data To View
         return view('profile', $data);

@@ -10,6 +10,15 @@
         <?= view('Views/Auth/_message_block') ?>
         <form action="add/fotogaleri" method="post">
             <div class="uk-card-body">
+
+                <div class="uk-margin">
+                    <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Status Foto</label>
+                    <label class="switch uk-margin-small-left">
+                        <input id="status" name="status" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
                 <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Judul</label>
                 <div class="uk-margin">
                     <div class="uk-form-controls">

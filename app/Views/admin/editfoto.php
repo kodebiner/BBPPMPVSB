@@ -10,6 +10,17 @@
         <?= view('Views/Auth/_message_block') ?>
         <form action="save/fotogaleri/<?=$news['id']?>" method="post">
             <div class="uk-card-body">
+
+                <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Status Foto</label>
+                <label class="switch uk-margin-small-left">
+                    <?php if ($news['status'] === "1"){?>
+                        <input id="status" name="status" type="checkbox" checked>
+                    <?php }else{ ?>
+                        <input id="status" name="status" type="checkbox">
+                    <?php } ?>
+                    <span class="slider round"></span>
+                </label>
+
                 <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Judul</label>
                 <div class="uk-margin">
                     <div class="uk-form-controls">

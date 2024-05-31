@@ -14,13 +14,14 @@ $routes->post('register', '\App\Controllers\Register::registerAction');
 $routes->post('login', '\App\Controllers\Login::loginAction');
 $routes->get('errors', '\App\Controllers\Auth::errors');
 
-
 // Dasboard
 $routes->group('dashboard', static function ($routes) {
     service('auth')->routes($routes);
 
     // Dashboard
     $routes->get('', 'Auth::dashboard', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('exportaduan', 'Auth::exportpengaduan');
+    $routes->get('exportpermohonan', 'Auth::exportpermohonan');
     
     // Akun
     $routes->get('editakun', 'Auth::akun', ['filter' => 'group:superadmin,admin',]);
@@ -84,9 +85,13 @@ $routes->group('dashboard', static function ($routes) {
     $routes->get('editslideshow/(:num)', 'Auth::editslideshow/$1', ['filter' => 'group:superadmin,admin',]);
     $routes->post('removeslideshow/(:num)', 'Auth::removeslideshow/$1', ['filter' => 'group:superadmin,admin',]);
 
-    // Status pengaduan dan permohonan
+    // Status pengaduan, permohonan dan gratifikasi
     $routes->post('pengaduan/(:num)', 'Auth::pengaduan/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('pengaduan/delete/(:num)', 'Auth::pengaduandelete/$1', ['filter' => 'group:superadmin,admin',]);
     $routes->post('permohonan/(:num)', 'Auth::permohonan/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('permohonan/delete/(:num)', 'Auth::permohonandelete/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('laporgratifikasi/(:num)', 'Auth::laporgratifikasi/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('gratifikasi/delete/(:num)', 'Auth::gratifikasidelete/$1', ['filter' => 'group:superadmin,admin',]);
 
     // Maklumat
     $routes->get('maklumat', 'Auth::maklumat', ['filter' => 'group:superadmin,admin',]);
@@ -94,11 +99,35 @@ $routes->group('dashboard', static function ($routes) {
     // Survey
     $routes->get('survey', 'Auth::survey', ['filter' => 'group:superadmin,admin',]);
 
+    // Profile
+    $routes->get('profile', 'Auth::profile', ['filter' => 'group:superadmin,admin',]);
+
+    // Standar Pelayanan
+    $routes->get('standarpelayanan', 'Auth::standarpelayanan', ['filter' => 'group:superadmin,admin',]);
+
     // RBI
     $routes->get('rbi', 'Auth::rbi', ['filter' => 'group:superadmin,admin',]);
     $routes->get('addrbi', 'Auth::addrbi', ['filter' => 'group:superadmin,admin',]);
     $routes->get('editrbi/(:num)', 'Auth::editrbi/$1', ['filter' => 'group:superadmin,admin',]);
     $routes->post('removerbi', 'Auth::removerbi', ['filter' => 'group:superadmin,admin',]);
+
+    // Menu Lainnya
+    $routes->get('othermenu', 'Auth::othermenu', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('addothermenu', 'Auth::addothermenu', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editothermenu/(:num)', 'Auth::editothermenu/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removeothermenu', 'Auth::removeothermenu', ['filter' => 'group:superadmin,admin',]);
+
+    // Kemitraan
+    $routes->get('kemitraan', 'Auth::kemitraan', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('addkemitraan', 'Auth::addkemitraan', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editkemitraan/(:num)', 'Auth::editkemitraan/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removekemitraan', 'Auth::removekemitraan', ['filter' => 'group:superadmin,admin',]);
+
+    // Gratifikasi
+    $routes->get('gratifikasi', 'Auth::gratifikasi', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('addgratifikasi', 'Auth::addgratifikasi', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('editgratifikasi/(:num)', 'Auth::editgratifikasi/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removegratifikasi/(:num)', 'Auth::removegratifikasi/$1', ['filter' => 'group:superadmin,admin',]);
 });
 
 // Uploads
@@ -125,9 +154,15 @@ $routes->group('upload', static function ($routes){
     $routes->post('removefile', 'Upload::removepdf', ['filter' => 'group:superadmin,admin',]);
     $routes->post('pdfsurvey', 'Upload::pdfsurvey', ['filter' => 'group:superadmin,admin',]);
     $routes->post('removepdfsurvey', 'Upload::removepdfsurvey', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('pdfsp', 'Upload::pdfsp', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('removepdfsp', 'Upload::removepdfsp', ['filter' => 'group:superadmin,admin',]);
     $routes->post('reorderingparent', 'Upload::reorderingparent', ['filter' => 'group:superadmin,admin',]);
     $routes->post('reorderingsubparent', 'Upload::reorderingsubparent', ['filter' => 'group:superadmin,admin',]);
     $routes->post('reorderingchild', 'Upload::reorderingchild', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('reorderingothermenu', 'Upload::reorderingothermenu', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('reorderingkemitraan', 'Upload::reorderingkemitraan', ['filter' => 'group:superadmin,admin',]);
+    $routes->get('datatags', 'Upload::datatags');
+    // $routes->post('submitcat', 'Upload::submitcat');
 });
 
 // Add
@@ -145,8 +180,13 @@ $routes->group('add', static function ($routes){
     $routes->post('fotogaleri', 'Upload::addfotogaleri', ['filter' => 'group:superadmin,admin',]);
     $routes->post('videogaleri', 'Upload::addvideogaleri', ['filter' => 'group:superadmin,admin',]);
     $routes->post('maklumat', 'Upload::addmaklumat', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('profile', 'Upload::addprofile', ['filter' => 'group:superadmin,admin',]);
     $routes->post('survey', 'Upload::addsurvey', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('standarpelayanan', 'Upload::addsp', ['filter' => 'group:superadmin,admin',]);
     $routes->post('rbi', 'Upload::addrbi', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('othermenu', 'Upload::addothermenu', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('kemitraan', 'Upload::addkemitraan', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('gratifikasi', 'Upload::addgratifikasi', ['filter' => 'group:superadmin,admin',]);
 });
 
 // Update
@@ -164,15 +204,19 @@ $routes->group('save', static function ($routes){
     $routes->post('fotogaleri/(:num)', 'Upload::editfotogaleri/$1', ['filter' => 'group:superadmin,admin',]);
     $routes->post('videogaleri/(:num)', 'Upload::editvideogaleri/$1', ['filter' => 'group:superadmin,admin',]);
     $routes->post('rbi/(:num)', 'Upload::editrbi/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('othermenu/(:num)', 'Upload::editothermenu/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('kemitraan/(:num)', 'Upload::editkemitraan/$1', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('gratifikasi/(:num)', 'Upload::editgratifikasi/$1', ['filter' => 'group:superadmin,admin',]);
 });
 
 //  Home
 $routes->group('/', static function ($routes) {
     $routes->get('', 'Home::index');
     $routes->get('migration', 'Home::migration');
-    $routes->get('movedata', 'Home::movedata');
-    $routes->get('reconfseminarwebinar', 'Home::reconfseminarwebinar');
-    $routes->get('reconfdata', 'Home::reconfdata');
+    // $routes->get('movedata', 'Home::movedata');
+    // $routes->get('reconfseminarwebinar', 'Home::reconfseminarwebinar');
+    // $routes->get('reconfdata', 'Home::reconfdata');
+    // $routes->get('changestatus', 'Home::changestatus');
 });
 
 // News
@@ -197,7 +241,7 @@ $routes->group('galeri', static function ($routes) {
 
 // Profile
 $routes->group('profil', static function ($routes) {
-    $routes->get('', 'Profile::index');
+    $routes->get('', 'Profile::profile');
 });
 
 // Artista
@@ -220,6 +264,8 @@ $routes->group('layanan', static function ($routes) {
 $routes->group('pengaduan', static function ($routes) {
     $routes->get('formulirpengaduan', 'Pengaduan::indexpengaduan');
     $routes->post('pengaduanmasyarakat', 'Pengaduan::formaduan');
+    $routes->get('formulirgratifikasi', 'Pengaduan::indexgratifikasi');
+    $routes->post('laporgratifikasi', 'Pengaduan::formgratifikasi');
 });
 
 // Infomrasi Kegiatan
@@ -234,3 +280,17 @@ $routes->group('informasi', static function ($routes) {
 $routes->group('rbi', static function ($routes) {
     $routes->get('(:any)', 'Rbi::index/$1');
 });
+
+// Menu Lainnya
+$routes->group('othermenu', static function ($routes) {
+    $routes->get('(:any)', 'OtherMenu::index/$1');
+});
+
+// Kemitraan
+$routes->group('kemitraan', static function ($routes) {
+    $routes->get('(:any)', 'Kemitraan::index/$1');
+});
+
+// Search & Tags
+$routes->get('tag', 'Tags::index');
+$routes->get('search', 'SearchEngine::index');

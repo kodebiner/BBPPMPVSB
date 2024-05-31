@@ -3,7 +3,7 @@
 <?= $this->section('main') ?>
 
 <!-- Breadcrumb Section -->
-<section>
+<section class="uk-section uk-section-xsmall">
     <div class="uk-container uk-container-xlarge">
         <nav aria-label="Breadcrumb">
             <ul class="uk-breadcrumb">
@@ -43,6 +43,18 @@
                 <div class="uk-text-center">Bagikan :</div>
                 <div class="uk-grid-match uk-child-width-auto uk-flex-center uk-text-meta uk-text-center uk-margin uk-grid-small uk-margin-small-top" uk-grid uk-height-match="target: > .match-media">
                     <div>
+                        <a class="uk-icon-button" uk-icon="copy" onclick="CopyLink()"></a>
+                        <script>
+                            function CopyLink() {
+                                // Copy the text inside the text field
+                                navigator.clipboard.writeText(window.location.href);
+
+                                // Alert the copied text
+                                UIkit.notification({message: 'Link Telah Terduplikasi'})
+                            }
+                        </script>
+                    </div>
+                    <div>
                         <a class="uk-icon-button" data-href="<?=$url?>" uk-icon="facebook" href="https://www.facebook.com/sharer/sharer.php?u=<?=$urlencode?>&amp;src=sdkpreparse" target="_blank"></a>
                     </div>
                     <div>
@@ -61,14 +73,24 @@
             </div>
         </div>
 
-        <div class="uk-margin">
+        <!-- <div class="uk-margin">
             <div class="uk-margin-small">
-                <img src="<?= $article['images'] ?>" class="uk-width-1-1">
+                <img src="<//?= $article['images'] ?>" class="uk-width-1-1">
             </div>
-        </div>
+        </div> -->
 
         <div class="uk-container uk-container-xsmall">
+            <img src="<?= $article['images'] ?>" class="uk-width-1-1">
             <div class="uk-panel uk-margin"><?= $article['fulltext'] ?></div>
+        </div>
+    </div>
+
+    <div class="uk-container uk-container-xsmall">
+        <div class="uk-float-left">
+            <a class="uk-button uk-button-secondary" href="<?= $prevarticles ?>"><span uk-icon="chevron-left"></span> Sebelumnya</a>
+        </div>
+        <div class="uk-float-right">
+            <a class="uk-button uk-button-secondary" href="<?= $nextarticles ?>">Selanjutnya <span uk-icon="chevron-right"></span></a>
         </div>
     </div>
 </section>

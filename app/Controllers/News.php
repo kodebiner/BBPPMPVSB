@@ -20,9 +20,9 @@ class News extends BaseController
         // Search Engine
         // Populating Data
         if (isset($input['search']) && !empty($input['search'])) {
-            $newses     = $BeritaModel->orderBy('updated_at', 'DESC')->like('title', $input['search'])->find();
+            $newses     = $BeritaModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $input['search'])->find();
         } else {
-            $newses     = $BeritaModel->orderBy('updated_at', 'DESC')->paginate(10, 'news');
+            $newses     = $BeritaModel->orderBy('updated_at', 'DESC')->where('status', 1)->paginate(10, 'news');
         }
 
         // Parsing Data To View
@@ -47,8 +47,27 @@ class News extends BaseController
         $VisitModel             = new VisitModel();
 
         // Populating Data
-        $article                = $BeritaModel->where('alias', $alias)->first();
+        $article                = $BeritaModel->where('alias', $alias)->where('status', 1)->first();
+        $nextarticles           = $BeritaModel->orderBy('updated_at', 'ASC')->where('updated_at >', $article['updated_at'])->limit(1)->get()->getResultArray();
+        $prevarticles           = $BeritaModel->orderBy('updated_at', 'DESC')->where('updated_at <', $article['updated_at'])->limit(1)->get()->getResultArray();
         $user                   = $UsersModel->find($article['userid']);
+        
+        if (!empty($nextarticles)) {
+            foreach ($nextarticles as $nextarticle) {
+                $nexturl        = $nextarticle['alias'];
+            }
+        } else {
+            $nexturl            = '';
+        }
+
+        if (!empty($prevarticles)) {
+            foreach ($prevarticles as $prevarticle) {
+                $prevurl        = $prevarticle['alias'];
+            }
+        } else {
+            $prevurl            = '';
+        }
+
         if (empty($user)) {
             $creator = 'Tim BBPPMPV Seni & Budaya';
         } else {
@@ -69,6 +88,8 @@ class News extends BaseController
         $data['title']          = $article['title'];
         $data['description']    = $article['description'];
         $data['article']        = $article;
+        $data['nextarticles']   = '/berita/'.$nexturl;
+        $data['prevarticles']   = '/berita/'.$prevurl;
         $data['caturi']         = 'berita';
         $data['cattitle']       = 'Berita';
         $data['user']           = $creator;

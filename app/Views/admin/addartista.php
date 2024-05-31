@@ -17,9 +17,17 @@
                         <input class="uk-input uk-box-shadow-small uk-border-rounded" id="form-stacked-text" name="judul" type="text" placeholder="Masukkan Judul...">
                     </div>
                 </div>
+
+                <!-- Input Link -->
+                <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Link Flipbook</label>
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <input class="uk-input uk-box-shadow-small uk-border-rounded" id="form-stacked-text" name="file" type="text" placeholder="salin dan tempel link flipbook (https://online.fliphtml5.com/segbs/frqk/)">
+                    </div>
+                </div>
                 
                 <!-- Upload File -->
-                <h5 class="uk-margin-small-top">Upload File</h5>
+                <!-- <h5 class="uk-margin-small-top">Upload File</h5>
                 <div class="uk-margin" id="file-container-createartista">
                     <div id="file-containerartista" class="uk-form-controls">
                         <input id="file" name="file" hidden />
@@ -33,7 +41,7 @@
                         </div>
                         <progress id="js-upload-createfile" class="uk-progress" value="0" max="100" hidden></progress>
                     </div>
-                </div>
+                </div> -->
                 <!-- End Of Upload File -->
 
                 <!-- Upload Foto -->
@@ -65,7 +73,7 @@
 
 
     <!-- Upload File Pdf -->
-    <script>
+    <!-- <script>
         var barpdf = document.getElementById('js-upload-createfoto');
         UIkit.upload('.js-upload-fileartista', {
             url: 'upload/pdf',
@@ -197,7 +205,7 @@
                 }
             });
         };
-    </script>
+    </script> -->
     <!-- End Upload File Pdf -->
 
     <!-- Upload Foto Script -->

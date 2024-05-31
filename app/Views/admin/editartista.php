@@ -17,8 +17,15 @@
                         <input class="uk-input uk-box-shadow-small uk-border-rounded" id="form-stacked-text" name="judul" value="<?=$artista['title']?>" type="text" placeholder="Masukkan Judul...">
                     </div>
                 </div>
+
                 <!-- Upload File -->
-                <h5 class="uk-margin-small-top">File Artista</h5>
+                <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Link Flipbook</label>
+                <div class="uk-margin">
+                    <div class="uk-form-controls">
+                        <input class="uk-input uk-box-shadow-small uk-border-rounded" id="form-stacked-text" name="file" value="<?=$artista['file']?>" type="text" placeholder="salin dan tempel link flipbook (https://online.fliphtml5.com/segbs/frqk/)">
+                    </div>
+                </div>
+                <!-- <h5 class="uk-margin-small-top">File Artista</h5>
                 <div class="uk-child-width-1-1@m" uk-grid>
                     <div>
                         <div class="uk-card uk-card-default">
@@ -43,7 +50,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- End Of Upload File -->
 
                 <!-- Upload Foto -->

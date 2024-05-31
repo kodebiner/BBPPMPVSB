@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class ScheduleModel extends Model
 {
     protected $allowedFields = [
-        'userid', 'title', 'alias', 'introtext', 'fulltext', 'images', 'description', 'created_at', 'updated_at', 'deleted_at',
+        'userid', 'title', 'alias', 'introtext', 'fulltext', 'images', 'description', 'created_at', 'updated_at', 'deleted_at', 'status',
     ];
 
     protected $table      = 'schedule';

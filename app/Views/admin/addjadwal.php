@@ -1,4 +1,8 @@
 <?= $this->extend('dashboard') ?>
+<?= $this->section('extraScript') ?>
+    <link rel="stylesheet" href="css/select2.min.css"/>
+    <script src="js/select2.min.js"></script>
+<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
@@ -17,6 +21,14 @@
         <?= view('Views/Auth/_message_block') ?>
         <form action="add/jadwal" method="post">
             <div class="uk-card-body">
+
+            <div class="uk-margin">
+                <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Status Jadwal Kegiatan</label>
+                <label class="switch uk-margin-small-left">
+                    <input id="status" name="status" type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
 
             <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Judul</label>
             <div class="uk-margin">
@@ -62,6 +74,27 @@
                 </div>
             </div>
             <!-- End Upload Foto -->
+
+            <!-- Tags -->
+            <div class="uk-margin">
+                <label class="uk-form-label" for="findtags">Cari Tags yang sudah tersedia atau tambah Tags baru</label>
+                <select id="tags-search" name="tags[]" class="js-example-data-array" multiple="multiple" style="width:100%;">
+                    <?php
+                    foreach ($tags as $tag) {
+                        echo '<option value="'.$tag['id'].'">'.$tag['title'].'</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <script>
+                $("#tags-search").select2({
+                    placeholder: 'Cari...',
+                    minimumInputLength: 3,
+                    tags: true,
+                });
+            </script>
+            <!-- Tags End -->
 
             <!-- Upload Foto Sampul Script -->
             <script>

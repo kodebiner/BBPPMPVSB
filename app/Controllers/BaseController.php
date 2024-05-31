@@ -10,6 +10,10 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Tatter\Visits\Models\VisitModel;
 use App\Models\RbiModel;
+use App\Models\OtherMenuModel;
+use App\Models\KemitraanModel;
+use App\Models\TagsModel;
+use App\Models\ArticleTagsModel;
 
 
 /**
@@ -68,8 +72,12 @@ abstract class BaseController extends Controller
         $this->uri = $this->request->uri;
 
         // Calling Model
-        $VisitModel     = new VisitModel();
-        $RbiModel       = new RbiModel();
+        $VisitModel         = new VisitModel();
+        $RbiModel           = new RbiModel();
+        $OtherMenuModel     = new OtherMenuModel();
+        $KemitraanModel     = new KemitraanModel();
+        $TagsModel          = new TagsModel();
+        $ArticleTagsModel   = new ArticleTagsModel();
 
         // Login Check
         $auth = service('authentication');
@@ -105,6 +113,15 @@ abstract class BaseController extends Controller
             $childrbi       = [];
         }
 
+        // Other Menu Data
+        $othermenus         = $OtherMenuModel->orderBy('ordering', 'ASC')->find();
+
+        // Kemitraan Data
+        $kemitraans         = $KemitraanModel->orderBy('ordering', 'ASC')->find();
+
+        // Tags Data
+        $tags               = $TagsModel->orderBy('id', 'ASC')->limit(10)->find();
+
         // Parsing View Data
         $this->data = [
             'ismobile'      => $this->agent->isMobile(),
@@ -116,6 +133,9 @@ abstract class BaseController extends Controller
             'parentrbis'    => $parentrbis,
             'subparents'    => $subparentrbi,
             'childs'        => $childrbi,
+            'othermenus'    => $othermenus,
+            'kemitraans'    => $kemitraans,
+            'tags'          => $tags,
         ];
     }
 }

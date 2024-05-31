@@ -1,4 +1,8 @@
 <?= $this->extend('dashboard') ?>
+<?= $this->section('extraScript') ?>
+    <link rel="stylesheet" href="css/select2.min.css"/>
+    <script src="js/select2.min.js"></script>
+<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
 
@@ -17,6 +21,17 @@
         <?= view('Views/Auth/_message_block') ?>
         <form action="save/diklat/<?=$news['id']?>" method="post">
             <div class="uk-card-body">
+
+                <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Status Diklat</label>
+                <label class="switch uk-margin-small-left">
+                    <?php if ($news['status'] === "1"){?>
+                        <input id="status" name="status" type="checkbox" checked>
+                    <?php }else{ ?>
+                        <input id="status" name="status" type="checkbox">
+                    <?php } ?>
+                    <span class="slider round"></span>
+                </label>
+
                 <label class="uk-form-label uk-text-default uk-margin-small-left uk-text-bold" for="form-stacked-text">Judul</label>
                 <div class="uk-margin">
                     <div class="uk-form-controls">
@@ -83,6 +98,38 @@
                     </div>
                 </div>
                 <!-- End Upload Foto -->
+
+                <!-- Tags -->
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="findtags">Cari Tags yang sudah tersedia atau tambah Tags baru</label>
+                    <select id="tags-search" name="tags[]" class="js-example-data-array" multiple="multiple" style="width:100%;"></select>
+                </div>
+
+                <script>
+                    var data = [
+                        <?php
+                        foreach ($tags as $tag) {
+                            echo '{';
+                            echo 'id: '.$tag['id'].',';
+                            echo 'text: "'.$tag['title'].'",';
+                            foreach ($articletags as $articletag) {
+                                if ($articletag['tagsid'] === $tag['id']) {
+                                    echo 'selected: true,';
+                                }
+                            }
+                            echo '},';
+                        }
+                        ?>
+                    ];
+                    $("#tags-search").select2({
+                        placeholder: 'Cari...',
+                        data: data,
+                        minimumInputLength: 3,
+                        tags: true,
+                    });
+                    $('#tags-search').find(':selected').data('selected');
+                </script>
+                <!-- Tags End -->
 
                 <script>
                     // Upload Photo Script
