@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class ArtistaModel extends Model
 {
     protected $allowedFields = [
-        'file', 'photo',
+        'title', 'alias', 'file', 'photo',
     ];
 
     protected $table      = 'artista';

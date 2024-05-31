@@ -50,10 +50,26 @@ class Tags extends BaseController
         foreach ($articletagsschd as $tagschd) {
             $tagschdid[]    = $tagschd['articleid'];
         }
-        $newses             = $BeritaModel->whereIn('id', $tagnewsid)->orderBy('updated_at', 'DESC')->where('status', 1)->limit(5)->find();
-        $seminars           = $SeminarModel->whereIn('id', $tagsemsid)->orderBy('updated_at', 'DESC')->where('status', 1)->limit(5)->find();
-        $diklats            = $DiklatModel->whereIn('id', $tagdiksid)->orderBy('updated_at', 'DESC')->where('status', 1)->limit(5)->find();
-        $schedules          = $ScheduleModel->whereIn('id', $tagschdid)->orderBy('updated_at', 'DESC')->where('status', 1)->limit(5)->find();
+        if (!empty($tagnewsid)) {
+            $newses         = $BeritaModel->whereIn('id', $tagnewsid)->orderBy('updated_at', 'DESC')->where('status', 1)->limit(5)->find();
+        } else {
+            $newses         = [];
+        }
+        if (!empty($tagsemsid)) {
+            $seminars       = $SeminarModel->whereIn('id', $tagsemsid)->orderBy('updated_at', 'DESC')->where('status', 1)->limit(5)->find();
+        } else {
+            $seminars       = [];
+        }
+        if (!empty($tagdiksid)) {
+            $diklats        = $DiklatModel->whereIn('id', $tagdiksid)->orderBy('updated_at', 'DESC')->where('status', 1)->limit(5)->find();
+        } else {
+            $diklats        = [];
+        }
+        if (!empty($tagschdid)) {
+            $schedules      = $ScheduleModel->whereIn('id', $tagschdid)->orderBy('updated_at', 'DESC')->where('status', 1)->limit(5)->find();
+        } else {
+            $schedules      = [];
+        }
 
         $result = [];
         foreach ($newses as $news) {

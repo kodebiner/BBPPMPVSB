@@ -120,7 +120,21 @@ abstract class BaseController extends Controller
         $kemitraans         = $KemitraanModel->orderBy('ordering', 'ASC')->find();
 
         // Tags Data
-        $tags               = $TagsModel->orderBy('id', 'ASC')->limit(10)->find();
+        $tags               = $TagsModel->findAll();
+        $taglistarray       = [];
+        foreach ($tags as $tag) {
+            $tagvisit           = $VisitModel->where('query', 'tag='.$tag['title'])->find();
+            $tagviewvisit       = [];
+            foreach ($tagvisit as $viewtagvisit) {
+                $tagviewvisit[] = $viewtagvisit->views;
+            }
+            $taglistarray[]     = [
+                'title'         => $tag['title'],
+                'views'         => array_sum($tagviewvisit),
+            ];
+        }
+        $sort_by = array_column($taglistarray, 'views');
+        array_multisort($sort_by, SORT_DESC,SORT_NATURAL|SORT_FLAG_CASE, $taglistarray);
 
         // Parsing View Data
         $this->data = [
@@ -135,7 +149,8 @@ abstract class BaseController extends Controller
             'childs'        => $childrbi,
             'othermenus'    => $othermenus,
             'kemitraans'    => $kemitraans,
-            'tags'          => $tags,
+            // 'tags'          => $tags,
+            'tags'          => array_slice($taglistarray, 0, 10),
         ];
     }
 }
