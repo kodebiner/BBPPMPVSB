@@ -180,7 +180,7 @@
                 <li class="uk-nav-divider <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'slideshow') || ($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === 'addslideshow') || ($uri->getSegment(1) === 'dashboard') && ($uri->getSegment(2) === 'editslideshow') ? 'uk-active' : '' ?>"><a href="dashboard/slideshow"><span class="uk-margin-right" uk-icon="thumbnails"></span>Slideshow</a></li>
                 <li class="uk-nav-divider uk-margin-small <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'gratifikasi') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addgratifikasi') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editgratifikasi') ? 'uk-active' : '' ?>"><a href="dashboard/gratifikasi"><span class="uk-margin-right" uk-icon="folder"></span>Gratifikasi</a></li>
                 <?php if (auth()->getProvider()->find($this->data['uid'])->inGroup('superadmin')) { ?>
-                    <li class="uk-nav-divider <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'users') ? 'uk-active' : '' ?>"><a href="dashboard/users"><span class="uk-margin-right" uk-icon="user"></span>Kelola Pengguna</a></li>
+                    <li class="uk-nav-divider <?= (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'users') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'addusers') || (($uri->getSegment(1) === 'dashboard')) && ($uri->getSegment(2) === 'editusers') ? 'uk-active' : '' ?>"><a href="dashboard/users"><span class="uk-margin-right" uk-icon="user"></span>Kelola Pengguna</a></li>
                 <?php } ?>
             </ul>
         </div>
