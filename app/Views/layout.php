@@ -68,7 +68,7 @@
                                     <li class="<?= ($uri->getSegment(1) === 'profil') ? 'uk-active' : '' ?>">
                                         <a class="uk-text-bold uk-text-uppercase" href="profil" style="color: #fff;">Profil</a>
                                     </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='kemitraan') && ($uri->getSegment(2)==='')?'uk-active':'(:any)' ?>">
+                                    <!-- <li class="uk-parent <?= ($uri->getSegment(1)==='kemitraan') && ($uri->getSegment(2)==='')?'uk-active':'(:any)' ?>">
                                         <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Kemitraan</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
@@ -84,7 +84,7 @@
                                                 ?>
                                             </ul>
                                         </div>
-                                    </li>
+                                    </li> -->
                                     <li class="<?= ($uri->getSegment(1) === 'berita') ? 'uk-active':''?> ">
                                         <a class="uk-text-bold uk-text-uppercase" href="berita" style="color: #fff;">Berita</a>
                                     </li>
@@ -177,7 +177,7 @@
                                             </ul>
                                         </div>
                                     </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='publikasi') && ($uri->getSegment(2)==='artista')?'uk-active':'' ?>">
+                                    <!-- <li class="uk-parent <?= ($uri->getSegment(1)==='publikasi') && ($uri->getSegment(2)==='artista')?'uk-active':'' ?>">
                                         <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Publikasi</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
@@ -189,8 +189,8 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                    </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='informasi') && ($uri->getSegment(2)==='diklat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='informasi') && ($uri->getSegment(2)==='seminarwebinar')?'uk-active':'' ?>">
+                                    </li> -->
+                                    <!-- <li class="uk-parent <?= ($uri->getSegment(1)==='informasi') && ($uri->getSegment(2)==='diklat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='informasi') && ($uri->getSegment(2)==='seminarwebinar')?'uk-active':'' ?>">
                                         <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Informasi Kegiatan</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
@@ -202,8 +202,8 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                    </li>
-                                    <li class="uk-parent <?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?><?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
+                                    </li> -->
+                                    <!-- <li class="uk-parent <?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='foto')?'uk-active':'' ?><?= ($uri->getSegment(1)==='galeri') && ($uri->getSegment(2)==='video')?'uk-active':'' ?>">
                                         <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Galeri</a>
                                         <div class="uk-navbar-dropdown">
                                             <ul class="uk-nav uk-navbar-dropdown-nav">
@@ -230,6 +230,86 @@
                                                 <?php
                                                 }
                                                 ?>
+                                            </ul>
+                                        </div>
+                                    </li> -->
+                                    <li class="uk-parent <?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2)==='kemitraan')?'uk-active':'(:any)' ?><?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2)==='publikasi')?'uk-active':'(:any)' ?><?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2)==='informasi')?'uk-active':'(:any)' ?><?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2)==='galeri')?'uk-active':'(:any)' ?><?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2)==='othermenu')?'uk-active':'(:any)' ?>">
+                                        <a class="uk-text-bold uk-text-uppercase" href="" style="color: #fff;">Lainnya</a>
+                                        <div class="uk-navbar-dropdown">
+                                            <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2) === 'kemitraan')?'uk-active':'' ?>">
+                                                    <a href="">Kemitraan</a>
+                                                    <div class="uk-navbar-dropdown" style="--uk-position-shift-offset: 100px; --uk-position-viewport-offset: 100px;">
+                                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                            <?php
+                                                            foreach ($kemitraans as $kemitraan)
+                                                            {
+                                                            ?>
+                                                                <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2) === 'kemitraan') && ($uri->getSegment(3) === $kemitraan['alias'])?'uk-active':'' ?>">
+                                                                    <a href="lainnya/kemitraan/<?= $kemitraan['alias'] ?>"><?= $kemitraan['title'] ?></a>
+                                                                </li>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2) === 'publikasi')?'uk-active':'' ?>">
+                                                    <a href="">Publikasi</a>
+                                                    <div class="uk-navbar-dropdown" style="--uk-position-shift-offset: 100px; --uk-position-viewport-offset: 100px;">
+                                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                            <li>
+                                                                <a href="https://sendikraf.kemdikbud.go.id" target="_blank">Jurnal Sendikraf</a>
+                                                            </li>
+                                                            <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2)==='publikasi') && ($uri->getSegment(3)==='artista')?'uk-active':'' ?>">
+                                                                <a href="lainnya/publikasi/artista">Majalah Artista</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2) === 'informasi') && ($uri->getSegment(3) === 'diklat')?'uk-active':'' ?><?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2) === 'informasi') && ($uri->getSegment(3) === 'seminarwebinar')?'uk-active':'' ?>">
+                                                    <a href="">Informasi Kegiatan</a>
+                                                    <div class="uk-navbar-dropdown" style="--uk-position-shift-offset: 100px; --uk-position-viewport-offset: 100px;">
+                                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                            <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2)==='informasi') && ($uri->getSegment(3)==='diklat')?'uk-active':'' ?>">
+                                                                <a href="lainnya/informasi/diklat">Diklat / Pelatihan</a>
+                                                            </li>
+                                                            <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2)==='informasi') && ($uri->getSegment(3)==='seminarwebinar')?'uk-active':'' ?>">
+                                                                <a href="lainnya/informasi/seminarwebinar">Seminar / Webinar</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2)==='galeri')?'uk-active':'(:any)' ?>">
+                                                    <a href="">Galeri</a>
+                                                    <div class="uk-navbar-dropdown" style="--uk-position-shift-offset: 100px; --uk-position-viewport-offset: 100px;">
+                                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                            <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2)==='galeri') && ($uri->getSegment(3)==='foto')?'uk-active':'(:any)' ?>">
+                                                                <a href="lainnya/galeri/foto">Galeri Foto</a>
+                                                            </li>
+                                                            <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2)==='galeri') && ($uri->getSegment(3)==='video')?'uk-active':'(:any)' ?>">
+                                                                <a href="lainnya/galeri/video">Galeri Video</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2) === 'othermenu')?'uk-active':'' ?>">
+                                                    <a href="">Menu Lainnya</a>
+                                                    <div class="uk-navbar-dropdown" style="--uk-position-shift-offset: 100px; --uk-position-viewport-offset: 100px;">
+                                                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                                                            <?php
+                                                            foreach ($othermenus as $othermenu)
+                                                            {
+                                                            ?>
+                                                                <li class="<?= ($uri->getSegment(1)==='lainnya') && ($uri->getSegment(2) === 'othermenu') && ($uri->getSegment(2) === $othermenu['alias'])?'uk-active':'' ?>">
+                                                                    <a href="lainnya/othermenu/<?= $othermenu['alias'] ?>"><?= $othermenu['title'] ?></a>
+                                                                </li>
+                                                            <?php
+                                                            }
+                                                            ?>
+                                                        </ul>
+                                                    </div>
+                                                </li>
                                             </ul>
                                         </div>
                                     </li>
@@ -506,7 +586,7 @@
                     </div>
                 </div>
                 <div class="uk-width-1-1 uk-width-1-5@m">
-                    <div class="uk-flex-center uk-child-width-auto" uk-grid>
+                    <div class="uk-flex-center uk-child-width-auto uk-grid-collapse" uk-grid>
                         <div>
                             <a href="https://www.linkedin.com/company/bbppmpv-seni-dan-budaya/?originalSubdomain=id" class="uk-icon-button" uk-icon="linkedin" target="_blank"></a>
                         </div>

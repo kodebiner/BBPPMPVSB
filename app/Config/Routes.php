@@ -244,7 +244,7 @@ $routes->group('profil', static function ($routes) {
     $routes->get('', 'Profile::profile');
 });
 
-// Artista
+// Publikasi
 $routes->group('publikasi', static function ($routes) {
     $routes->get('artista', 'Artista::index');
     // $routes->get('news', 'Artista::index');
@@ -289,6 +289,22 @@ $routes->group('othermenu', static function ($routes) {
 // Kemitraan
 $routes->group('kemitraan', static function ($routes) {
     $routes->get('(:any)', 'Kemitraan::index/$1');
+});
+
+// Lainnya
+$routes->group('lainnya', static function ($routes) {
+    $routes->get('kemitraan/(:any)', 'Kemitraan::index/$1');
+    $routes->get('publikasi/artista', 'Artista::index');
+    $routes->get('publikasi/artista/(:any)', 'Artista::article/$1');
+    $routes->get('informasi/seminarwebinar', 'Seminar::index');
+    $routes->get('informasi/seminarwebinar/(:any)', 'Seminar::article/$1');
+    $routes->get('informasi/diklat', 'Diklat::indexregistration');
+    $routes->get('informasi/diklat/(:any)', 'Diklat::diklatregistration/$1');
+    $routes->get('galeri/foto', 'Gallery::indexphoto');
+    $routes->get('galeri/foto/(:num)', 'Gallery::fotogaleri/$1');
+    $routes->get('galeri/video', 'Gallery::indexvideo');
+    $routes->get('galeri/video/(:num)', 'Gallery::playvideo/$1');
+    $routes->get('othermenu/(:any)', 'OtherMenu::index/$1');
 });
 
 // Search & Tags
