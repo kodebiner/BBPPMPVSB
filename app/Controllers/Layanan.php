@@ -102,13 +102,19 @@ class Layanan extends BaseController
         }
 
         $date               = date('Y-m-d H:i:s');
+        $name               = htmlspecialchars(strip_tags(htmlentities($input['name'])), ENT_QUOTES);
+        $email              = filter_var($input['email'], FILTER_SANITIZE_EMAIL);
+        $address            = htmlspecialchars(strip_tags(htmlentities($input['address'])), ENT_QUOTES);
+        $phone              = htmlspecialchars(strip_tags(htmlentities($input['phone'])), ENT_QUOTES);
+        $note               = htmlspecialchars(strip_tags(htmlentities($input['note'])), ENT_QUOTES);
+        $jobs               = htmlspecialchars(strip_tags(htmlentities($input['jobs'])), ENT_QUOTES);
         $permohonan = [
-            'name'          => $input['name'],
-            'email'         => $input['email'],
-            'address'       => $input['address'],
-            'phone'         => $input['phone'],
-            'note'          => $input['note'],
-            'jobs'          => $input['jobs'],
+            'name'          => $name,
+            'email'         => $email,
+            'address'       => $address,
+            'phone'         => $phone,
+            'note'          => $note,
+            'jobs'          => $jobs,
             'status'        => 0,
             'created_at'    => $date,
         ];

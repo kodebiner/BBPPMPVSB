@@ -40,19 +40,20 @@ class SearchEngine extends BaseController
 
         // Search Engine
         // Populating Data
-        $input              = $this->request->getGet();
+        $input              = $this->request->getGet('search');
+        $search             = htmlspecialchars(strip_tags(htmlentities($input)), ENT_QUOTES);
 
-        $newses         = $BeritaModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $input['search'])->orLike('introtext', $input['search'])->orLike('fulltext', $input['search'])->find();
-        $seminars       = $SeminarModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $input['search'])->orLike('introtext', $input['search'])->orLike('fulltext', $input['search'])->find();
-        $diklats        = $DiklatModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $input['search'])->orLike('text', $input['search'])->find();
-        $schedules      = $ScheduleModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $input['search'])->orLike('introtext', $input['search'])->orLike('fulltext', $input['search'])->find();
-        $photos         = $PhotoModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $input['search'])->find();
-        $videos         = $VideoModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $input['search'])->find();
-        $rbis           = $RbiModel->orderBy('ordering', 'ASC')->like('title', $input['search'])->orLike('content', $input['search'])->find();
-        $othermenus     = $OtherMenuModel->orderBy('ordering', 'ASC')->like('title', $input['search'])->orLike('content', $input['search'])->find();
-        $kemitraans     = $KemitraanModel->orderBy('ordering', 'ASC')->like('title', $input['search'])->orLike('content', $input['search'])->find();
-        // $pages          = $PagesModel->like('name', $input['search'])->find();
-        $artistas       = $ArtistaModel->orderBy('id', 'DESC')->like('title', $input['search'])->find();
+        $newses         = $BeritaModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $search)->orLike('introtext', $search)->orLike('fulltext', $search)->find();
+        $seminars       = $SeminarModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $search)->orLike('introtext', $search)->orLike('fulltext', $search)->find();
+        $diklats        = $DiklatModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $search)->orLike('text', $search)->find();
+        $schedules      = $ScheduleModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $search)->orLike('introtext', $search)->orLike('fulltext', $search)->find();
+        $photos         = $PhotoModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $search)->find();
+        $videos         = $VideoModel->orderBy('updated_at', 'DESC')->where('status', 1)->like('title', $search)->find();
+        $rbis           = $RbiModel->orderBy('ordering', 'ASC')->like('title', $search)->orLike('content', $search)->find();
+        $othermenus     = $OtherMenuModel->orderBy('ordering', 'ASC')->like('title', $search)->orLike('content', $search)->find();
+        $kemitraans     = $KemitraanModel->orderBy('ordering', 'ASC')->like('title', $search)->orLike('content', $search)->find();
+        // $pages          = $PagesModel->like('name', $search)->find();
+        $artistas       = $ArtistaModel->orderBy('id', 'DESC')->like('title', $search)->find();
 
         $result = [];
         foreach ($newses as $news) {
@@ -152,12 +153,12 @@ class SearchEngine extends BaseController
 
         // Parsing Data To View
         $data                   = $this->data;
-        $data['title']          = "Hasil Pencarian Terkait ".$input['search'];
-        $data['description']    = "Hasil Pencarian Terkait ".$input['search'];
+        $data['title']          = "Hasil Pencarian Terkait ".$search;
+        $data['description']    = "Hasil Pencarian Terkait ".$search;
         $data['result']         = array_slice($result, ($page*20)-20, $page*20);
         $data['pager_links']    = $pager->makeLinks($page, $perPage, $total, 'uikit_full');
-        $data['caturi']         = '?search='.$input['search'];
-        $data['cattitle']       = $input['search'];
+        $data['caturi']         = '?search='.$search;
+        $data['cattitle']       = $search;
 
         // Return Data To View
         return view('searchview', $data);

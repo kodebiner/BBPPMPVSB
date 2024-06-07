@@ -67,11 +67,15 @@ class Pengaduan extends BaseController
         }
 
         $date               = date('Y-m-d H:i:s');
+        $name               = htmlspecialchars(strip_tags(htmlentities($input['name'])), ENT_QUOTES);
+        $email              = filter_var($input['email'], FILTER_SANITIZE_EMAIL);
+        $phone              = htmlspecialchars(strip_tags(htmlentities($input['phone'])), ENT_QUOTES);
+        $note               = htmlspecialchars(strip_tags(htmlentities($input['note'])), ENT_QUOTES);
         $laporan = [
-            'name'          => $input['name'],
-            'email'         => $input['email'],
-            'phone'         => $input['phone'],
-            'note'          => $input['note'],
+            'name'          => $name,
+            'email'         => $email,
+            'phone'         => $phone,
+            'note'          => $note,
             'status'        => 0,
             'type'          => $input['type'],
             'created_at'    => $date,
@@ -111,7 +115,18 @@ class Pengaduan extends BaseController
 
         // Populating Data
         $input                  = $this->request->getPost();
-        $jsondata               = json_encode($input, TRUE);
+        $content                = [];
+        foreach ($input as $first => $second) {
+            if (is_array($second)) {
+                foreach ($second as $key => $val) {
+                    $content[$first][$key]  = htmlspecialchars(strip_tags(htmlentities($val)), ENT_QUOTES);
+                }
+            } else  {
+                $content[$first]            = htmlspecialchars(strip_tags(htmlentities($second)), ENT_QUOTES);
+            }
+        }
+        
+        $jsondata               = json_encode($content, TRUE);
         
         $date                   = date('Y-m-d H:i:s');
         
