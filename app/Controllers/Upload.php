@@ -984,14 +984,16 @@ class Upload extends BaseController
         $article = $BeritaModel->getInsertID();
 
         // insert Tags
-        foreach ($input['tags'] as $tag) {
-            $dataTag = $TagsModel->find($tag);
-            if (empty($dataTag)) {
-                $TagsModel->insert(['title' => $tag]);
-                $tagid = $TagsModel->getInsertID();
-                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 1]);
-            } else {
-                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 1]);
+        if (!empty($input['tags'])) {
+            foreach ($input['tags'] as $tag) {
+                $dataTag = $TagsModel->find($tag);
+                if (empty($dataTag)) {
+                    $TagsModel->insert(['title' => $tag]);
+                    $tagid = $TagsModel->getInsertID();
+                    $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 1]);
+                } else {
+                    $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 1]);
+                }
             }
         }
 
@@ -1046,30 +1048,33 @@ class Upload extends BaseController
         // insert News
         $BeritaModel->save($berita);
 
-        // update tags
-        $currentTags    = $ArticleTagsModel->arrayTags($id, 1);
-        $tag            = [];
-        foreach ($currentTags as $tags) {
-            $tag[] = $tags['tagsid'];
-        }
-        $inputTags = $input['tags'];
-
-        // remove tags
-        $removedTags = array_diff($tag, $inputTags);
-        foreach ($removedTags as $removedTag) {
-            $ArticleTagsModel->deleteTags($id, $removedTag, 1);
-        }
-
-        // adding tags
-        $addedTags = array_diff($inputTags, $tag);
-        foreach ($addedTags as $addedTag) {
-            $Tags = $TagsModel->find($addedTag);
-            if (!empty($Tags)) {
-                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 1]);
-            } else {
-                $TagsModel->insert(['title' => $addedTag]);
-                $tagid = $TagsModel->getInsertID();
-                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 1]);
+        // Tags
+        if (!empty($input['tags'])) {
+            // update tags
+            $currentTags    = $ArticleTagsModel->arrayTags($id, 1);
+            $tag            = [];
+            foreach ($currentTags as $tags) {
+                $tag[] = $tags['tagsid'];
+            }
+            $inputTags = $input['tags'];
+    
+            // remove tags
+            $removedTags = array_diff($tag, $inputTags);
+            foreach ($removedTags as $removedTag) {
+                $ArticleTagsModel->deleteTags($id, $removedTag, 1);
+            }
+    
+            // adding tags
+            $addedTags = array_diff($inputTags, $tag);
+            foreach ($addedTags as $addedTag) {
+                $Tags = $TagsModel->find($addedTag);
+                if (!empty($Tags)) {
+                    $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 1]);
+                } else {
+                    $TagsModel->insert(['title' => $addedTag]);
+                    $tagid = $TagsModel->getInsertID();
+                    $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 1]);
+                }
             }
         }
         return redirect()->to('dashboard/berita')->with('message', "Berita Berhasil Di Ubah!");
@@ -1144,14 +1149,16 @@ class Upload extends BaseController
         $article = $SeminarModel->getInsertID();
 
         // insert Tags
-        foreach ($input['tags'] as $tag) {
-            $dataTag = $TagsModel->find($tag);
-            if (empty($dataTag)) {
-                $TagsModel->insert(['title' => $tag]);
-                $tagid = $TagsModel->getInsertID();
-                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 2]);
-            } else {
-                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 2]);
+        if (!empty($input['tags'])) {
+            foreach ($input['tags'] as $tag) {
+                $dataTag = $TagsModel->find($tag);
+                if (empty($dataTag)) {
+                    $TagsModel->insert(['title' => $tag]);
+                    $tagid = $TagsModel->getInsertID();
+                    $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 2]);
+                } else {
+                    $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 2]);
+                }
             }
         }
         return redirect()->to('dashboard/seminar')->with('message', "Seminar Berhasil Di Tambahkan!");
@@ -1206,30 +1213,33 @@ class Upload extends BaseController
         // insert News
         $SeminarModel->save($seminar);
 
-        // update tags
-        $currentTags    = $ArticleTagsModel->arrayTags($id, 2);
-        $tag            = [];
-        foreach ($currentTags as $tags) {
-            $tag[] = $tags['tagsid'];
-        }
-        $inputTags = $input['tags'];
-
-        // remove tags
-        $removedTags = array_diff($tag, $inputTags);
-        foreach ($removedTags as $removedTag) {
-            $ArticleTagsModel->deleteTags($id, $removedTag, 2);
-        }
-
-        // adding tags
-        $addedTags = array_diff($inputTags, $tag);
-        foreach ($addedTags as $addedTag) {
-            $Tags = $TagsModel->find($addedTag);
-            if (!empty($Tags)) {
-                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 2]);
-            } else {
-                $TagsModel->insert(['title' => $addedTag]);
-                $tagid = $TagsModel->getInsertID();
-                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 2]);
+        // Tags
+        if (!empty($input['tags'])) {
+            // update tags
+            $currentTags    = $ArticleTagsModel->arrayTags($id, 2);
+            $tag            = [];
+            foreach ($currentTags as $tags) {
+                $tag[] = $tags['tagsid'];
+            }
+            $inputTags = $input['tags'];
+    
+            // remove tags
+            $removedTags = array_diff($tag, $inputTags);
+            foreach ($removedTags as $removedTag) {
+                $ArticleTagsModel->deleteTags($id, $removedTag, 2);
+            }
+    
+            // adding tags
+            $addedTags = array_diff($inputTags, $tag);
+            foreach ($addedTags as $addedTag) {
+                $Tags = $TagsModel->find($addedTag);
+                if (!empty($Tags)) {
+                    $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 2]);
+                } else {
+                    $TagsModel->insert(['title' => $addedTag]);
+                    $tagid = $TagsModel->getInsertID();
+                    $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 2]);
+                }
             }
         }
         return redirect()->to('dashboard/seminar')->with('message', "Seminar Berhasil Di Ubah!");
@@ -1304,14 +1314,16 @@ class Upload extends BaseController
         $article = $SeminarModel->getInsertID();
 
         // insert Tags
-        foreach ($input['tags'] as $tag) {
-            $dataTag = $TagsModel->find($tag);
-            if (empty($dataTag)) {
-                $TagsModel->insert(['title' => $tag]);
-                $tagid = $TagsModel->getInsertID();
-                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 2]);
-            } else {
-                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 2]);
+        if (!empty($input['tags'])) {
+            foreach ($input['tags'] as $tag) {
+                $dataTag = $TagsModel->find($tag);
+                if (empty($dataTag)) {
+                    $TagsModel->insert(['title' => $tag]);
+                    $tagid = $TagsModel->getInsertID();
+                    $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 2]);
+                } else {
+                    $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 2]);
+                }
             }
         }
         return redirect()->to('dashboard/webbinar')->with('message', "Webinar Berhasil Di Tambahkan!");
@@ -1366,30 +1378,33 @@ class Upload extends BaseController
         // insert News
         $SeminarModel->save($seminar);
 
-        // update tags
-        $currentTags    = $ArticleTagsModel->arrayTags($id, 2);
-        $tag            = [];
-        foreach ($currentTags as $tags) {
-            $tag[] = $tags['tagsid'];
-        }
-        $inputTags = $input['tags'];
-
-        // remove tags
-        $removedTags = array_diff($tag, $inputTags);
-        foreach ($removedTags as $removedTag) {
-            $ArticleTagsModel->deleteTags($id, $removedTag, 2);
-        }
-
-        // adding tags
-        $addedTags = array_diff($inputTags, $tag);
-        foreach ($addedTags as $addedTag) {
-            $Tags = $TagsModel->find($addedTag);
-            if (!empty($Tags)) {
-                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 2]);
-            } else {
-                $TagsModel->insert(['title' => $addedTag]);
-                $tagid = $TagsModel->getInsertID();
-                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 2]);
+        // Tags
+        if (!empty($input['tags'])) {
+            // update tags
+            $currentTags    = $ArticleTagsModel->arrayTags($id, 2);
+            $tag            = [];
+            foreach ($currentTags as $tags) {
+                $tag[] = $tags['tagsid'];
+            }
+            $inputTags = $input['tags'];
+    
+            // remove tags
+            $removedTags = array_diff($tag, $inputTags);
+            foreach ($removedTags as $removedTag) {
+                $ArticleTagsModel->deleteTags($id, $removedTag, 2);
+            }
+    
+            // adding tags
+            $addedTags = array_diff($inputTags, $tag);
+            foreach ($addedTags as $addedTag) {
+                $Tags = $TagsModel->find($addedTag);
+                if (!empty($Tags)) {
+                    $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 2]);
+                } else {
+                    $TagsModel->insert(['title' => $addedTag]);
+                    $tagid = $TagsModel->getInsertID();
+                    $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 2]);
+                }
             }
         }
         return redirect()->to('dashboard/webbinar')->with('message', "Webinar Berhasil Di Ubah!");
@@ -1463,14 +1478,16 @@ class Upload extends BaseController
         $article = $ScheduleModel->getInsertID();
 
         // insert Tags
-        foreach ($input['tags'] as $tag) {
-            $dataTag = $TagsModel->find($tag);
-            if (empty($dataTag)) {
-                $TagsModel->insert(['title' => $tag]);
-                $tagid = $TagsModel->getInsertID();
-                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 4]);
-            } else {
-                $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 4]);
+        if (!empty($input['tags'])) {
+            foreach ($input['tags'] as $tag) {
+                $dataTag = $TagsModel->find($tag);
+                if (empty($dataTag)) {
+                    $TagsModel->insert(['title' => $tag]);
+                    $tagid = $TagsModel->getInsertID();
+                    $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tagid, 'category' => 4]);
+                } else {
+                    $ArticleTagsModel->insert(['articleid' => $article, 'tagsid' => $tag, 'category' => 4]);
+                }
             }
         }
         return redirect()->to('dashboard/jadwal')->with('message', "Jadwal Berhasil Di Tambahkan!");
@@ -1524,30 +1541,33 @@ class Upload extends BaseController
         // insert News
         $ScheduleModel->save($jadwal);
 
-        // update tags
-        $currentTags    = $ArticleTagsModel->arrayTags($id, 4);
-        $tag            = [];
-        foreach ($currentTags as $tags) {
-            $tag[] = $tags['tagsid'];
-        }
-        $inputTags = $input['tags'];
-
-        // remove tags
-        $removedTags = array_diff($tag, $inputTags);
-        foreach ($removedTags as $removedTag) {
-            $ArticleTagsModel->deleteTags($id, $removedTag, 4);
-        }
-
-        // adding tags
-        $addedTags = array_diff($inputTags, $tag);
-        foreach ($addedTags as $addedTag) {
-            $Tags = $TagsModel->find($addedTag);
-            if (!empty($Tags)) {
-                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 4]);
-            } else {
-                $TagsModel->insert(['title' => $addedTag]);
-                $tagid = $TagsModel->getInsertID();
-                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 4]);
+        // Tags
+        if (!empty($input['tags'])) {
+            // update tags
+            $currentTags    = $ArticleTagsModel->arrayTags($id, 4);
+            $tag            = [];
+            foreach ($currentTags as $tags) {
+                $tag[] = $tags['tagsid'];
+            }
+            $inputTags = $input['tags'];
+    
+            // remove tags
+            $removedTags = array_diff($tag, $inputTags);
+            foreach ($removedTags as $removedTag) {
+                $ArticleTagsModel->deleteTags($id, $removedTag, 4);
+            }
+    
+            // adding tags
+            $addedTags = array_diff($inputTags, $tag);
+            foreach ($addedTags as $addedTag) {
+                $Tags = $TagsModel->find($addedTag);
+                if (!empty($Tags)) {
+                    $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 4]);
+                } else {
+                    $TagsModel->insert(['title' => $addedTag]);
+                    $tagid = $TagsModel->getInsertID();
+                    $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 4]);
+                }
             }
         }
         return redirect()->to('dashboard/jadwal')->with('message', "Jadwal Berhasil Di Ubah!");
@@ -1627,14 +1647,16 @@ class Upload extends BaseController
         }
 
         // insert Tags
-        foreach ($input['tags'] as $tag) {
-            $dataTag = $TagsModel->find($tag);
-            if (empty($dataTag)) {
-                $TagsModel->insert(['title' => $tag]);
-                $tagid = $TagsModel->getInsertID();
-                $ArticleTagsModel->insert(['articleid' => $diklatid, 'tagsid' => $tagid, 'category' => 3]);
-            } else {
-                $ArticleTagsModel->insert(['articleid' => $diklatid, 'tagsid' => $tag, 'category' => 3]);
+        if (!empty($input['tags'])) {
+            foreach ($input['tags'] as $tag) {
+                $dataTag = $TagsModel->find($tag);
+                if (empty($dataTag)) {
+                    $TagsModel->insert(['title' => $tag]);
+                    $tagid = $TagsModel->getInsertID();
+                    $ArticleTagsModel->insert(['articleid' => $diklatid, 'tagsid' => $tagid, 'category' => 3]);
+                } else {
+                    $ArticleTagsModel->insert(['articleid' => $diklatid, 'tagsid' => $tag, 'category' => 3]);
+                }
             }
         }
         return redirect()->to('dashboard/diklat')->with('message', "Diklat Berhasil Di Tambahkan!");
@@ -1686,30 +1708,33 @@ class Upload extends BaseController
         // insert Diklat
         $DiklatModel->save($diklat);
 
-        // update tags
-        $currentTags    = $ArticleTagsModel->arrayTags($id, 3);
-        $tag            = [];
-        foreach ($currentTags as $tags) {
-            $tag[] = $tags['tagsid'];
-        }
-        $inputTags = $input['tags'];
+        // Tags
+        if (!empty($input['tags'])) {
+            // update tags
+            $currentTags    = $ArticleTagsModel->arrayTags($id, 3);
+            $tag            = [];
+            foreach ($currentTags as $tags) {
+                $tag[] = $tags['tagsid'];
+            }
+            $inputTags = $input['tags'];
+        
+            // remove tags
+            $removedTags = array_diff($tag, $inputTags);
+            foreach ($removedTags as $removedTag) {
+                $ArticleTagsModel->deleteTags($id, $removedTag, 3);
+            }
     
-        // remove tags
-        $removedTags = array_diff($tag, $inputTags);
-        foreach ($removedTags as $removedTag) {
-            $ArticleTagsModel->deleteTags($id, $removedTag, 3);
-        }
-
-        // adding tags
-        $addedTags = array_diff($inputTags, $tag);
-        foreach ($addedTags as $addedTag) {
-            $Tags = $TagsModel->find($addedTag);
-            if (!empty($Tags)) {
-                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 3]);
-            } else {
-                $TagsModel->insert(['title' => $addedTag]);
-                $tagid = $TagsModel->getInsertID();
-                $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 3]);
+            // adding tags
+            $addedTags = array_diff($inputTags, $tag);
+            foreach ($addedTags as $addedTag) {
+                $Tags = $TagsModel->find($addedTag);
+                if (!empty($Tags)) {
+                    $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $addedTag, 'category' => 3]);
+                } else {
+                    $TagsModel->insert(['title' => $addedTag]);
+                    $tagid = $TagsModel->getInsertID();
+                    $ArticleTagsModel->insert(['articleid' => $id, 'tagsid' => $tagid, 'category' => 3]);
+                }
             }
         }
         return redirect()->to('dashboard/diklat')->with('message', "Diklat Berhasil Di Ubah!");
