@@ -2105,7 +2105,7 @@ class Upload extends BaseController
     public function addprofile()
     {
         // Calling Models
-        $PagesModel      = new PagesModel();
+        $PagesModel         = new PagesModel();
 
         // Get Data
         $input              = $this->request->getPost();
@@ -2127,6 +2127,34 @@ class Upload extends BaseController
         // insert News
         $PagesModel->save($content);
         return redirect()->to('dashboard/profile')->with('message', "Profil Berhasil Di Ubah!");
+    }
+
+    // Add PPID
+    public function addppid()
+    {
+        // Calling Models
+        $PagesModel         = new PagesModel();
+
+        // Get Data
+        $input              = $this->request->getPost();
+        $ppids              = $PagesModel->where('name', 'PPID')->first();
+
+        // News Data
+        if (empty($ppids)) {
+            $content = [
+                'name'          => 'PPID',
+                'content'       => $input['konten'],
+            ];
+        } else {
+            $content = [
+                'id'            => $ppids['id'],
+                'content'       => $input['konten'],
+            ];
+        }
+
+        // insert News
+        $PagesModel->save($content);
+        return redirect()->to('dashboard/ppid')->with('message', "PPID Berhasil Di Ubah!");
     }
 
     // Upload File Hasil Survey

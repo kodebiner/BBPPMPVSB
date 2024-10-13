@@ -1181,6 +1181,25 @@ class Auth extends BaseController
         return view('Views/admin/profile', $data);
     }
 
+    // PPID
+    public function ppid()
+    {
+        // Calling Models
+        $PagesModel             = new PagesModel();
+        $usersmodel             = new UsersModel();
+
+        // Get Data
+        $user                   = $usersmodel->find($this->data['uid']);
+        $ppids                  = $PagesModel->where('name', 'PPID')->first();
+
+        $data                   = $this->data;
+        $data['title']          = "Dashboard PPID";
+        $data['ppids']          = $ppids;
+        $data['user']           = $user;
+
+        return view('Views/admin/ppid', $data);
+    }
+
     // Survey
     public function survey()
     {

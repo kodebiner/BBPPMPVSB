@@ -102,6 +102,9 @@ $routes->group('dashboard', static function ($routes) {
     // Profile
     $routes->get('profile', 'Auth::profile', ['filter' => 'group:superadmin,admin',]);
 
+    // PPID
+    $routes->get('ppid', 'Auth::ppid', ['filter' => 'group:superadmin,admin',]);
+
     // Standar Pelayanan
     $routes->get('standarpelayanan', 'Auth::standarpelayanan', ['filter' => 'group:superadmin,admin',]);
 
@@ -181,6 +184,7 @@ $routes->group('add', static function ($routes){
     $routes->post('videogaleri', 'Upload::addvideogaleri', ['filter' => 'group:superadmin,admin',]);
     $routes->post('maklumat', 'Upload::addmaklumat', ['filter' => 'group:superadmin,admin',]);
     $routes->post('profile', 'Upload::addprofile', ['filter' => 'group:superadmin,admin',]);
+    $routes->post('ppid', 'Upload::addppid', ['filter' => 'group:superadmin,admin',]);
     $routes->post('survey', 'Upload::addsurvey', ['filter' => 'group:superadmin,admin',]);
     $routes->post('standarpelayanan', 'Upload::addsp', ['filter' => 'group:superadmin,admin',]);
     $routes->post('rbi', 'Upload::addrbi', ['filter' => 'group:superadmin,admin',]);
@@ -242,6 +246,11 @@ $routes->group('galeri', static function ($routes) {
 // Profile
 $routes->group('profil', static function ($routes) {
     $routes->get('', 'Profile::profile');
+});
+
+// PPID
+$routes->group('ppid', static function ($routes) {
+    $routes->get('', 'PPID::ppid');
 });
 
 // Publikasi
