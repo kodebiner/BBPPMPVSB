@@ -250,7 +250,7 @@ $routes->group('profil', static function ($routes) {
 
 // PPID
 $routes->group('ppid', static function ($routes) {
-    $routes->get('', 'PPID::ppid');
+    $routes->get('', 'Ppid::ppid');
 });
 
 // Publikasi
