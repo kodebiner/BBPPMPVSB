@@ -257,50 +257,6 @@ class Upload extends BaseController
         
     }
 
-    public function foto()
-    {
-        $image      = \Config\Services::image();
-        $validation = \Config\Services::validation();
-        $input      = $this->request->getFile('uploads');
-
-        // Validation Rules
-        $rules = [
-            'uploads'   => 'uploaded[uploads]|mime_in[uploads,application/pdf,application/macbinary,application/mac-binary,application/octet-stream,application/x-binary,application/x-macbinary,image/png,image/jpeg,image/pjpeg]',
-        ];
-
-        // Get Extention
-        $ext = $input->getClientExtension();
-
-        // Validating
-        if (!$this->validate($rules)) {
-            http_response_code(400);
-            die(json_encode(array('message' => $this->validator->getErrors())));
-        }
-
-        if ($input->isValid() && !$input->hasMoved()) {
-            // Saving uploaded file
-            $filename = $input->getRandomName();
-            $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
-            $input->move(FCPATH . '/artista/foto/', $truename . '.' . $ext);
-
-            // Getting True Filename
-            $returnFile = $truename . '.' . $ext;
-
-            // Returning Message
-            die(json_encode($returnFile));
-        }
-    }
-
-    public function removefoto()
-    {
-        // Removing File
-        $input = $this->request->getPost('foto');
-        unlink(FCPATH . 'artista/foto/' . $input);
-
-        // Return Message
-        die(json_encode(array('errors', 'Data berhasil di hapus')));
-    }
-
     public function fotoberita()
     {
         $image      = \Config\Services::image();
@@ -914,6 +870,50 @@ class Upload extends BaseController
 
         $ArtistaModel->save($artista);
         return redirect()->back()->with('message', "Data Berhasil Di Simpan!");
+    }
+
+    public function foto()
+    {
+        $image      = \Config\Services::image();
+        $validation = \Config\Services::validation();
+        $input      = $this->request->getFile('uploads');
+
+        // Validation Rules
+        $rules = [
+            'uploads'   => 'uploaded[uploads]|mime_in[uploads,application/pdf,application/macbinary,application/mac-binary,application/octet-stream,application/x-binary,application/x-macbinary,image/png,image/jpeg,image/pjpeg]',
+        ];
+
+        // Get Extention
+        $ext = $input->getClientExtension();
+
+        // Validating
+        if (!$this->validate($rules)) {
+            http_response_code(400);
+            die(json_encode(array('message' => $this->validator->getErrors())));
+        }
+
+        if ($input->isValid() && !$input->hasMoved()) {
+            // Saving uploaded file
+            $filename = $input->getRandomName();
+            $truename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $filename);
+            $input->move(FCPATH . '/artista/foto/', $truename . '.' . $ext);
+
+            // Getting True Filename
+            $returnFile = $truename . '.' . $ext;
+
+            // Returning Message
+            die(json_encode($returnFile));
+        }
+    }
+
+    public function removefoto()
+    {
+        // Removing File
+        $input = $this->request->getPost('foto');
+        unlink(FCPATH . 'artista/foto/' . $input);
+
+        // Return Message
+        die(json_encode(array('errors', 'Data berhasil di hapus')));
     }
 
     // Add Berita

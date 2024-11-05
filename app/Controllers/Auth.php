@@ -784,14 +784,15 @@ class Auth extends BaseController
         // Get Data
         $artista = $ArtistaModel->find($id);
 
-        // Unlink artista
+        // Unlink Photo Artista
         if(!empty($artista['photo'])){
             unlink(FCPATH ."/artista/foto/". $artista['photo']);
         }
 
-        if(!empty($artista['file'])){
-            unlink(FCPATH ."/artista/foto/". $artista['file']);
-        }
+        // // Unlink File Artista
+        // if(!empty($artista['file'])){
+        //     unlink(FCPATH ."/artista/foto/". $artista['file']);
+        // }
 
         $ArtistaModel->delete($artista);
 
