@@ -32,7 +32,7 @@ class Home extends BaseController
         // Populating Data
         $newses         = $BeritaModel->orderBy('updated_at', 'DESC')->where('status', 1)->limit(4)->find();
         $workshops      = $SeminarModel->orderBy('updated_at', 'DESC')->where('status', 1)->limit(3)->find();
-        $schedules      = $ScheduleModel->orderBy('updated_at', 'DESC')->where('status', 1)->limit(6)->find();
+        $schedules      = $ScheduleModel->orderBy('updated_at', 'DESC')->where('status', 1)->find();
         $diklats        = $DiklatModel->orderBy('updated_at', 'DESC')->where('status', 1)->limit(4)->find();
         $slideshows     = $SlideshowModel->where('status', '1')->orderBy('id', 'DESC')->find();
 

@@ -568,7 +568,7 @@
                         <?php
                         foreach ($kemitraans as $kemitraan) { ?>
                             <div class="uk-margin-left">
-                                <a class="uk-button uk-button-primary uk-button-small" href="tag?tag=<?= $tag['title'] ?>">#<?= $tag['title'] ?></a>
+                                <a href="kemitraan/<?= $kemitraan['alias'] ?>"><?= $kemitraan['title'] ?></a>
                             </div>
                         <?php
                         }
